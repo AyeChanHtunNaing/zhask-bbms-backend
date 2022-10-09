@@ -1,4 +1,4 @@
-package com.project.model;
+package com.bbms.model;
 
 import java.io.Serializable;
 import java.sql.Date;
