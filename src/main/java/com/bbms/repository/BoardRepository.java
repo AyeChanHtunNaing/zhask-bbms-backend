@@ -7,6 +7,6 @@ import com.bbms.model.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
 	
-	@Query(value="SELECT `id` FROM board ORDER BY `id` DESC limit 1 ",nativeQuery=true)
+	@Query(value="SELECT `id` FROM `board` ORDER BY `id` DESC limit 1 ",nativeQuery=true)
 	public Long takeLastId();
 }

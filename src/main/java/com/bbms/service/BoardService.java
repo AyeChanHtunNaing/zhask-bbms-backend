@@ -13,7 +13,10 @@ import com.bbms.model.TaskList;
 import com.bbms.repository.BoardRepository;
 import com.bbms.repository.TaskListRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class BoardService {
 	
 	@Autowired
@@ -26,6 +29,7 @@ public class BoardService {
 	public void insert(BoardDto dto) {
 		
 		Board board = new Board();
+		
 		board.setName(dto.getName());
 		boardRepository.save(board);
 		
@@ -36,15 +40,22 @@ public class BoardService {
 		// add board id as foreign key in tasklist table 
 		
 		Long boardId = boardRepository.takeLastId();
+		Board board=new Board();
+		board.setId(boardId);
+		
 		TaskList taskList = new TaskList();
 		taskList.setTitle("ToDo");
-		taskList.setId(boardId);
+		taskList.setBoard(board);
 		TaskList taskList1 = new TaskList();
 		taskList1.setTitle("Doing");
-		taskList1.setId(boardId);
+		taskList1.setBoard(board);
 		TaskList taskList2 = new TaskList();
 		taskList2.setTitle("Done");
-		taskList2.setId(boardId);
+		taskList2.setBoard(board);
+		
+//		taskListRepository.save(taskList);
+//		taskListRepository.save(taskList1);
+//		taskListRepository.save(taskList2);
 		
 		List<TaskList> lists = new ArrayList<>();
 		lists.add(taskList);
@@ -53,6 +64,7 @@ public class BoardService {
 		for(TaskList t : lists) {
 			taskListRepository.save(t);
 		}
+		
 			
 	}
 	
