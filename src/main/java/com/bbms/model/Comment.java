@@ -34,6 +34,6 @@ public class Comment implements Serializable{
 	private Date updateAt;
 	
 	@ManyToOne
-	private Card card;
+	private Task task;
 
 }

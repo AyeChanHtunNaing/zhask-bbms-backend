@@ -1,6 +1,7 @@
 package com.bbms.model;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,10 +32,10 @@ public class TaskList implements Serializable{
 	private String title;
 	@Column(name="description")
 	private String description;
-	@Column(name="delete_status" , columnDefinition = "TINYINT", length = 1)
+	@Column(name="delete_status" , columnDefinition = "TINYINT(1) default(0)")
 	private boolean deleteStatus;
 	@ManyToOne
 	private Board board;
 	@OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Card> cards = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 }

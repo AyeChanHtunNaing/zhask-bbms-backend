@@ -19,8 +19,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="card")
-public class Card implements Serializable{
+@Table(name="task")
+public class Task implements Serializable{
 	
 	/**
 	 * 
@@ -39,11 +39,11 @@ public class Card implements Serializable{
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
 	
-	@OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List <Comment> comments;
-	@OneToMany(mappedBy = "cards", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List <Activity> activities;
-	@OneToMany(mappedBy = "cards", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List <Attachment> attachment;
 	@ManyToOne
 	private TaskList taskList;

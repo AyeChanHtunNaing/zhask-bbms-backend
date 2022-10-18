@@ -1,10 +1,9 @@
 package com.bbms.model;
 
 import java.io.Serializable;
+
 import java.sql.Date;
 
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +41,6 @@ public class Activity implements Serializable{
 	private Date endDate;
 	
 	@ManyToOne
-	private Card cards;
+	private Task tasks;
 	
 }

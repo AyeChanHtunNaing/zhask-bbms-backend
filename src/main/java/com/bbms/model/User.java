@@ -53,7 +53,7 @@ public class User implements Serializable{
     private List<Attachment> attachments = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Card> card = new ArrayList<>();
+    private List<Task> task = new ArrayList<>();
 	
 	
 	

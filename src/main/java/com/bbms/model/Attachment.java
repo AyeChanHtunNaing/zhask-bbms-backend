@@ -29,7 +29,7 @@ public class Attachment implements Serializable {
 	private String fileUrl;
 	
 	@ManyToOne
-	private Card cards;
+	private Task tasks;
 	@ManyToOne
 	private User user;
 	
