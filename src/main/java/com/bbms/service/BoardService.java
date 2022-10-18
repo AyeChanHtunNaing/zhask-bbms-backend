@@ -2,17 +2,14 @@ package com.bbms.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskListDto;
 import com.bbms.model.Board;
 import com.bbms.model.TaskList;
 import com.bbms.repository.BoardRepository;
 import com.bbms.repository.TaskListRepository;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -37,7 +34,7 @@ public class BoardService {
 	
 	public void insertTaskList() {
 		
-		// add board id as foreign key in tasklist table 
+		// set board id as foreign key in tasklist table 
 		
 		Long boardId = boardRepository.takeLastId();
 		Board board=new Board();
@@ -53,10 +50,6 @@ public class BoardService {
 		taskList2.setTitle("Done");
 		taskList2.setBoard(board);
 		
-//		taskListRepository.save(taskList);
-//		taskListRepository.save(taskList1);
-//		taskListRepository.save(taskList2);
-		
 		List<TaskList> lists = new ArrayList<>();
 		lists.add(taskList);
 		lists.add(taskList1);
@@ -64,23 +57,19 @@ public class BoardService {
 		for(TaskList t : lists) {
 			taskListRepository.save(t);
 		}
-		
-			
-	}
-	
-	public TaskListDto showAllTaskList(Long boardId) {
-		
-		List<TaskList> taskLists = taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
-		TaskListDto taskList = new TaskListDto();
-		
-		for(TaskList list : taskLists) {			
-			taskList.setId(list.getId());
-			taskList.setTitle(list.getTitle());			
-		}
-		
-		return taskList;
 				
 	}
 	
-	
+	public List<TaskListDto> showAllTaskList(Long boardId) {
+		
+		List<TaskList> taskLists = taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
+		TaskListDto taskList = new TaskListDto();
+		List<TaskListDto> dto=new ArrayList();
+		for(TaskList list : taskLists) {			
+			taskList.setId(list.getId());
+			taskList.setTitle(list.getTitle());
+			dto.add(taskList);
+		}	
+		return  dto;			
+	}
 }

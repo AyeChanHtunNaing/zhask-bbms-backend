@@ -34,8 +34,10 @@ public class TaskList implements Serializable{
 	private String description;
 	@Column(name="delete_status" , columnDefinition = "TINYINT(1) default(0)")
 	private boolean deleteStatus;
+	
 	@ManyToOne
 	private Board board;
+	
 	@OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 }
