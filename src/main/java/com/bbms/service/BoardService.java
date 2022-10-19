@@ -25,51 +25,48 @@ public class BoardService {
 	// create board 
 	public void insert(BoardDto dto) {
 		
-		Board board = new Board();
-		
-		board.setName(dto.getName());
-		boardRepository.save(board);
+		boardRepository.save(dto);
 		
 	}
-	
+
 	public void insertTaskList() {
 		
 		// set board id as foreign key in tasklist table 
 		
 		Long boardId = boardRepository.takeLastId();
-		Board board=new Board();
+		BoardDto board=new BoardDto();
 		board.setId(boardId);
 		
-		TaskList taskList = new TaskList();
+		TaskListDto taskList = new TaskListDto();
 		taskList.setTitle("ToDo");
 		taskList.setBoard(board);
-		TaskList taskList1 = new TaskList();
+		TaskListDto taskList1 = new TaskListDto();
 		taskList1.setTitle("Doing");
 		taskList1.setBoard(board);
-		TaskList taskList2 = new TaskList();
+		TaskListDto taskList2 = new TaskListDto();
 		taskList2.setTitle("Done");
 		taskList2.setBoard(board);
 		
-		List<TaskList> lists = new ArrayList<>();
+		List<TaskListDto> lists = new ArrayList<>();
 		lists.add(taskList);
 		lists.add(taskList1);
 		lists.add(taskList2);
-		for(TaskList t : lists) {
+		for(TaskListDto t : lists) {
 			taskListRepository.save(t);
 		}
 				
 	}
 	
-	public List<TaskListDto> showAllTaskList(Long boardId) {
+	public List<TaskList> showAllTaskList(Long boardId) {
 		
-		List<TaskList> taskLists = taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
-		TaskListDto taskList = new TaskListDto();
-		List<TaskListDto> dto=new ArrayList();
-		for(TaskList list : taskLists) {			
+		List<TaskListDto> taskLists = taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
+		TaskList taskList = new TaskList();
+		List<TaskList> tasklistmodel=new ArrayList();
+		for(TaskListDto list : taskLists) {			
 			taskList.setId(list.getId());
 			taskList.setTitle(list.getTitle());
-			dto.add(taskList);
+			tasklistmodel.add(taskList);
 		}	
-		return  dto;			
+		return  tasklistmodel;			
 	}
 }

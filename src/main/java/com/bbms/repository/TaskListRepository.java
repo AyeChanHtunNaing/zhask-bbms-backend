@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bbms.model.TaskList;
+import com.bbms.dto.TaskListDto;
 
-public interface TaskListRepository extends JpaRepository<TaskList, Long> {
+public interface TaskListRepository extends JpaRepository<TaskListDto, Long> {
 
-	List<TaskList> findAllByIdAndDeleteStatus(Long boardId, boolean deleteStatus);
+	List<TaskListDto> findAllByIdAndDeleteStatus(Long boardId, boolean deleteStatus);
 	
 }
