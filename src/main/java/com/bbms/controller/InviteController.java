@@ -1,5 +1,7 @@
 package com.bbms.controller;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ public class InviteController {
 	@Autowired
 	private EmailService emailService;
 	@PostMapping(value = "/invite", produces = "application/json")
-	public ResponseEntity<?> inviteMember(@RequestBody InviteMember invite) {
+	public ResponseEntity<?> inviteMember(@RequestBody InviteMember invite) throws MessagingException  {
 		
 		
 	

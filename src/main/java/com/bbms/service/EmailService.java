@@ -1,14 +1,22 @@
 package com.bbms.service;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,12 +24,12 @@ public class EmailService {
 
 	
 	
-	public boolean sendMail(String to) {
+	public boolean sendMail(String to) throws MessagingException{
 		boolean f=false;
 		
 		String from="team.zhask.dev@gmail.com";
 		String password="jwsspbhphfmybuhd";
-		
+	
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.gmail.com");
 	    mailSender.setPort(587);
@@ -47,18 +55,36 @@ public class EmailService {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		
 		
-		MimeMessage m=new MimeMessage(session);
-		try {
-			msg.setTo(to);
-			msg.setSubject("Hello");
-			msg.setText("http://localhost:4200/home");
-			
-			mailSender.send(msg);
-			f=true;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return f;
-	}
+//		MimeMessage m=new MimeMessage(session);
+//		try {
+//			m.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+//			msg.setSubject("Hello");
+//			msg.setText("http://localhost:4200/home");
+//			msg.se
+//			mailSender.send(msg);
+//			f=true;
+//		}
+//		catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        try
+        {
+        	helper.setSubject("Hello");
+    		helper.setFrom(from);
+    		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+    		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(to));
+
+    		helper.setText("http://localhost:4200/home", true);
+        }
+        catch(Exception e)
+        {
+        	
+        }
+		
+		mailSender.send(message);
+	return f;
+	}   
 }
