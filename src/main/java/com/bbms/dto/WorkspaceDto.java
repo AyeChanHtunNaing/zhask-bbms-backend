@@ -16,10 +16,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="workspace")
 public class WorkspaceDto implements Serializable {
 
@@ -43,7 +44,7 @@ public class WorkspaceDto implements Serializable {
 			inverseJoinColumns = @JoinColumn(name="user_id")
 			)
 	private List <UserDto> users;
-	
+	@JsonBackReference
 	@OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardDto> boards = new ArrayList<>();
 

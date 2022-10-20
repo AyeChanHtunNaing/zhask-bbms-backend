@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="comment")
 public class CommentDto implements Serializable{
 

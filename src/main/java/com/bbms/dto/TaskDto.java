@@ -18,7 +18,6 @@ import lombok.Data;
 
 
 @Entity
-@Data
 @Table(name="task")
 public class TaskDto implements Serializable{
 	
@@ -49,6 +48,7 @@ public class TaskDto implements Serializable{
 	private TaskListDto taskList;
 	@ManyToOne
 	private UserDto user;
+	
 	public Long getId() {
 		return id;
 	}

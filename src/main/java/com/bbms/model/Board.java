@@ -6,15 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Board {
 	
 	private Long id;
 	private String name;
-	private Date createAt;
-	private Date updateAt;
+	private String description;
+	private Workspace workSpace;
 	public Long getId() {
 		return id;
 	}
@@ -27,17 +24,17 @@ public class Board {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getCreateAt() {
-		return createAt;
+	public String getDescription() {
+		return description;
 	}
-	public void setCreateAt(Date createAt) {
-		this.createAt = createAt;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public Date getUpdateAt() {
-		return updateAt;
+	public Workspace getWorkSpace() {
+		return workSpace;
 	}
-	public void setUpdateAt(Date updateAt) {
-		this.updateAt = updateAt;
+	public void setWorkSpace(Workspace workSpace) {
+		this.workSpace = workSpace;
 	}
 	
 }

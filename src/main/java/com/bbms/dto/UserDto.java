@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="user")
 public class UserDto implements Serializable{
 

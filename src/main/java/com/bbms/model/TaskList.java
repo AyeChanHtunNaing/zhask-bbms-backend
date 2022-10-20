@@ -2,7 +2,6 @@ package com.bbms.model;
 
 import lombok.Data;
 
-@Data
 public class TaskList {
 	
 	private Long id;

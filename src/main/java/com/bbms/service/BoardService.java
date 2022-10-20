@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskListDto;
+import com.bbms.dto.WorkspaceDto;
 import com.bbms.model.Board;
 import com.bbms.model.TaskList;
 import com.bbms.repository.BoardRepository;
@@ -69,4 +70,8 @@ public class BoardService {
 		}	
 		return  tasklistmodel;			
 	}
+	
+	 public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId) {
+   	  return boardRepository.getBoardDtoList(workspaceId);
+		}
 }

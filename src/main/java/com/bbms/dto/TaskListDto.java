@@ -12,11 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="task_list")
 public class TaskListDto implements Serializable{
 
@@ -35,6 +37,7 @@ public class TaskListDto implements Serializable{
 	@Column(name="delete_status" , columnDefinition = "TINYINT(1) default(0)")
 	private boolean deleteStatus;
 	
+	@JsonManagedReference
 	@ManyToOne
 	private BoardDto board;
 	

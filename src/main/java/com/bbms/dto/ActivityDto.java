@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name="activity")
 public class ActivityDto implements Serializable{
 
