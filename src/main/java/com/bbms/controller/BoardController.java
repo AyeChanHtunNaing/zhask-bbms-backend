@@ -51,13 +51,6 @@ public class BoardController {
 		return ResponseEntity.ok(boardDto);
 
 	}
-
-//	@GetMapping(value = "/board/{boardId}", produces = "application/json")
-//	public ResponseEntity<List<TaskList>> selectById(@PathVariable Long boardId) {
-//
-//		List<TaskList> tasklistmodel = boardService.showAllTaskList(boardId);
-//		return ResponseEntity.ok(tasklistmodel);
-//	}
 	
 	@GetMapping(value = "/board/{workspaceId}", produces = "application/json")
 	public ResponseEntity<List<BoardDto>> selectAll(@PathVariable Long workspaceId) {

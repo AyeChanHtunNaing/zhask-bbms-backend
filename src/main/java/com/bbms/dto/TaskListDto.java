@@ -19,7 +19,7 @@ import java.util.List;
 import lombok.Data;
 
 @Entity
-@Table(name="task_list")
+@Table(name="tasklist")
 public class TaskListDto implements Serializable{
 
 	/**
@@ -32,8 +32,6 @@ public class TaskListDto implements Serializable{
 	private Long id;
 	@Column(name="title")
 	private String title;
-	@Column(name="description")
-	private String description;
 	@Column(name="delete_status" , columnDefinition = "TINYINT(1) default(0)")
 	private boolean deleteStatus;
 	
@@ -41,6 +39,14 @@ public class TaskListDto implements Serializable{
 	@ManyToOne
 	private BoardDto board;
 	
+	public boolean isDeleteStatus() {
+		return deleteStatus;
+	}
+
+	public void setDeleteStatus(boolean deleteStatus) {
+		this.deleteStatus = deleteStatus;
+	}
+
 	@OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskDto> tasks = new ArrayList<>();
 
@@ -58,22 +64,6 @@ public class TaskListDto implements Serializable{
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public boolean isDeleteStatus() {
-		return deleteStatus;
-	}
-
-	public void setDeleteStatus(boolean deleteStatus) {
-		this.deleteStatus = deleteStatus;
 	}
 
 	public BoardDto getBoard() {

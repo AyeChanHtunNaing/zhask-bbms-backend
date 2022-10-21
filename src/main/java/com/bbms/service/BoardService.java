@@ -58,18 +58,11 @@ public class BoardService {
 				
 	}
 	
-	public List<TaskList> showAllTaskList(Long boardId) {
+//	public List<TaskListDto> showAllTaskList(Long boardId) {
+//		 
+//		return taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
+//	}
 		
-		List<TaskListDto> taskLists = taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
-		TaskList taskList = new TaskList();
-		List<TaskList> tasklistmodel=new ArrayList();
-		for(TaskListDto list : taskLists) {			
-			taskList.setId(list.getId());
-			taskList.setTitle(list.getTitle());
-			tasklistmodel.add(taskList);
-		}	
-		return  tasklistmodel;			
-	}
 	
 	 public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId) {
    	  return boardRepository.getBoardDtoList(workspaceId);

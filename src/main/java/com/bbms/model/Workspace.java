@@ -7,6 +7,7 @@ public class Workspace {
 	private String name;
 	private String description;
 	private String email;
+	
 	public String getName() {
 		return name;
 	}

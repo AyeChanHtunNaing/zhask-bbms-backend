@@ -8,6 +8,9 @@ public class TaskList {
 	private String title;
 	private String description;
 	private boolean deleteStatus;
+	private Board board;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -32,5 +35,12 @@ public class TaskList {
 	public void setDeleteStatus(boolean deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
+	public Board getBoard() {
+		return board;
+	}
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+	
 	
 }

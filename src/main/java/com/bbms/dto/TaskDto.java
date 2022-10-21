@@ -2,6 +2,7 @@ package com.bbms.dto;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,9 +33,9 @@ public class TaskDto implements Serializable{
 	@Column(name="description")
 	private String description;
 	@Column(name="create_at")
-	private Date createAt;
+	private LocalDate createAt;
 	@Column(name="update_at")
-	private Date updateAt;
+	private LocalDate updateAt;
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
 	
@@ -55,29 +56,30 @@ public class TaskDto implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public boolean isDeleteStatus() {
+		return deleteStatus;
+	}
+	public void setDeleteStatus(boolean deleteStatus) {
+		this.deleteStatus = deleteStatus;
+	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getCreateAt() {
+	
+	public LocalDate getCreateAt() {
 		return createAt;
 	}
-	public void setCreateAt(Date createAt) {
+	public void setCreateAt(LocalDate createAt) {
 		this.createAt = createAt;
 	}
-	public Date getUpdateAt() {
+	public LocalDate getUpdateAt() {
 		return updateAt;
 	}
-	public void setUpdateAt(Date updateAt) {
+	public void setUpdateAt(LocalDate updateAt) {
 		this.updateAt = updateAt;
-	}
-	public boolean isDeleteStatus() {
-		return deleteStatus;
-	}
-	public void setDeleteStatus(boolean deleteStatus) {
-		this.deleteStatus = deleteStatus;
 	}
 	public List<CommentDto> getComments() {
 		return comments;
