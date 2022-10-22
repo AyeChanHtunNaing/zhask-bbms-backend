@@ -51,7 +51,7 @@ public class BoardDto implements Serializable {
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
-			name="borad_task",
+			name="board_task",
 			joinColumns = @JoinColumn(name="task_id"),
 			inverseJoinColumns = @JoinColumn(name="board_id")
 			)
