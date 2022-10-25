@@ -83,29 +83,5 @@ public class BoardServiceTest {
 	  boardService.insertTaskList();
 	
 	}
-//	@Test
-//	public void showAllTaskListWithBoardIdIdTest() {
-//		BoardDto board=new BoardDto();
-//		board.setId(1);
-//		
-//		TaskListDto taskList1 = new TaskListDto();
-//		taskList1.setTitle("ToDo");
-//		taskList1.setBoard(board);
-//		TaskListDto taskList2 = new TaskListDto();
-//		taskList2.setTitle("Doing");
-//		taskList2.setBoard(board);
-//		TaskListDto taskList3 = new TaskListDto();
-//		taskList3.setTitle("Done");
-//		taskList3.setBoard(board);
-//		
-//		List<TaskListDto> lists = new ArrayList<>();
-//		lists.add(taskList1);
-//		lists.add(taskList2);
-//		lists.add(taskList3);
-//		when(taskListRepository.getB).thenReturn(lists);
-//		List<TaskListDto> taskList=boardService.showAllTaskList(1);
-//		assertEquals(3,taskList.size());
-//	    verify(taskListRepository, times(1)).findAllByIdAndDeleteStatus(1, false);
-//	}
-
+	
 }

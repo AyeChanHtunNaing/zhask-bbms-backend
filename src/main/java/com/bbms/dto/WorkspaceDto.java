@@ -87,9 +87,4 @@ public class WorkspaceDto implements Serializable {
 	public void setBoards(List<BoardDto> boards) {
 		this.boards = boards;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 }

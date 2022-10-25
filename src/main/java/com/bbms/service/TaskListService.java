@@ -15,8 +15,8 @@ public class TaskListService {
 	@Autowired
 	private TaskListRepository taskListRepository;
 
-	public List<TaskListDto> getTaskListRelatedBoardId(Long boardId) {
-		return taskListRepository.getTaskListDtoList(boardId);
+	public List<TaskListDto> getTaskListRelatedBoardId(long i) {
+		return taskListRepository.getTaskListDtoList(i);
 	}
 
 	public void insert(TaskListDto dto) {

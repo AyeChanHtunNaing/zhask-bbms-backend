@@ -31,4 +31,15 @@ public class InviteControllerTest {
                  .content(objectMapper.writeValueAsString(member)));
                
 	}
+	
+	@Test
+	public void testinvitememberinvalidatetruetest() throws Exception {
+		
+		InviteMember member=new InviteMember();
+		member.setEmail("hansunwayoo2k18");
+         mockMvc.perform(post("/api/v1/invite")
+        		 .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                 .content(objectMapper.writeValueAsString(member)));
+               
+	}
 }

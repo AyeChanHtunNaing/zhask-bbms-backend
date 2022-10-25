@@ -12,6 +12,6 @@ public interface TaskListRepository extends JpaRepository<TaskListDto, Long> {
 
 //	List<TaskListDto> findAllByIdAndDeleteStatus(Long boardId, boolean deleteStatus);
 	@Query(value="SELECT * FROM tasklist WHERE board_Id=? ",nativeQuery = true)
-	public List<TaskListDto> getTaskListDtoList(Long boardId);
+	public List<TaskListDto> getTaskListDtoList(long i);
 
 }

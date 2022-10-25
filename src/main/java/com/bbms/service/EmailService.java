@@ -1,8 +1,4 @@
 package com.bbms.service;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -12,8 +8,6 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -42,14 +36,14 @@ public class EmailService {
 	    props.put("mail.smtp.starttls.enable", "true");
 	    props.put("mail.debug", "true");
 		
-		Session session= Session.getInstance(props,new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(from, password);
-			}
-		});
-		
-		session.setDebug(true);
+//		Session session= Session.getInstance(props,new Authenticator() {
+//			@Override
+//			protected PasswordAuthentication getPasswordAuthentication() {
+//				return new PasswordAuthentication(from, password);
+//			}
+//		});
+//		
+//		session.setDebug(true);
 		
 	
 		SimpleMailMessage msg = new SimpleMailMessage();

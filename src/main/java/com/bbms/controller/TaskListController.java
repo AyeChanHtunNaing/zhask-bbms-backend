@@ -1,6 +1,4 @@
 package com.bbms.controller;
-
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskListDto;
-import com.bbms.dto.WorkspaceDto;
-import com.bbms.model.Board;
 import com.bbms.model.TaskList;
-import com.bbms.service.BoardService;
 import com.bbms.service.TaskListService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,9 +41,7 @@ public class TaskListController {
 		taskListService.insert(taskListDto);
 		return ResponseEntity.ok(taskListDto);
 
-	}
-	
-	
+	}	
 	@GetMapping(value = "/tasklist/{boardId}", produces = "application/json")
 	public ResponseEntity<List<TaskListDto>> selectById(@PathVariable Long boardId) {
 

@@ -54,8 +54,8 @@ public class TaskListDto implements Serializable{
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(long i) {
+		this.id = i;
 	}
 
 	public String getTitle() {
@@ -80,10 +80,5 @@ public class TaskListDto implements Serializable{
 
 	public void setTasks(List<TaskDto> tasks) {
 		this.tasks = tasks;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
+	}	
 }
