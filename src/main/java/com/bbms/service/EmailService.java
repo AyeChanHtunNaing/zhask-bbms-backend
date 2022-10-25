@@ -54,20 +54,6 @@ public class EmailService {
 	
 		SimpleMailMessage msg = new SimpleMailMessage();
 		
-		
-//		MimeMessage m=new MimeMessage(session);
-//		try {
-//			m.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-//			msg.setSubject("Hello");
-//			msg.setText("http://localhost:4200/home");
-//			msg.se
-//			mailSender.send(msg);
-//			f=true;
-//		}
-//		catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
         try
@@ -78,13 +64,14 @@ public class EmailService {
     		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(to));
 
     		helper.setText("http://localhost:4200/home", true);
+    		mailSender.send(message);
+    		f=true;
         }
         catch(Exception e)
         {
         	
         }
-		
-		mailSender.send(message);
+			
 	return f;
 	}   
 }

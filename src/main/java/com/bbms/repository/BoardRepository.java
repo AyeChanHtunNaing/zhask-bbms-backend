@@ -14,5 +14,5 @@ public interface BoardRepository extends JpaRepository<BoardDto, Long>{
 	public Long takeLastId();
 	
 	@Query(value="SELECT * FROM board WHERE workspace_Id=? ",nativeQuery = true)
-	public List<BoardDto> getBoardDtoList(Long workspaceId);
+	public List<BoardDto> getBoardDtoList(long i);
 }
