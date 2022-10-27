@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -44,8 +46,9 @@ public class WorkspaceDto implements Serializable {
 			inverseJoinColumns = @JoinColumn(name="user_id")
 			)
 	private List <UserDto> users;
-	@JsonBackReference
-	@OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
+	@JsonIgnore
+	@OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
     private List<BoardDto> boards = new ArrayList<>();
 
 	public Long getId() {
@@ -87,4 +90,9 @@ public class WorkspaceDto implements Serializable {
 	public void setBoards(List<BoardDto> boards) {
 		this.boards = boards;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 }

@@ -27,7 +27,7 @@ public class TaskListServiceTest {
 	@Test
 	public void saveTaskListTest() {
 		BoardDto board=new BoardDto();
-		board.setId(1);
+		board.setId((long) 1);
 		
 		TaskListDto taskList1 = new TaskListDto();
 		taskList1.setTitle("ToDo");
@@ -41,7 +41,7 @@ public class TaskListServiceTest {
 	@Test
 	public void showAllTaskListWithBoardIdIdTest() {
 		BoardDto board=new BoardDto();
-		board.setId(2);
+		board.setId((long) 2);
 		
 		TaskListDto taskList1 = new TaskListDto();
 		taskList1.setTitle("ToDo");
@@ -57,8 +57,8 @@ public class TaskListServiceTest {
 		lists.add(taskList1);
 		lists.add(taskList2);
 		lists.add(taskList3);
-		when(taskListRepository.getTaskListDtoList(2)).thenReturn(lists);
-		List<TaskListDto> taskList=tasklistService.getTaskListRelatedBoardId(2);
+		when(taskListRepository.getTaskListDtoList((long) 2)).thenReturn(lists);
+		List<TaskListDto> taskList=tasklistService.getTaskListRelatedBoardId((long) 2);
 		assertEquals(3,taskList.size());
 	}
 

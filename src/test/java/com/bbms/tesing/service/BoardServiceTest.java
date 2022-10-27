@@ -35,25 +35,25 @@ public class BoardServiceTest {
 	public void getAllBoardWithWorkspaceIdTest() {
 		   List<BoardDto> list=new ArrayList<BoardDto>();
 		   BoardDto b1=new BoardDto();
-		   b1.setId(1);
+		   b1.setId((long) 1);
 		   b1.setName("First Board");
 		   b1.setDescription("Software Engineering");
 		   BoardDto b2=new BoardDto();
-		   b2.setId(2);
+		   b2.setId((long) 2);
 		   b2.setName("First Board");
 		   b2.setDescription("Software Engineering");
 		    list.add(b1);
 			list.add(b2);
-			when(boardRepository.getBoardDtoList(1)).thenReturn(list);
-			List<BoardDto> boardList=boardService.getBoardRelatedWorkspace(1);
+			when(boardRepository.getBoardDtoList((long) 1)).thenReturn(list);
+			List<BoardDto> boardList=boardService.getBoardRelatedWorkspace((long) 1);
 			assertEquals(2,boardList.size());
-		    verify(boardRepository, times(1)).getBoardDtoList(1);
+		    verify(boardRepository, times(1)).getBoardDtoList((long) 1);
 		}
 	
 	@Test
 	public void saveBoardTest() {
 		BoardDto b1=new BoardDto();
-		   b1.setId(1);
+		   b1.setId((long) 1);
 		   b1.setName("First Board");
 		   b1.setDescription("Software Engineering");
 		   boardService.insert(b1);
@@ -64,7 +64,7 @@ public class BoardServiceTest {
 	@Test
 	public void saveTaskListTest() {
 		BoardDto board=new BoardDto();
-		board.setId(1);
+		board.setId((long) 1);
 		
 		TaskListDto taskList1 = new TaskListDto();
 		taskList1.setTitle("ToDo");

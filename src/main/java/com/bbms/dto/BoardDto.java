@@ -21,6 +21,8 @@ import javax.persistence.Table;
 
 import com.bbms.model.Workspace;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.JoinColumn;
@@ -49,6 +51,8 @@ public class BoardDto implements Serializable {
 	@ManyToOne
 	private UserDto user;
 	
+	//@JsonBackReference(value="tasks")
+    @JsonIgnore
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="board_task",
@@ -56,17 +60,19 @@ public class BoardDto implements Serializable {
 			inverseJoinColumns = @JoinColumn(name="board_id")
 			)
 	private List <TaskDto> tasks;
-	@JsonBackReference
-	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TaskListDto> taskLists=new ArrayList<>();
 	@JsonManagedReference
+	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<TaskListDto> taskLists=new ArrayList<>();
+	
+	//@JsonBackReference
 	@ManyToOne
 	private WorkspaceDto workspace;
+	
 	public Long getId() {
 		return id;
 	}
-	public void setId(long i) {
-		this.id = i;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -92,12 +98,7 @@ public class BoardDto implements Serializable {
 	public void setUser(UserDto user) {
 		this.user = user;
 	}
-	public List<TaskDto> getTasks() {
-		return tasks;
-	}
-	public void setTasks(List<TaskDto> tasks) {
-		this.tasks = tasks;
-	}
+	
 	public List<TaskListDto> getTaskLists() {
 		return taskLists;
 	}

@@ -2,6 +2,7 @@ package com.bbms.dto;
 
 import java.io.Serializable;
 
+
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,10 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
-import lombok.Data;
 
 @Entity
 @Table(name="tasklist")
@@ -35,7 +36,7 @@ public class TaskListDto implements Serializable{
 	@Column(name="delete_status" , columnDefinition = "TINYINT(1) default(0)")
 	private boolean deleteStatus;
 	
-	@JsonManagedReference
+	@JsonBackReference
 	@ManyToOne
 	private BoardDto board;
 	
@@ -46,8 +47,9 @@ public class TaskListDto implements Serializable{
 	public void setDeleteStatus(boolean deleteStatus) {
 		this.deleteStatus = deleteStatus;
 	}
-
-	@OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true)
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL)
     private List<TaskDto> tasks = new ArrayList<>();
 
 	public Long getId() {
@@ -80,5 +82,10 @@ public class TaskListDto implements Serializable{
 
 	public void setTasks(List<TaskDto> tasks) {
 		this.tasks = tasks;
-	}	
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 }

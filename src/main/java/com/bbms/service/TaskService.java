@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bbms.dto.TaskDto;
+import com.bbms.model.Task;
 import com.bbms.repository.TaskRepository;
 
 @Service
@@ -21,5 +22,9 @@ public class TaskService {
 	public List<TaskDto> getAllTaskId(Long tasklistId){
 		 List<TaskDto> taskDtoList = taskRepository.selectAllTaskListId(tasklistId);
 		 return taskDtoList;
+	}
+	
+	public TaskDto updateTask(TaskDto dto) {
+		return taskRepository.save(dto);
 	}
 }

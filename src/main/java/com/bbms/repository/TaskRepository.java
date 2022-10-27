@@ -9,6 +9,7 @@ import com.bbms.dto.TaskDto;
 
 public interface TaskRepository extends JpaRepository<TaskDto, Long> {
 	
-	@Query(value="SELECT * FROM tasklist WHERE tasklist_id=? ",nativeQuery=true)
+	@Query(value="SELECT * FROM task WHERE task_list_id=? ",nativeQuery=true)
 	public List<TaskDto> selectAllTaskListId(Long taskId);
+	
 }

@@ -1,4 +1,8 @@
 package com.bbms.service;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -8,6 +12,8 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -36,18 +42,32 @@ public class EmailService {
 	    props.put("mail.smtp.starttls.enable", "true");
 	    props.put("mail.debug", "true");
 		
-//		Session session= Session.getInstance(props,new Authenticator() {
-//			@Override
-//			protected PasswordAuthentication getPasswordAuthentication() {
-//				return new PasswordAuthentication(from, password);
-//			}
-//		});
-//		
-//		session.setDebug(true);
+		Session session= Session.getInstance(props,new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(from, password);
+			}
+		});
+		
+		session.setDebug(true);
 		
 	
 		SimpleMailMessage msg = new SimpleMailMessage();
 		
+		
+//		MimeMessage m=new MimeMessage(session);
+//		try {
+//			m.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+//			msg.setSubject("Hello");
+//			msg.setText("http://localhost:4200/home");
+//			msg.se
+//			mailSender.send(msg);
+//			f=true;
+//		}
+//		catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
         try
@@ -58,14 +78,13 @@ public class EmailService {
     		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(to));
 
     		helper.setText("http://localhost:4200/home", true);
-    		mailSender.send(message);
-    		f=true;
         }
         catch(Exception e)
         {
         	
         }
-			
+		
+		mailSender.send(message);
 	return f;
 	}   
 }

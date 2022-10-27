@@ -41,7 +41,7 @@ public class TaskListControllerTest {
 		  
 		  TaskList tasklist=new TaskList();
 		  Board board=new Board();
-		  board.setId(1);
+		  board.setId((long) 1);
 		  tasklist.setBoard(board);
 		   mockMvc.perform(post("/api/v1/tasklist").contentType(org.springframework.http.MediaType.APPLICATION_JSON)
 	               .content(objectMapper.writeValueAsString(tasklist)));
@@ -61,7 +61,7 @@ public class TaskListControllerTest {
 		   t2.setDeleteStatus(false);
 		    list.add(t1);
 			list.add(t2);
-			 when(taskListRepository.getTaskListDtoList(1)).thenReturn(list);
+			 when(taskListRepository.getTaskListDtoList((long) 1)).thenReturn(list);
 			    mockMvc.perform(get("/api/v1/tasklist/1"))
 			        .andExpect(status().isOk());
 	}

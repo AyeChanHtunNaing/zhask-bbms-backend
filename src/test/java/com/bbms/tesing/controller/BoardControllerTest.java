@@ -54,16 +54,16 @@ public class BoardControllerTest {
 	public void testgetboardvalidate() throws Exception {
 		 List<BoardDto> list=new ArrayList<BoardDto>();
 		   BoardDto b1=new BoardDto();
-		   b1.setId(1);
+		   b1.setId((long) 1);
 		   b1.setName("First Board");
 		   b1.setDescription("Software Engineering");
 		   BoardDto b2=new BoardDto();
-		   b2.setId(2);
+		   b2.setId((long) 2);
 		   b2.setName("First Board");
 		   b2.setDescription("Software Engineering");
 		    list.add(b1);
 			list.add(b2);
-			 when(boardRepository.getBoardDtoList(1)).thenReturn(list);
+			 when(boardRepository.getBoardDtoList((long) 1)).thenReturn(list);
 			    mockMvc.perform(get("/api/v1/board/1"))
 			        .andExpect(status().isOk());
 	}
