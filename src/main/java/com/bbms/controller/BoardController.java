@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,9 +53,29 @@ public class BoardController {
 		return ResponseEntity.ok(boardDto);
 
 	}
-	
+
+	@PutMapping(value = "/board", produces = "application/json")
+	public ResponseEntity<BoardDto> updateBoard(@RequestBody Board board) {
+
+		BoardDto boardDto = new BoardDto();
+		boardDto.setName(board.getName());
+		boardDto.setDescription(board.getDescription());
+		boardDto.setCreateAt(LocalDate.now());
+		WorkspaceDto workDto = new WorkspaceDto();
+		workDto.setId(board.getWorkSpace().getId());
+		boardDto.setWorkspace(workDto);
+		BoardDto boardmodel = boardService.updateBoard(boardDto);
+		return ResponseEntity.ok(boardmodel);
+	}
+
+	@DeleteMapping(value = "/board", produces = "application/json")
+	public ResponseEntity<Boolean> deleteBaord(@RequestBody BoardDto dto) {
+		boardService.deleteBoard(dto);
+		return ResponseEntity.ok(true);
+	}
+
 	@GetMapping(value = "/board/{workspaceId}", produces = "application/json")
-	public ResponseEntity<List<BoardDto>> selectAll(@PathVariable Long workspaceId) {
+	public ResponseEntity<List<BoardDto>> selectAllBoard(@PathVariable Long workspaceId) {
 
 		List<BoardDto> boardList = boardService.getBoardRelatedWorkspace(workspaceId);
 		return ResponseEntity.ok(boardList);

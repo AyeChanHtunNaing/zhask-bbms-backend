@@ -16,28 +16,28 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class BoardService {
-	
+
 	@Autowired
 	private BoardRepository boardRepository;
-	
+
 	@Autowired
 	private TaskListRepository taskListRepository;
-	
-	// create board 
+
+	// create board
 	public void insert(BoardDto dto) {
-		
+
 		boardRepository.save(dto);
-		
+
 	}
 
 	public void insertTaskList() {
-		
-		// set board id as foreign key in tasklist table 
-		
+
+		// set board id as foreign key in tasklist table
+
 		Long boardId = boardRepository.takeLastId();
-		BoardDto board=new BoardDto();
+		BoardDto board = new BoardDto();
 		board.setId(boardId);
-		
+
 		TaskListDto taskList = new TaskListDto();
 		taskList.setTitle("ToDo");
 		taskList.setBoard(board);
@@ -47,24 +47,31 @@ public class BoardService {
 		TaskListDto taskList2 = new TaskListDto();
 		taskList2.setTitle("Done");
 		taskList2.setBoard(board);
-		
+
 		List<TaskListDto> lists = new ArrayList<>();
 		lists.add(taskList);
 		lists.add(taskList1);
 		lists.add(taskList2);
-		for(TaskListDto t : lists) {
+		for (TaskListDto t : lists) {
 			taskListRepository.save(t);
 		}
-				
+
 	}
-	
+
 //	public List<TaskListDto> showAllTaskList(Long boardId) {
 //		 
 //		return taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
 //	}
-		
-	
-	 public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId) {
-   	  return boardRepository.getBoardDtoList(workspaceId);
-		}
+
+	public BoardDto updateBoard(BoardDto dto) {
+		return boardRepository.save(dto);
+	}
+
+	public void deleteBoard(BoardDto dto) {
+		boardRepository.delete(dto);
+	}
+
+	public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId) {
+		return boardRepository.getBoardDtoList(workspaceId);
+	}
 }
