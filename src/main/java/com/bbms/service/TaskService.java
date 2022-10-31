@@ -25,8 +25,8 @@ public class TaskService {
 		return taskRepository.save(dto);
 	}
 	
-	public void deleteTask(TaskDto dto) {
-		taskRepository.delete(dto);
+	public void deleteTask(long id) {
+		taskRepository.deleteById(id);
 	}
 	
 	public Long getTaskListId(Long taskId){

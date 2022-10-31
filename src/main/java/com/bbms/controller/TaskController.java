@@ -72,9 +72,9 @@ public class TaskController {
 
 	}
 
-	@DeleteMapping(value = "/task", produces = "application/json")
-	public ResponseEntity<Boolean> deleteTaskList(@RequestBody TaskDto dto) {
-		taskService.deleteTask(dto);
+	@DeleteMapping(value = "/task/{taskId}", produces = "application/json")
+	public ResponseEntity<Boolean> deleteTaskList(@PathVariable Long taskId) {
+		taskService.deleteTask(taskId);
 		return ResponseEntity.ok(true);
 	}
 

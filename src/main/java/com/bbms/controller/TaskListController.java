@@ -63,7 +63,7 @@ public class TaskListController {
 		return ResponseEntity.ok(taskListModel);
 	}
 
-	@DeleteMapping(value = "/board", produces = "application/json")
+	@DeleteMapping(value = "/tasklist", produces = "application/json")
 	public ResponseEntity<Boolean> deleteTaskList(@RequestBody TaskListDto dto) {
 		taskListService.deleteTaskList(dto);
 		return ResponseEntity.ok(true);
