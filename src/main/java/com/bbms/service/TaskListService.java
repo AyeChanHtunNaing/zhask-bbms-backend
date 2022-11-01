@@ -28,8 +28,8 @@ public class TaskListService {
 	  return taskListRepository.save(dto);	
 	}
 	
-	public void deleteTaskList(TaskListDto dto) {
-		taskListRepository.delete(dto);
+	public void deleteTaskList(Long taskId) {
+		taskListRepository.deleteById(taskId);
 	}
 	
 	public Optional<TaskListDto> getTaskList(Long tasklistId) {

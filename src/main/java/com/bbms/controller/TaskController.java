@@ -55,7 +55,7 @@ public class TaskController {
 		List<TaskDto> taskmodel = taskService.getAllTaskId(tasklistId);
 		return ResponseEntity.ok(taskmodel);
 	}
-	@PutMapping(value = "/task/{taskId}", produces = "application/json")
+	@PutMapping(value = "/taskDescription/{taskId}", produces = "application/json")
 	public ResponseEntity<TaskDto> update(@PathVariable Long taskId, @RequestBody Task task) {
 
 		TaskDto taskDto = new TaskDto();
@@ -65,7 +65,23 @@ public class TaskController {
 		return ResponseEntity.ok(taskDto);
 
 	}
-
+	
+	@PutMapping(value="/task/{taskId}",produces="application/json")
+	public ResponseEntity<TaskDto> updateTaskDescription(@PathVariable Long taskId,@RequestBody Task task){
+		
+		TaskDto taskDto = new TaskDto();
+		taskDto.setId(taskId);
+		taskDto.setDescription(task.getDescription());
+		taskDto.setCreateAt(LocalDate.now());
+		taskDto.setUpdateAt(LocalDate.now());
+		TaskListDto tasklistDto = new TaskListDto();
+		tasklistDto.setId(task.getTaskList().getId());
+		taskDto.setTaskList(tasklistDto);
+		taskService.updateTask(taskDto);
+		return ResponseEntity.ok(taskDto);
+	}
+	
+	
 	@DeleteMapping(value = "/task/{taskId}", produces = "application/json")
 	public ResponseEntity<Boolean> deleteTaskList(@PathVariable Long taskId) {
 		taskService.deleteTask(taskId);
