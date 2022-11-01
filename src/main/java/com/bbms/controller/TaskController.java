@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskDto;
 import com.bbms.dto.TaskListDto;
 import com.bbms.model.Task;
@@ -41,8 +43,11 @@ public class TaskController {
 		taskDto.setDescription(task.getDescription());
 		taskDto.setCreateAt(LocalDate.now());
 		taskDto.setUpdateAt(LocalDate.now());
+		BoardDto boardDto = new BoardDto();
+		boardDto.setId(task.getBoard().getId());
 		TaskListDto tasklistDto = new TaskListDto();
 		tasklistDto.setId(task.getTaskList().getId());
+		taskDto.setBoard(boardDto);
 		taskDto.setTaskList(tasklistDto);
 		taskService.insert(taskDto);
 		return ResponseEntity.ok(taskDto);
@@ -55,6 +60,7 @@ public class TaskController {
 		List<TaskDto> taskmodel = taskService.getAllTaskId(tasklistId);
 		return ResponseEntity.ok(taskmodel);
 	}
+	
 	@PutMapping(value = "/taskDescription/{taskId}", produces = "application/json")
 	public ResponseEntity<TaskDto> update(@PathVariable Long taskId, @RequestBody Task task) {
 
@@ -74,9 +80,12 @@ public class TaskController {
 		taskDto.setDescription(task.getDescription());
 		taskDto.setCreateAt(LocalDate.now());
 		taskDto.setUpdateAt(LocalDate.now());
+		BoardDto boardDto = new BoardDto();
+		boardDto.setId(task.getBoard().getId());
 		TaskListDto tasklistDto = new TaskListDto();
 		tasklistDto.setId(task.getTaskList().getId());
 		taskDto.setTaskList(tasklistDto);
+		taskDto.setBoard(boardDto);
 		taskService.updateTask(taskDto);
 		return ResponseEntity.ok(taskDto);
 	}
@@ -87,13 +96,14 @@ public class TaskController {
 		taskService.deleteTask(taskId);
 		return ResponseEntity.ok(true);
 	}
-
-	@GetMapping(value = "/gettasklist/{taskId}", produces = "application/json")
-	public Optional<TaskListDto> selectByTaskId(@PathVariable Long taskId) {
-
-		Long tasklistId = taskService.getTaskListId(taskId);
-
-		return taskListService.getTaskList(tasklistId);
-	}
+	
+//	Just for testing before we get UI please don't delete 
+//	@GetMapping(value = "/gettasklist/{taskId}", produces = "application/json")
+//	public Optional<TaskListDto> selectByTaskId(@PathVariable Long taskId) {
+//
+//		Long tasklistId = taskService.getTaskListId(taskId);
+//
+//		return taskListService.getTaskList(tasklistId);
+//	}
 
 }

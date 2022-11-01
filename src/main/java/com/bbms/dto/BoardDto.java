@@ -53,12 +53,7 @@ public class BoardDto implements Serializable {
 	
 	//@JsonBackReference(value="tasks")
     @JsonIgnore
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(
-			name="board_task",
-			joinColumns = @JoinColumn(name="task_id"),
-			inverseJoinColumns = @JoinColumn(name="board_id")
-			)
+	@ManyToMany(mappedBy = "board", cascade=CascadeType.ALL)
 	private List <TaskDto> tasks;
 	@JsonManagedReference
 	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)

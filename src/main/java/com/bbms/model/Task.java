@@ -4,7 +4,14 @@ public class Task {
 	private Long id;
 	private String description;
 	private TaskList taskList;
+	private Board board;
 	
+	public Board getBoard() {
+		return board;
+	}
+	public void setBoard(Board board) {
+		this.board = board;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -53,17 +53,18 @@ public class TaskDto implements Serializable{
 	@OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
 	private List <ActivityDto> activities;
 	
-	//@JsonManagedReference(value="tasks")
-	@ManyToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
-	private List <BoardDto> board;
+	
+	@ManyToOne
+	private BoardDto board;
 	
 	@OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
 	private List <AttachmentDto> attachment;
 	
-	@JsonBackReference
+	
 	@ManyToOne
 	private TaskListDto taskList;
 	
+
 	@ManyToOne
 	private UserDto user;
 
@@ -76,12 +77,14 @@ public class TaskDto implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
 
-	public List<BoardDto> getBoard() {
+	public BoardDto getBoard() {
 		return board;
 	}
 
-	public void setBoard(List<BoardDto> board) {
+	public void setBoard(BoardDto board) {
 		this.board = board;
 	}
 
