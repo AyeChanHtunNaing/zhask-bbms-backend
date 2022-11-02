@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,9 +54,10 @@ public class BoardDto implements Serializable {
 	
 	//@JsonBackReference(value="tasks")
     @JsonIgnore
-	@ManyToMany(mappedBy = "board", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "board", cascade=CascadeType.ALL)
 	private List <TaskDto> tasks;
-	@JsonManagedReference
+    
+    @JsonIgnore
 	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<TaskListDto> taskLists=new ArrayList<>();
 	

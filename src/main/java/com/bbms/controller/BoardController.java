@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bbms.dto.BoardDto;
+import com.bbms.dto.TaskDto;
 import com.bbms.dto.TaskListDto;
 import com.bbms.dto.WorkspaceDto;
 import com.bbms.model.Board;
 import com.bbms.model.TaskList;
 import com.bbms.model.Workspace;
 import com.bbms.service.BoardService;
+import com.bbms.service.TaskService;
 import com.bbms.service.WorkspaceService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private TaskService taskService;
 
 	@PostMapping(value = "/board", produces = "application/json")
 	public ResponseEntity<BoardDto> createBoard(@RequestBody Board board) {
@@ -80,4 +85,12 @@ public class BoardController {
 		List<BoardDto> boardList = boardService.getBoardRelatedWorkspace(workspaceId);
 		return ResponseEntity.ok(boardList);
 	}
+	
+	@GetMapping(value="/showalltaskbyboard/{boardId}",produces="application/json")
+	public ResponseEntity<List<TaskDto>> showAllTaskByBoardId(@PathVariable Long boardId){
+		
+		List<TaskDto> taskDto = taskService.showAllTaskByBoardId(boardId);
+		return ResponseEntity.ok(taskDto);
+	}
+	
 }

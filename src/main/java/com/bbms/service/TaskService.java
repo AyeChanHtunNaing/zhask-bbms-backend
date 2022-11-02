@@ -24,10 +24,11 @@ public class TaskService {
 	public TaskDto updateTask(TaskDto dto) {
 		return taskRepository.save(dto);
 	}
+	
 	public void updateTaskDescription(TaskDto dto) {
         System.out.println(dto.getDescription()); 
         System.out.println(dto.getId());
-		 taskRepository.updateTask(dto.getDescription(), dto.getId());
+		taskRepository.updateTask(dto.getDescription(), dto.getId());
 		 
 	}
 	
@@ -39,5 +40,9 @@ public class TaskService {
 	public Long getTaskListId(Long taskId){
 		Long tasklistid = taskRepository.selectTaskListId(taskId);
 		 return tasklistid;
+	}
+	
+	public List<TaskDto> showAllTaskByBoardId(Long taskId){
+		return taskRepository.getAllTaskByBoardId(taskId);
 	}
 }

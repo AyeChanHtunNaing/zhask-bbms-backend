@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.bbms.dto.TaskDto;
+
 @Transactional
 public interface TaskRepository extends JpaRepository<TaskDto, Long> {
 	
@@ -18,8 +19,11 @@ public interface TaskRepository extends JpaRepository<TaskDto, Long> {
 	@Query(value="SELECT task_list_id FROM task WHERE id=? ",nativeQuery=true)
 	public Long selectTaskListId(Long taskId);
 	
-	@Query(value="UPDATE task SET description= ?1 WHERE id= ?2 ",nativeQuery=true)
 	@Modifying
+	@Query(value="UPDATE task SET description= ?1 WHERE id= ?2 ",nativeQuery=true)	
 	public void updateTask(String description , Long id);
+	
+	@Query(value="SELECT * FROM task WHERE board_id=? ",nativeQuery=true)
+	public List<TaskDto> getAllTaskByBoardId(Long taskId);
 
 }

@@ -63,11 +63,12 @@ public class TaskListController {
 		return ResponseEntity.ok(taskListModel);
 	}
 
-	@DeleteMapping(value = "/taskList/{taskId}", produces = "application/json")
+	@DeleteMapping(value = "/tasklist/{taskId}", produces = "application/json")
 	public ResponseEntity<Boolean> deleteTaskList(@PathVariable Long taskId) {
 		taskListService.deleteTaskList(taskId);
 		return ResponseEntity.ok(true);
 	}
+	
 	@GetMapping(value = "/tasklist/{boardId}", produces = "application/json")
 	public ResponseEntity<List<TaskListDto>> selectById(@PathVariable Long boardId) {
 
