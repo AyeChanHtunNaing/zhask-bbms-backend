@@ -35,6 +35,9 @@ public class CommentDto implements Serializable{
 	@ManyToOne
 	private TaskDto task;
 
+	@ManyToOne
+	private UserDto user;
+	
 	public Long getId() {
 		return id;
 	}

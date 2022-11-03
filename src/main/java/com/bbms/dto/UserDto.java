@@ -37,21 +37,28 @@ public class UserDto implements Serializable{
 	private String email;
 	@Column(name="password")
 	private String password;
-	@Column(name="reset_password")
-	private String resetPassword;
+	@Column(name="token")
+	private String token;
 	@Column(name="create_at")
 	private Date createAt;
 	@Column(name="update_at")
 	private Date updateAt;
+	@Column(name="status")
+	private boolean status;
+	@Column(name="delete_status" , columnDefinition = "TINYINT  default 0", length = 1)
+	private boolean deleteStatus;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<BoardDto> boards = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<AttachmentDto> attachments = new ArrayList<>();
+    private List<ActivityDto> activity = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TaskDto> task = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CommentDto> comment = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -93,12 +100,12 @@ public class UserDto implements Serializable{
 		this.password = password;
 	}
 
-	public String getResetPassword() {
-		return resetPassword;
+	public String getToken() {
+		return token;
 	}
 
-	public void setResetPassword(String resetPassword) {
-		this.resetPassword = resetPassword;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public Date getCreateAt() {
@@ -117,20 +124,28 @@ public class UserDto implements Serializable{
 		this.updateAt = updateAt;
 	}
 
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public boolean isDeleteStatus() {
+		return deleteStatus;
+	}
+
+	public void setDeleteStatus(boolean deleteStatus) {
+		this.deleteStatus = deleteStatus;
+	}
+
 	public List<BoardDto> getBoards() {
 		return boards;
 	}
 
 	public void setBoards(List<BoardDto> boards) {
 		this.boards = boards;
-	}
-
-	public List<AttachmentDto> getAttachments() {
-		return attachments;
-	}
-
-	public void setAttachments(List<AttachmentDto> attachments) {
-		this.attachments = attachments;
 	}
 
 	public List<TaskDto> getTask() {
@@ -144,8 +159,21 @@ public class UserDto implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
 
+	public List<ActivityDto> getActivity() {
+		return activity;
+	}
+
+	public void setActivity(List<ActivityDto> activity) {
+		this.activity = activity;
+	}
+
+	public List<CommentDto> getComment() {
+		return comment;
+	}
+
+	public void setComment(List<CommentDto> comment) {
+		this.comment = comment;
+	}
+	
 }

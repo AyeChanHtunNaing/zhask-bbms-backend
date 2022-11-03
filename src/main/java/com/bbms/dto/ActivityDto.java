@@ -3,14 +3,19 @@ package com.bbms.dto;
 import java.io.Serializable;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -30,8 +35,6 @@ public class ActivityDto implements Serializable{
 	private String name;
 	@Column(name="is_checked", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean isChecked;
-	@Column(name="attachment")
-	private String attachment;
 	@Column(name="due_date")
 	private Date dueDate;
 	@Column(name="start_date")
@@ -41,7 +44,14 @@ public class ActivityDto implements Serializable{
 	
 	@ManyToOne
 	private TaskDto tasks;
-
+	
+	@ManyToOne
+	private UserDto user;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
+	private List<AttachmentDto> attachement;
+	
 	public Long getId() {
 		return id;
 	}
@@ -64,14 +74,6 @@ public class ActivityDto implements Serializable{
 
 	public void setChecked(boolean isChecked) {
 		this.isChecked = isChecked;
-	}
-
-	public String getAttachment() {
-		return attachment;
-	}
-
-	public void setAttachment(String attachment) {
-		this.attachment = attachment;
 	}
 
 	public Date getDueDate() {
@@ -109,6 +111,21 @@ public class ActivityDto implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	public UserDto getUser() {
+		return user;
+	}
+
+	public void setUser(UserDto user) {
+		this.user = user;
+	}
+
+	public List<AttachmentDto> getAttachement() {
+		return attachement;
+	}
+
+	public void setAttachement(List<AttachmentDto> attachement) {
+		this.attachement = attachement;
+	}
 	
 }

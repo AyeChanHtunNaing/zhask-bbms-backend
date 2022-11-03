@@ -12,6 +12,7 @@ public class Board {
 	private String name;
 	private String description;
 	private Workspace workSpace;
+	
 	public Long getId() {
 		return id;
 	}

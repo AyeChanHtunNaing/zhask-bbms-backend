@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import com.bbms.model.Board;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -50,25 +51,18 @@ public class TaskDto implements Serializable{
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
 	private List <CommentDto> comments;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
 	private List <ActivityDto> activities;
-	
-	
+		
 	@ManyToOne
 	private BoardDto board;
 	
-	@OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
-	private List <AttachmentDto> attachment;
-	
-	
 	@ManyToOne
 	private TaskListDto taskList;
-	
 
 	@ManyToOne
 	private UserDto user;
-
-	
 
 	public Long getId() {
 		return id;
@@ -134,14 +128,6 @@ public class TaskDto implements Serializable{
 
 	public void setActivities(List<ActivityDto> activities) {
 		this.activities = activities;
-	}
-
-	public List<AttachmentDto> getAttachment() {
-		return attachment;
-	}
-
-	public void setAttachment(List<AttachmentDto> attachment) {
-		this.attachment = attachment;
 	}
 
 	public TaskListDto getTaskList() {
