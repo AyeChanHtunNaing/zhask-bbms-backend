@@ -2,9 +2,12 @@ package com.bbms.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.bbms.dto.AttachmentDto;
 import com.bbms.repository.AttachmentRepository;
 
+@Service
 public class AttachmentService {
 	
 	@Autowired
