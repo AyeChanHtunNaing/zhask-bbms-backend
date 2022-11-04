@@ -48,9 +48,9 @@ public class ActivityController {
 	}
 	
 	@GetMapping(value="/activity/{taskId}",produces="application/json")
-	public ResponseEntity<Optional<ActivityDto>> showActivityByTaskId(@PathVariable Long taskId){
+	public ResponseEntity<List<ActivityDto>> showActivityByTaskId(@PathVariable Long taskId){
 		
-		Optional<ActivityDto> activityDto = activityService.selectActivityByTaskId(taskId);
+		List<ActivityDto> activityDto = activityService.selectActivityByTaskId(taskId);
 		return ResponseEntity.ok(activityDto);
 	}
 	

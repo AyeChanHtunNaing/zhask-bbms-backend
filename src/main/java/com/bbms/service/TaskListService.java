@@ -32,7 +32,7 @@ public class TaskListService {
 		taskListRepository.deleteById(taskId);
 	}
 	
-	public Optional<TaskListDto> getTaskList(Long tasklistId) {
-		return taskListRepository.findById(tasklistId);
-	}
+//	public Optional<TaskListDto> getTaskList(Long tasklistId) {
+//		return taskListRepository.findById(tasklistId);
+//	}
 }

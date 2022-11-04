@@ -41,10 +41,10 @@ public class AttachmentController {
 
 	}
 	
-	@GetMapping(value="/attachment/{taskId}",produces="application/json")
-	public ResponseEntity<List<AttachmentDto>> showAttachmentByTaskId(@PathVariable Long taskId){
+	@GetMapping(value="/attachment/{activityId}",produces="application/json")
+	public ResponseEntity<List<AttachmentDto>> showAttachmentByTaskId(@PathVariable Long activityId){
 		
-		List<AttachmentDto> attachmentDto = attachmentService.selectAttachmentByTaskId(taskId);
+		List<AttachmentDto> attachmentDto = attachmentService.selectAttachmentByActivityId(activityId);
 		return ResponseEntity.ok(attachmentDto);
 	}
 	

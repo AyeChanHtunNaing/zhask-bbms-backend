@@ -1,5 +1,6 @@
 package com.bbms.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class ActivityService {
 		activityRepository.save(dto);
 	}
 	
-	public Optional<ActivityDto> selectActivityByTaskId(Long taskId) {
+	public List<ActivityDto> selectActivityByTaskId(Long taskId) {
 		
-		return activityRepository.findById(taskId);
+		return activityRepository.getActivityByTask(taskId);
 	}
 	
 }

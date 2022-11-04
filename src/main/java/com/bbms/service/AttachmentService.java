@@ -18,9 +18,9 @@ public class AttachmentService {
 		attachmentRepository.save(dto);
 	}
 	
-	public List<AttachmentDto> selectAttachmentByTaskId(Long taskId) {
+	public List<AttachmentDto> selectAttachmentByActivityId(Long activityId) {
 		
-		return attachmentRepository.getAttachmentByTask(taskId);
+		return attachmentRepository.getAttachmentByTask(activityId);
 	}
 
 }

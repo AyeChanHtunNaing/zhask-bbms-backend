@@ -37,10 +37,10 @@ public class TaskService {
 		taskRepository.deleteById(id);
 	}
 	
-	public Long getTaskListId(Long taskId){
-		Long tasklistid = taskRepository.selectTaskListId(taskId);
-		 return tasklistid;
-	}
+//	public Long getTaskListId(Long taskId){
+//		Long tasklistid = taskRepository.selectTaskListId(taskId);
+//		 return tasklistid;
+//	}
 	
 	public List<TaskDto> showAllTaskByBoardId(Long taskId){
 		return taskRepository.getAllTaskByBoardId(taskId);
