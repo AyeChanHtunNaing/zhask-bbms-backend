@@ -32,7 +32,7 @@ public class BoardService {
 
 	public void insertTaskList() {
 
-		// set board id as foreign key in tasklist table
+		// set board id as foreign key in task list table
 
 		Long boardId = boardRepository.takeLastId();
 		BoardDto board = new BoardDto();
@@ -67,8 +67,8 @@ public class BoardService {
 		return boardRepository.save(dto);
 	}
 
-	public void deleteBoard(BoardDto dto) {
-		boardRepository.delete(dto);
+	public void deleteBoard(Long boardId) {
+		boardRepository.deleteBoardById(boardId);
 	}
 
 	public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId) {

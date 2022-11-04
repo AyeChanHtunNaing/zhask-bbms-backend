@@ -7,17 +7,22 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import com.bbms.dto.TaskListDto;
 
 @Transactional
 public interface TaskListRepository extends JpaRepository<TaskListDto, Long> {
 
-//	List<TaskListDto> findAllByIdAndDeleteStatus(Long boardId, boolean deleteStatus);
-	@Query(value="SELECT * FROM tasklist WHERE board_id=? ",nativeQuery = true)
+	@Query(value="SELECT * FROM tasklist WHERE board_id=? and delete_status=0 ",nativeQuery = true)
 	public List<TaskListDto> getTaskListDtoList(Long boardId);
 	
 	@Modifying
 	@Query(value="UPDATE tasklist SET title=? WHERE id=?",nativeQuery= true)
 	public void updateTaskListTitle(String title,Long tasklistId);
+	
+	@Modifying
+	@Query(value="UPDATE tasklist SET delete_status=1 WHERE id=? ",nativeQuery=true)
+	public void deleteTaskListById(@Param("id") Long taskListId);
 	
 }

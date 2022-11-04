@@ -47,8 +47,9 @@ public class BoardDto implements Serializable {
 	private String description;
 	@Column(name="createAt")
 	private LocalDate createAt;
+	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
+	private boolean deleteStatus;
 
-	
 	@ManyToOne
 	private UserDto user;
 	
@@ -110,6 +111,18 @@ public class BoardDto implements Serializable {
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public boolean isDeleteStatus() {
+		return deleteStatus;
+	}
+	public void setDeleteStatus(boolean deleteStatus) {
+		this.deleteStatus = deleteStatus;
+	}
+	public List<TaskDto> getTasks() {
+		return tasks;
+	}
+	public void setTasks(List<TaskDto> tasks) {
+		this.tasks = tasks;
 	}
 	
 }

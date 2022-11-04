@@ -73,9 +73,9 @@ public class BoardController {
 		return ResponseEntity.ok(boardmodel);
 	}
 
-	@DeleteMapping(value = "/board", produces = "application/json")
-	public ResponseEntity<Boolean> deleteBaord(@RequestBody BoardDto dto) {
-		boardService.deleteBoard(dto);
+	@DeleteMapping(value = "/board/{baordId}", produces = "application/json")
+	public ResponseEntity<Boolean> deleteBaord(@PathVariable Long boardId) {
+		boardService.deleteBoard(boardId);
 		return ResponseEntity.ok(true);
 	}
 

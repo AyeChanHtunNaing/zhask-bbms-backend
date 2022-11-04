@@ -29,8 +29,9 @@ public class TaskListService {
 	}
 	
 	public void deleteTaskList(Long taskId) {
-		taskListRepository.deleteById(taskId);
+		taskListRepository.deleteTaskListById(taskId);
 	}
+	
 	
 	public void updateTaskListTitle(TaskListDto dto){
 		taskListRepository.updateTaskListTitle(dto.getTitle(),dto.getId());
