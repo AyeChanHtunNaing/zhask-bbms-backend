@@ -50,17 +50,14 @@ public class TaskListController {
 
 	}
 
-	@PutMapping(value = "/tasklist", produces = "application/json")
-	public ResponseEntity<TaskListDto> updateTaskList(@RequestBody TaskList taskList) {
+	@PutMapping(value = "/tasklist/{tasklistId}", produces = "application/json")
+	public ResponseEntity<TaskListDto> updateTaskListTitle(@PathVariable Long tasklistId,@RequestBody TaskList taskList) {
 
 		TaskListDto taskListDto = new TaskListDto();
+		taskListDto.setId(tasklistId);
 		taskListDto.setTitle(taskList.getTitle());
-		taskListDto.setDeleteStatus(false);
-		BoardDto boardDto = new BoardDto();
-		boardDto.setId(taskList.getBoard().getId());
-		taskListDto.setBoard(boardDto);
-		TaskListDto taskListModel = taskListService.updateTaskList(taskListDto);
-		return ResponseEntity.ok(taskListModel);
+		taskListService.updateTaskListTitle(taskListDto);
+		return ResponseEntity.ok(taskListDto);
 	}
 
 	@DeleteMapping(value = "/tasklist/{taskId}", produces = "application/json")

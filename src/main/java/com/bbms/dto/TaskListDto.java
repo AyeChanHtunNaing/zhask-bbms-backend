@@ -40,30 +40,16 @@ public class TaskListDto implements Serializable{
 	@ManyToOne
 	private BoardDto board;
 	
-	
-	
 	@JsonIgnore
 	@OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL)
     private List<TaskDto> tasks = new ArrayList<>();
 
-	public boolean isDeleteStatus() {
-		return deleteStatus;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setDeleteStatus(boolean deleteStatus) {
-		this.deleteStatus = deleteStatus;
-	}
-	
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(long i) {
-		this.id = i;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -72,6 +58,14 @@ public class TaskListDto implements Serializable{
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public boolean isDeleteStatus() {
+		return deleteStatus;
+	}
+
+	public void setDeleteStatus(boolean deleteStatus) {
+		this.deleteStatus = deleteStatus;
 	}
 
 	public BoardDto getBoard() {
@@ -93,5 +87,5 @@ public class TaskListDto implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 }

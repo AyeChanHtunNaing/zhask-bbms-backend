@@ -23,16 +23,17 @@ public class TaskListService {
 		taskListRepository.save(dto);
 
 	}
-	public TaskListDto updateTaskList(TaskListDto dto) {
+	public void updateTaskList(TaskListDto dto) {
 		
-	  return taskListRepository.save(dto);	
+	  taskListRepository.save(dto);	
 	}
 	
 	public void deleteTaskList(Long taskId) {
 		taskListRepository.deleteById(taskId);
 	}
 	
-//	public Optional<TaskListDto> getTaskList(Long tasklistId) {
-//		return taskListRepository.findById(tasklistId);
-//	}
+	public void updateTaskListTitle(TaskListDto dto){
+		taskListRepository.updateTaskListTitle(dto.getTitle(),dto.getId());
+	}
+
 }
