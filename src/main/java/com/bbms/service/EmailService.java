@@ -1,20 +1,12 @@
 package com.bbms.service;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -22,8 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-	
-	
 	public boolean sendMail(String to) throws MessagingException{
 		boolean f=false;
 		
@@ -50,10 +40,9 @@ public class EmailService {
 //		});
 //		
 //		session.setDebug(true);
-		
-	
-		SimpleMailMessage msg = new SimpleMailMessage();
-			
+
+//		SimpleMailMessage msg = new SimpleMailMessage();
+
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
         try
@@ -73,5 +62,37 @@ public class EmailService {
 		
 		
 	return f;
-	}   
+	}
+	
+	public void sendEmailWithMimeMessage(String toEmail, String body, String subject)
+			throws MessagingException {
+		String from="team.zhask.dev@gmail.com";
+		String password="jwsspbhphfmybuhd";
+	
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost("smtp.gmail.com");
+	    mailSender.setPort(587);
+	    mailSender.setUsername(from);
+	    mailSender.setPassword(password);
+	   
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.debug", "true");
+		
+
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+		mimeMessageHelper.setFrom("ZHASK");
+		mimeMessageHelper.setTo(toEmail);
+		mimeMessageHelper.setText(body,true);
+		mimeMessageHelper.setSubject(subject);
+
+		mailSender.send(mimeMessage);
+		System.out.println("Mail Send...");
+
+	}
 }

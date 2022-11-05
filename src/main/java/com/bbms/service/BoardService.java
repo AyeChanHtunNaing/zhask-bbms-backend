@@ -59,7 +59,6 @@ public class BoardService {
 	}
 
 //	public List<TaskListDto> showAllTaskList(Long boardId) {
-//		 
 //		return taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
 //	}
 
