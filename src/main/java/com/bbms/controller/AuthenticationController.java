@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +23,10 @@ public class AuthenticationController {
 	UserService service;
 	
 	@GetMapping("/")
-	public String login(Principal user){
-		return "Hello From The Other Side.";
+	public ResponseEntity<UserDto> login(Principal user){
+		System.out.println("Name:"+user.getName());
+		UserDto usr = service.getByEmail(user.getName());
+		return ResponseEntity.ok(UserDto.builder().id(usr.getId()).name(usr.getName()).userName(usr.getUserName()).email(usr.getEmail()).createAt(usr.getCreateAt()).build());
 	}
 	
 	@GetMapping("/verify/{id}/{token}")

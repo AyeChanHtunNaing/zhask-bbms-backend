@@ -42,6 +42,14 @@ public class UserService {
 		return usr;
 	}
 	
+	public UserDto getById(long id) {
+		return repo.getById(id);
+	}
+	
+	public UserDto getByEmail(String mail) {
+		return repo.getByEmail(mail);
+	}
+	
 	public UserDto changePassword(String psw, long id){
 		UserDto usr = repo.getById(id);
 		usr.setPassword(encdr.encode(psw));

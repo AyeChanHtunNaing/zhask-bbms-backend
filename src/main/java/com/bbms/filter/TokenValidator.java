@@ -44,6 +44,7 @@ public class TokenValidator extends OncePerRequestFilter{
 				Authentication auth = new UsernamePasswordAuthenticationToken(name,null,
 						null);
 				SecurityContextHolder.getContext().setAuthentication(auth);
+				response.setHeader(SecurityContants.JWT_HEADER,jwt);
 			}catch (Exception e) {
 				throw new BadCredentialsException("Invalid Token received!");
 			}
