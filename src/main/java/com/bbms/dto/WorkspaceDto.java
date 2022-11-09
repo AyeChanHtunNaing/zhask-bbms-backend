@@ -38,6 +38,8 @@ public class WorkspaceDto implements Serializable {
 	private String name;
 	@Column(name="description")
 	private String description;
+	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
+	private boolean deleteStatus;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,20 +39,20 @@ public class WorkspaceController {
 		return ResponseEntity.ok(workspaces);
 	}
 
-	@PutMapping(value = "/workspace", produces = "application/json")
-	public ResponseEntity<WorkspaceDto> updateWorkspacec(@RequestBody Workspace workspace) {
+	@PutMapping(value = "/workspace/{workspaceId}", produces = "application/json")
+	public ResponseEntity<Boolean> updateWorkspacec(@PathVariable Long workspaceId , @RequestBody Workspace workspace) {
 
 		WorkspaceDto workspaceDto = new WorkspaceDto();
-		workspaceDto.setId(workspace.getId());
+		workspaceDto.setId(workspaceId);
 		workspaceDto.setDescription(workspace.getDescription());
 		workspaceDto.setName(workspace.getName());
-		WorkspaceDto workspacemodel = workspaceService.updateWorkspace(workspaceDto);
-		return ResponseEntity.ok(workspacemodel);
+	    workspaceService.updateWorkspace(workspaceDto);
+		return ResponseEntity.ok(true);
 	}
 
-	@DeleteMapping(value = "/workspace", produces = "application/json")
-	public ResponseEntity<Boolean> deleteWorkspacec(@RequestBody WorkspaceDto dto) {
-		workspaceService.deleteWorkspace(dto);
+	@DeleteMapping(value = "/workspace/{workspaceId}", produces = "application/json")
+	public ResponseEntity<Boolean> deleteWorkspacec(@PathVariable Long workspaceId) {
+		workspaceService.deleteWorkspace(workspaceId);
 		return ResponseEntity.ok(true);
 	}
 

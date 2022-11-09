@@ -27,12 +27,12 @@ public class AuthenticationController {
 	}
 	
 	@GetMapping("/verify/{id}/{token}")
-	public boolean verifyEmail(@PathVariable long id,@PathVariable String token){
+	public boolean verifyEmail(@PathVariable Long id,@PathVariable String token){
 		return service.isTokenAvailable(id, token);
 	}
 	
 	@GetMapping("/resetpsw/{id}/{token}")
-	public boolean pswVerify(@PathVariable long id,@PathVariable String token, HttpServletRequest req){
+	public boolean pswVerify(@PathVariable Long id,@PathVariable String token, HttpServletRequest req){
 		UserDto usr = service.isResetTokenAvailable(id, token);
 		if(usr!=null) {
 			req.getServletContext().setAttribute("tempId", usr.getId());
@@ -45,7 +45,7 @@ public class AuthenticationController {
 	@GetMapping("/resetpsw")
 	public boolean pswVerify(@RequestBody UserDto bean, HttpServletRequest req){
 		try {			
-			service.changePassword(bean.getPassword(),(long) req.getServletContext().getAttribute("tempId"));
+			service.changePassword(bean.getPassword(),(Long) req.getServletContext().getAttribute("tempId"));
 			req.getServletContext().removeAttribute("tempId");
 			return true;
 		}catch (Exception e) {

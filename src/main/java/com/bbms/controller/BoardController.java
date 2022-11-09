@@ -59,21 +59,17 @@ public class BoardController {
 
 	}
 
-	@PutMapping(value = "/board", produces = "application/json")
-	public ResponseEntity<BoardDto> updateBoard(@RequestBody Board board) {
+	@PutMapping(value = "/board/{boardId}", produces = "application/json")
+	public ResponseEntity<Boolean> updateBoard(@PathVariable Long boardId ,@RequestBody Board board) {
 
 		BoardDto boardDto = new BoardDto();
+		boardDto.setId(boardId);
 		boardDto.setName(board.getName());
-		boardDto.setDescription(board.getDescription());
-		boardDto.setCreateAt(LocalDate.now());
-		WorkspaceDto workDto = new WorkspaceDto();
-		workDto.setId(board.getWorkSpace().getId());
-		boardDto.setWorkspace(workDto);
-		BoardDto boardmodel = boardService.updateBoard(boardDto);
-		return ResponseEntity.ok(boardmodel);
+		boardService.updateBoard(boardDto);
+		return ResponseEntity.ok(true);
 	}
 
-	@DeleteMapping(value = "/board/{baordId}", produces = "application/json")
+	@DeleteMapping(value = "/board/{boardId}", produces = "application/json")
 	public ResponseEntity<Boolean> deleteBaord(@PathVariable Long boardId) {
 		boardService.deleteBoard(boardId);
 		return ResponseEntity.ok(true);

@@ -62,8 +62,8 @@ public class BoardService {
 //		return taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
 //	}
 
-	public BoardDto updateBoard(BoardDto dto) {
-		return boardRepository.save(dto);
+	public void updateBoard(BoardDto dto) {
+		boardRepository.updateBoardById(dto.getName() , dto.getId());
 	}
 
 	public void deleteBoard(Long boardId) {

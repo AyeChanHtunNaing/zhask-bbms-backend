@@ -29,13 +29,14 @@ public class WorkspaceService {
 		return workspaceRepository.findAll();
 	}
 	
-	public WorkspaceDto updateWorkspace(WorkspaceDto dto) {
-		return workspaceRepository.save(dto);
+	public void updateWorkspace(WorkspaceDto dto) {
+		
+		workspaceRepository.updateWorkspace(dto.getName(), dto.getId());
 	}
 
-	public void deleteWorkspace(WorkspaceDto dto) {
+	public void deleteWorkspace(Long workspaceId) {
 		
-		workspaceRepository.delete(dto);
+		workspaceRepository.deleteWorkspaceById(workspaceId);
 	}
 	
 }
