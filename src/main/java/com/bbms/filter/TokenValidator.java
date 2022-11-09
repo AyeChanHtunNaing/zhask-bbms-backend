@@ -54,14 +54,10 @@ public class TokenValidator extends OncePerRequestFilter{
 
 	 @Override
 	 protected boolean shouldNotFilter(HttpServletRequest request) {
-//		 	if(request.getServletPath().equals("/")) {
-//				return request.getServletPath().equals("/");
-//			}
-//			if(request.getServletPath().equals("/signup")) {
-//				return request.getServletPath().equals("/signup");
-//			}
-//		return request.getServletPath().equals("/forgetpwd");
 		 if(request.getServletPath().equals("/signup")) {
+				return true;
+		}
+		 if(request.getServletPath().equals("/forgot_psw")) {
 				return true;
 		}
 		 if(request.getServletPath().equals("/verify/**")) {
@@ -69,7 +65,7 @@ public class TokenValidator extends OncePerRequestFilter{
 		}
 		 if(request.getServletPath().equals("/")) {
 				return true;
-		}if(request.getServletPath().equals("/resetpsw/**")) {
+		}if(request.getServletPath().equals("/reset_psw/**")) {
 			return true;
 		}
 		 return false;

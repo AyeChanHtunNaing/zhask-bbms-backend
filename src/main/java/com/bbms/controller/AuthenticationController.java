@@ -1,8 +1,10 @@
 package com.bbms.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,20 +36,23 @@ public class AuthenticationController {
 		return service.isTokenAvailable(id, token);
 	}
 	
-	@GetMapping("/resetpsw/{id}/{token}")
-	public boolean pswVerify(@PathVariable long id,@PathVariable String token, HttpServletRequest req){
+	@GetMapping("/reset_psw/{id}/{token}")
+	public void pswVerify(@PathVariable long id,@PathVariable String token, HttpServletRequest req, HttpServletResponse res) throws IOException{
 		UserDto usr = service.isResetTokenAvailable(id, token);
 		if(usr!=null) {
 			req.getServletContext().setAttribute("tempId", usr.getId());
-			return true;
-		}else {			
-			return false;
+			res.sendRedirect("http://localhost:4200/reset-password");
+		}else {
+			res.getWriter().write("Invalid-Token");
+//			res.sendRedirect("http://localhost:4200/token-expired");
 		}
 	}
 	
-	@GetMapping("/resetpsw")
+	@PostMapping("/reset_psw")
 	public boolean pswVerify(@RequestBody UserDto bean, HttpServletRequest req){
 		try {			
+			System.out.println(bean.getPassword());
+			System.out.println(req.getServletContext().getAttribute("tempId"));
 			service.changePassword(bean.getPassword(),(long) req.getServletContext().getAttribute("tempId"));
 			req.getServletContext().removeAttribute("tempId");
 			return true;
@@ -60,6 +65,12 @@ public class AuthenticationController {
 	public UserDto signup(@RequestBody UserDto bean){
 		UserDto usr = service.register(bean);
 		return usr;
+	}
+	
+	@PostMapping("/forgot_psw")
+	public boolean forgotPassword(@RequestBody UserDto bean){
+		System.out.println(bean.getEmail()+"is here");
+			return service.generateTokenForResetPsw(bean.getEmail());
 	}
 	
 }
