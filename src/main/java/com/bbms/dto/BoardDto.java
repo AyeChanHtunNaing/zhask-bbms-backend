@@ -50,8 +50,16 @@ public class BoardDto implements Serializable {
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
 
-	@ManyToOne
-	private UserDto user;
+//	@ManyToOne
+//	private UserDto user;
+	
+	@ManyToMany
+	@JoinTable(
+			name="user_has_board",
+			joinColumns = @JoinColumn(name="board_id"),
+			inverseJoinColumns = @JoinColumn(name="user_id")
+			)
+	private List <UserDto> users;
 	
 	//@JsonBackReference(value="tasks")
     @JsonIgnore
@@ -90,13 +98,13 @@ public class BoardDto implements Serializable {
 	public void setCreateAt(LocalDate createAt) {
 		this.createAt = createAt;
 	}
-	public UserDto getUser() {
-		return user;
-	}
-	public void setUser(UserDto user) {
-		this.user = user;
-	}
 	
+	public List<UserDto> getUsers() {
+		return users;
+	}
+	public void setUsers(List<UserDto> users) {
+		this.users = users;
+	}
 	public List<TaskListDto> getTaskLists() {
 		return taskLists;
 	}
@@ -124,5 +132,6 @@ public class BoardDto implements Serializable {
 	public void setTasks(List<TaskDto> tasks) {
 		this.tasks = tasks;
 	}
+	
 	
 }

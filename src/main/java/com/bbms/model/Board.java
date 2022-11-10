@@ -1,10 +1,7 @@
 package com.bbms.model;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.Date;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 public class Board {
 	
@@ -12,7 +9,7 @@ public class Board {
 	private String name;
 	private String description;
 	private Workspace workSpace;
-	
+	private ArrayList<User> users;
 	public Long getId() {
 		return id;
 	}
@@ -36,6 +33,12 @@ public class Board {
 	}
 	public void setWorkSpace(Workspace workSpace) {
 		this.workSpace = workSpace;
+	}
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
 	}
 	
 }

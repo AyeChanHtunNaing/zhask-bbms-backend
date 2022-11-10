@@ -55,9 +55,9 @@ public class UserDto implements Serializable{
 	@Column(name="delete_status" , columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<BoardDto> boards = new ArrayList<>();
-	
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<BoardDto> boards = new ArrayList<>();
+//	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ActivityDto> activity = new ArrayList<>();
 	
@@ -147,14 +147,7 @@ public class UserDto implements Serializable{
 		this.deleteStatus = deleteStatus;
 	}
 
-	public List<BoardDto> getBoards() {
-		return boards;
-	}
-
-	public void setBoards(List<BoardDto> boards) {
-		this.boards = boards;
-	}
-
+	
 	public List<TaskDto> getTask() {
 		return task;
 	}
@@ -167,20 +160,20 @@ public class UserDto implements Serializable{
 		return serialVersionUID;
 	}
 
-	public List<ActivityDto> getActivity() {
-		return activity;
-	}
-
-	public void setActivity(List<ActivityDto> activity) {
-		this.activity = activity;
-	}
-
 	public List<CommentDto> getComment() {
 		return comment;
 	}
 
 	public void setComment(List<CommentDto> comment) {
 		this.comment = comment;
+	}
+
+	public List<ActivityDto> getActivity() {
+		return activity;
+	}
+
+	public void setActivity(List<ActivityDto> activity) {
+		this.activity = activity;
 	}
 	
 }

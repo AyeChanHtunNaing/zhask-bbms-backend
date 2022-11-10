@@ -49,9 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/signup").permitAll()
 		.antMatchers("/forgot_psw").permitAll()
 		.antMatchers("/verify/**").permitAll()
-		.antMatchers("/reset_psw/**").permitAll()
-	//	.anyRequest().permitAll()
-    	.anyRequest().authenticated()
+		.antMatchers("/reset_psw/**").permitAll()		
+		.anyRequest().permitAll()
+    //	.anyRequest().authenticated()
 		.and().httpBasic();
 	}
 

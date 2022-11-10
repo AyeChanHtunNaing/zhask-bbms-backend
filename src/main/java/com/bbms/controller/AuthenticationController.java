@@ -2,6 +2,8 @@ package com.bbms.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,6 +72,8 @@ public class AuthenticationController {
 	
 	@PostMapping("/signup")
 	public UserDto signup(@RequestBody UserDto bean){
+		bean.setCreateAt(Date.valueOf(LocalDate.now()));
+		bean.setUpdateAt(Date.valueOf(LocalDate.now()));
 		UserDto usr = service.register(bean);
 		return usr;
 	}

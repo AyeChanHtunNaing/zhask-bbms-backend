@@ -31,21 +31,18 @@ public class WorkspaceController {
 	private WorkspaceService workspaceService;
 
 	@PostMapping(value = "/workspace", produces = "application/json")
-	public ResponseEntity<?> createWorkspacec(@RequestBody WorkspaceDto workspace) {
+	public ResponseEntity<?> createWorkspacec(@RequestBody Workspace workspace) {
 
-//		WorkspaceDto workspacedto = new WorkspaceDto();
-//		workspacedto.setName(workspace.getName());
-//		workspacedto.setDescription(workspace.getDescription());
-//		List<UserDto> dtoList = new ArrayList<UserDto>();
-//		UserDto usrDto = new UserDto();
-//		log.info("Hi"+workspace.getUser());
-//		List<User> w=workspace.getUser();
-//		for(int i=0;i<w.size();i++)
-//		{
-//			usrDto.setId(w.get(i).getId());
-//			dtoList.add(usrDto);
-//		}
-		workspaceService.insert(workspace);
+		WorkspaceDto workspacedto = new WorkspaceDto();
+		workspacedto.setName(workspace.getName());
+		workspacedto.setDescription(workspace.getDescription());
+		List<UserDto> dtoList = new ArrayList<UserDto>();
+		UserDto usrDto = new UserDto();
+		User user=workspace.getUsers().get(0);
+		usrDto.setId(user.getId());
+		dtoList.add(usrDto);
+		workspacedto.setUsers(dtoList);
+		workspaceService.insert(workspacedto);
 		return ResponseEntity.ok(new MessageResponse("Insert Successfully!"));
 	}
 

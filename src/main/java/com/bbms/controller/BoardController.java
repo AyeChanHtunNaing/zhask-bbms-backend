@@ -1,6 +1,7 @@
 package com.bbms.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskDto;
 import com.bbms.dto.TaskListDto;
+import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
 import com.bbms.model.Board;
 import com.bbms.model.TaskList;
+import com.bbms.model.User;
 import com.bbms.model.Workspace;
 import com.bbms.service.BoardService;
 import com.bbms.service.TaskService;
@@ -53,6 +56,12 @@ public class BoardController {
 		WorkspaceDto workDto = new WorkspaceDto();
 		workDto.setId(board.getWorkSpace().getId());
 		boardDto.setWorkspace(workDto);
+		List<UserDto> userList=new ArrayList<>();
+		UserDto userDto=new UserDto();
+		User user=board.getUsers().get(0);
+		userDto.setId(user.getId());
+		userList.add(userDto);
+		boardDto.setUsers(userList);
 		boardService.insert(boardDto);
 		boardService.insertTaskList();
 		return ResponseEntity.ok(boardDto);
