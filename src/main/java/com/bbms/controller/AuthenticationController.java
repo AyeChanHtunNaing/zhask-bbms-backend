@@ -32,8 +32,15 @@ public class AuthenticationController {
 	}
 	
 	@GetMapping("/verify/{id}/{token}")
-	public boolean verifyEmail(@PathVariable long id,@PathVariable String token){
-		return service.isTokenAvailable(id, token);
+	public void verifyEmail(@PathVariable long id,@PathVariable String token, HttpServletResponse res) throws IOException{
+		System.out.print("Id "+id+" token "+token);
+		
+		if(service.isTokenAvailable(id, token)) {
+			res.sendRedirect("http://localhost:4200/activated-account");
+		}
+		else {
+			res.sendRedirect("http://localhost:4200/token-expired");
+		}
 	}
 	
 	@GetMapping("/reset_psw/{id}/{token}")

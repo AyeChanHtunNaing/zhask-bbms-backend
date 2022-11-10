@@ -41,7 +41,7 @@ public class WorkspaceDto implements Serializable {
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(
 			name="user_has_workspace",
 			joinColumns = @JoinColumn(name="workspace_id"),

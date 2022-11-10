@@ -1,5 +1,6 @@
 package com.bbms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,25 +12,40 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
 import com.bbms.model.MessageResponse;
+import com.bbms.model.User;
 import com.bbms.model.Workspace;
 import com.bbms.service.WorkspaceService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api/v1/")
+@Slf4j
 public class WorkspaceController {
 
 	@Autowired
 	private WorkspaceService workspaceService;
 
 	@PostMapping(value = "/workspace", produces = "application/json")
-	public ResponseEntity<?> createWorkspacec(@RequestBody Workspace workspace) {
+	public ResponseEntity<?> createWorkspacec(@RequestBody WorkspaceDto workspace) {
 
-		WorkspaceDto workspacedto = new WorkspaceDto();
-		workspacedto.setName(workspace.getName());
-		workspacedto.setDescription(workspace.getDescription());
-		workspaceService.insert(workspacedto);
+//		WorkspaceDto workspacedto = new WorkspaceDto();
+//		workspacedto.setName(workspace.getName());
+//		workspacedto.setDescription(workspace.getDescription());
+//		List<UserDto> dtoList = new ArrayList<UserDto>();
+//		UserDto usrDto = new UserDto();
+//		log.info("Hi"+workspace.getUser());
+//		List<User> w=workspace.getUser();
+//		for(int i=0;i<w.size();i++)
+//		{
+//			usrDto.setId(w.get(i).getId());
+//			dtoList.add(usrDto);
+//		}
+		workspaceService.insert(workspace);
 		return ResponseEntity.ok(new MessageResponse("Insert Successfully!"));
 	}
 
@@ -38,6 +54,8 @@ public class WorkspaceController {
 		List<WorkspaceDto> workspaces = workspaceService.getAllWorkspace();
 		return ResponseEntity.ok(workspaces);
 	}
+	
+	
 
 	@PutMapping(value = "/workspace/{workspaceId}", produces = "application/json")
 	public ResponseEntity<Boolean> updateWorkspacec(@PathVariable Long workspaceId , @RequestBody Workspace workspace) {
