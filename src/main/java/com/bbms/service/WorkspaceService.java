@@ -24,9 +24,9 @@ public class WorkspaceService {
 
 	}
 
-	public List<WorkspaceDto> getAllWorkspace() {
+	public List<WorkspaceDto> getAllWorkspace(Long id) {
 		
-		return workspaceRepository.findAll();
+		return workspaceRepository.getWorkspaceById(id);
 	}
 	
 	public void updateWorkspace(WorkspaceDto dto) {

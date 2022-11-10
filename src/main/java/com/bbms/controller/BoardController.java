@@ -82,7 +82,7 @@ public class BoardController {
 		return ResponseEntity.ok(boardList);
 	}
 	
-	@GetMapping(value="/showalltaskbyboard/{boardId}",produces="application/json")
+	@GetMapping(value="/board/showalltaskbyboard/{boardId}",produces="application/json")
 	public ResponseEntity<List<TaskDto>> showAllTaskByBoardId(@PathVariable Long boardId){
 		
 		List<TaskDto> taskDto = taskService.showAllTaskByBoardId(boardId);
