@@ -22,16 +22,12 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder encdr;
 	
-	public UserDto register(UserDto user){
-//		long id = user.getId(); 
+	public UserDto register(UserDto user){ 
 		String email = user.getEmail();
 		String name = user.getName();
 		String uname = user.getName();
 		String pass = encdr.encode(user.getPassword());
 		String token = RandomString.make(64);
-//		if (checkmailservice.emailExists(id, email)) {
-//			return UserDto.builder().email("false").build();
-//		}
 		UserDto usr = UserDto.builder().email(email).name(name).userName(uname).password(pass).token(token).status(false).build();
 		try {
 			usr = repo.save(usr);	
@@ -42,22 +38,31 @@ public class UserService {
 		return usr;
 	}
 	
+	public UserDto getById(long id) {
+		return repo.getById(id);
+	}
+	
+	public UserDto getByEmail(String mail) {
+		return repo.getByEmail(mail);
+	}
+	
 	public UserDto changePassword(String psw, long id){
 		UserDto usr = repo.getById(id);
 		usr.setPassword(encdr.encode(psw));
+		usr.setToken(usr.getName());
 		return repo.save(usr);
 	}
 	
-	//reset start from this method
-	public void generateTokenForResetPsw(String email){
+	public boolean generateTokenForResetPsw(String email){
 		UserDto usr = repo.findByEmail(email);
 		if(usr!=null) {
 			String token = RandomString.make(64);
 			usr.setToken(token);
-			repo.save(usr);
 			sendResetPasswordToken(email, usr.getId(), usr.getToken());
+			repo.save(usr);
+			return true; 
 		}else {
-			System.out.println("User do not exists!");
+			return false;
 		}
 	}
 	
@@ -97,7 +102,7 @@ public class UserService {
 	
 	private void sendResetPasswordToken(String recieverEmail, long id, String token){
 		String subject = "Reset Password Confirmation.";
-		sendMail(recieverEmail, "resetpsw", id, token, subject);
+		sendMail(recieverEmail, "reset_psw", id, token, subject);
 	}
 	
 	private void sendMail(String recieverEmail, String route, long id, String token, String subject) {

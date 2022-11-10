@@ -47,10 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.addFilterAfter(new TokenGenerator(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
 		.antMatchers("/signup").permitAll()
+		.antMatchers("/forgot_psw").permitAll()
 		.antMatchers("/verify/**").permitAll()
-		.antMatchers("/resetpsw/**").permitAll()
-		.anyRequest().permitAll()
-//		.anyRequest().authenticated()
+		.antMatchers("/reset_psw/**").permitAll()
+//		.anyRequest().permitAll()
+		.anyRequest().authenticated()
 		.and().httpBasic();
 	}
 

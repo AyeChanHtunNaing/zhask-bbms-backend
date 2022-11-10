@@ -40,22 +40,9 @@ public class TokenGenerator extends OncePerRequestFilter{
 	
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
-//		if(request.getServletPath().equals("/signup")) {
-//			return !request.getServletPath().equals("/signup");
-//		}if(request.getServletPath().equals("/verify/**")) {
-//			return !request.getServletPath().equals("/verify/**");
-//		}
-//		return !request.getServletPath().equals("/");
-		
 		if(request.getServletPath().equals("/")) {
 			return false;
 		}
-//		if(request.getServletPath().equals("/verify/**")) {
-//			return false;
-//		}
-//		if(request.getServletPath().equals("/resetpsw/**")) {
-//			return request.getServletPath().equals("/resetpsw/**");
-//		}
 		return true;
 	}
 
