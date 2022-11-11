@@ -1,6 +1,7 @@
 package com.bbms.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +21,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="workspace")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class WorkspaceDto implements Serializable {
 
 	/**
@@ -53,48 +59,4 @@ public class WorkspaceDto implements Serializable {
 	@OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
     private List<BoardDto> boards = new ArrayList<>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(long i) {
-		this.id = i;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public List<UserDto> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<UserDto> users) {
-		this.users = users;
-	}
-
-	public List<BoardDto> getBoards() {
-		return boards;
-	}
-
-	public void setBoards(List<BoardDto> boards) {
-		this.boards = boards;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 }

@@ -27,10 +27,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.JoinColumn;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="board")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardDto implements Serializable {
 
 	/**
@@ -73,65 +79,5 @@ public class BoardDto implements Serializable {
 	//@JsonBackReference
 	@ManyToOne
 	private WorkspaceDto workspace;
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public LocalDate getCreateAt() {
-		return createAt;
-	}
-	public void setCreateAt(LocalDate createAt) {
-		this.createAt = createAt;
-	}
-	
-	public List<UserDto> getUsers() {
-		return users;
-	}
-	public void setUsers(List<UserDto> users) {
-		this.users = users;
-	}
-	public List<TaskListDto> getTaskLists() {
-		return taskLists;
-	}
-	public void setTaskLists(List<TaskListDto> taskLists) {
-		this.taskLists = taskLists;
-	}
-	public WorkspaceDto getWorkspace() {
-		return workspace;
-	}
-	public void setWorkspace(WorkspaceDto workspace) {
-		this.workspace = workspace;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	public boolean isDeleteStatus() {
-		return deleteStatus;
-	}
-	public void setDeleteStatus(boolean deleteStatus) {
-		this.deleteStatus = deleteStatus;
-	}
-	public List<TaskDto> getTasks() {
-		return tasks;
-	}
-	public void setTasks(List<TaskDto> tasks) {
-		this.tasks = tasks;
-	}
-	
 	
 }

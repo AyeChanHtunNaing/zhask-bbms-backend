@@ -28,7 +28,7 @@ public class AuthenticationController {
 	
 	@GetMapping("/")
 	public ResponseEntity<UserDto> login(Principal user){
-		System.out.println("Name:"+user.getName());
+		//System.out.println("Name:"+user.getName());
 		UserDto usr = service.getByEmail(user.getName());
 		return ResponseEntity.ok(UserDto.builder().id(usr.getId()).name(usr.getName()).userName(usr.getUserName()).email(usr.getEmail()).createAt(usr.getCreateAt()).build());
 	}

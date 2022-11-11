@@ -1,7 +1,7 @@
 package com.bbms.dto;
 
 import java.io.Serializable;
-
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,11 +24,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name="task")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskDto implements Serializable{
 	
 	/**
@@ -61,93 +66,15 @@ public class TaskDto implements Serializable{
 	@ManyToOne
 	private TaskListDto taskList;
 
-	@ManyToOne
-	private UserDto user;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	@ManyToOne
+//	private UserDto user;
 	
-	
-
-	public BoardDto getBoard() {
-		return board;
-	}
-
-	public void setBoard(BoardDto board) {
-		this.board = board;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public LocalDate getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(LocalDate createAt) {
-		this.createAt = createAt;
-	}
-
-	public LocalDate getUpdateAt() {
-		return updateAt;
-	}
-
-	public void setUpdateAt(LocalDate updateAt) {
-		this.updateAt = updateAt;
-	}
-
-	public boolean isDeleteStatus() {
-		return deleteStatus;
-	}
-
-	public void setDeleteStatus(boolean deleteStatus) {
-		this.deleteStatus = deleteStatus;
-	}
-
-	public List<CommentDto> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<CommentDto> comments) {
-		this.comments = comments;
-	}
-
-	public List<ActivityDto> getActivities() {
-		return activities;
-	}
-
-	public void setActivities(List<ActivityDto> activities) {
-		this.activities = activities;
-	}
-
-	public TaskListDto getTaskList() {
-		return taskList;
-	}
-
-	public void setTaskList(TaskListDto taskList) {
-		this.taskList = taskList;
-	}
-
-	public UserDto getUser() {
-		return user;
-	}
-
-	public void setUser(UserDto user) {
-		this.user = user;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	@ManyToMany
+	@JoinTable(
+			name="user_has_task",
+			joinColumns = @JoinColumn(name="task_id"),
+			inverseJoinColumns = @JoinColumn(name="user_id")
+			)
+	private List <UserDto> users;
 	
 }

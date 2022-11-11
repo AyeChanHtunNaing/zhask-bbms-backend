@@ -7,8 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name="attachment")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AttachmentDto implements Serializable {
 	/**
 	 * 
@@ -27,20 +34,4 @@ public class AttachmentDto implements Serializable {
 	
 	@ManyToOne
 	private ActivityDto activity;
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getFileUrl() {
-		return fileUrl;
-	}
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

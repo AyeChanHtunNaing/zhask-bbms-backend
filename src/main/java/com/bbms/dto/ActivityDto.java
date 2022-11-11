@@ -15,8 +15,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 @Entity
 @Table(name="activity")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ActivityDto implements Serializable{
 
 	/**
@@ -47,81 +54,5 @@ public class ActivityDto implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
 	private List<AttachmentDto> attachement;
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isChecked() {
-		return isChecked;
-	}
-
-	public void setChecked(boolean isChecked) {
-		this.isChecked = isChecked;
-	}
-
-	public Date getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public TaskDto getTasks() {
-		return tasks;
-	}
-
-	public void setTasks(TaskDto tasks) {
-		this.tasks = tasks;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public UserDto getUser() {
-		return user;
-	}
-
-	public void setUser(UserDto user) {
-		this.user = user;
-	}
-
-	public List<AttachmentDto> getAttachement() {
-		return attachement;
-	}
-
-	public void setAttachement(List<AttachmentDto> attachement) {
-		this.attachement = attachement;
-	}
 	
 }

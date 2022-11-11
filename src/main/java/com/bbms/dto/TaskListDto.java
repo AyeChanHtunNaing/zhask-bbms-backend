@@ -1,8 +1,7 @@
 package com.bbms.dto;
 
 import java.io.Serializable;
-
-
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,10 +17,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Entity
 @Table(name="tasklist")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskListDto implements Serializable{
 
 	/**
@@ -43,49 +49,5 @@ public class TaskListDto implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL)
     private List<TaskDto> tasks = new ArrayList<>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public boolean isDeleteStatus() {
-		return deleteStatus;
-	}
-
-	public void setDeleteStatus(boolean deleteStatus) {
-		this.deleteStatus = deleteStatus;
-	}
-
-	public BoardDto getBoard() {
-		return board;
-	}
-
-	public void setBoard(BoardDto board) {
-		this.board = board;
-	}
-
-	public List<TaskDto> getTasks() {
-		return tasks;
-	}
-
-	public void setTasks(List<TaskDto> tasks) {
-		this.tasks = tasks;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 }

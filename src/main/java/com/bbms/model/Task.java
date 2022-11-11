@@ -1,34 +1,22 @@
 package com.bbms.model;
+
+import java.util.List;
+
+import com.bbms.dto.UserDto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
 	
 	private Long id;
 	private String description;
 	private TaskList taskList;
 	private Board board;
-	
-	public Board getBoard() {
-		return board;
-	}
-	public void setBoard(Board board) {
-		this.board = board;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public TaskList getTaskList() {
-		return taskList;
-	}
-	public void setTaskList(TaskList taskList) {
-		this.taskList = taskList;
-	}
+	private List <User> users;
 	
 }

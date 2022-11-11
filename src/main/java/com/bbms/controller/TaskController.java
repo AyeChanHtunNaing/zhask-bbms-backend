@@ -1,7 +1,7 @@
 package com.bbms.controller;
 
 import java.time.LocalDate;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskDto;
 import com.bbms.dto.TaskListDto;
+import com.bbms.dto.UserDto;
 import com.bbms.model.Task;
+import com.bbms.model.User;
 import com.bbms.service.TaskListService;
 import com.bbms.service.TaskService;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +51,12 @@ public class TaskController {
 		tasklistDto.setId(task.getTaskList().getId());
 		taskDto.setBoard(boardDto);
 		taskDto.setTaskList(tasklistDto);
+		List<UserDto> dtoList = new ArrayList<UserDto>();
+		UserDto usrDto = new UserDto();
+		User user=task.getUsers().get(0);
+		usrDto.setId(user.getId());
+		dtoList.add(usrDto);
+		taskDto.setUsers(dtoList);
 		taskService.insert(taskDto);
 		return ResponseEntity.ok(taskDto);
 
