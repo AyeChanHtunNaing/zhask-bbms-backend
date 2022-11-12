@@ -2,8 +2,11 @@ package com.bbms.service;
 
 import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -11,10 +14,12 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.bbms.model.InviteMember;
+
 @Service
 public class EmailService {
 
-	public boolean sendMail(String to) throws MessagingException{
+	public boolean sendMail(InviteMember invitemember,String URL) throws MessagingException{
 		boolean f=false;
 		
 		String from="team.zhask.dev@gmail.com";
@@ -32,14 +37,14 @@ public class EmailService {
 	    props.put("mail.smtp.starttls.enable", "true");
 	    props.put("mail.debug", "true");
 		
-//		Session session= Session.getInstance(props,new Authenticator() {
-//			@Override
-//			protected PasswordAuthentication getPasswordAuthentication() {
-//				return new PasswordAuthentication(from, password);
-//			}
-//		});
-//		
-//		session.setDebug(true);
+		Session session= Session.getInstance(props,new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(from, password);
+			}
+		});
+		
+		session.setDebug(true);
 
 //		SimpleMailMessage msg = new SimpleMailMessage();
 
@@ -47,13 +52,16 @@ public class EmailService {
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
         try
         {
-        	helper.setSubject("Hello");
-    		helper.setFrom(from);
-    		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-    		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(to));
+        	 String content = "Dear Friend,<br>Please click the link below to join my workspace:<br><h3><a href=\"[[URL]]\" target=\"_self\">JOIN</a></h3>Thank you,<br>";
+        	 content = content.replace("[[URL]]",URL);
+        	helper.setSubject("Dear Friend,Please Join My Workspace");
+    		helper.setFrom(from,invitemember.getName());
+    		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(invitemember.getEmail()));
+    		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(invitemember.getEmail()));
             
-    		helper.setText("http://localhost:4200/home", true);
+    		helper.setText(content, true);
     		mailSender.send(message);
+    		f=true;
         }
         catch(Exception e)
         {

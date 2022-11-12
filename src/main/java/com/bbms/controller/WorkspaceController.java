@@ -43,6 +43,7 @@ public class WorkspaceController {
 		dtoList.add(usrDto);
 		workspacedto.setUsers(dtoList);
 		workspaceService.insert(workspacedto);
+		System.out.println(workspacedto.getId());
 		return ResponseEntity.ok(new MessageResponse("Insert Successfully!"));
 	}
 

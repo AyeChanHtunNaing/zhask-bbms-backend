@@ -9,5 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class InviteMember {
 	private String email;
-
+    private String id;
+    private String name;
+    private String url;
+    private String workspaceId;
 }
