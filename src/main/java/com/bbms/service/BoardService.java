@@ -73,4 +73,9 @@ public class BoardService {
 	public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId) {
 		return boardRepository.getBoardDtoList(workspaceId);
 	}
+	
+	 public BoardDto getBoardByBoardId(Long boardId) {
+			
+			return boardRepository.selectBoardIdByBoard(boardId);
+		}
 }

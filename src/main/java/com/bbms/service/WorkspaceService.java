@@ -39,4 +39,9 @@ public class WorkspaceService {
 		workspaceRepository.deleteWorkspaceById(workspaceId);
 	}
 	
+        
+ public WorkspaceDto getWorkspaceIdByWorkspace(Long workspaceId) {
+		
+		return workspaceRepository.selectWorkspaceIdByWorkspace(workspaceId);
+	}
 }

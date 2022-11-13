@@ -37,14 +37,14 @@ public class EmailService {
 	    props.put("mail.smtp.starttls.enable", "true");
 	    props.put("mail.debug", "true");
 		
-		Session session= Session.getInstance(props,new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(from, password);
-			}
-		});
+//		Session session= Session.getInstance(props,new Authenticator() {
+//			@Override
+//			protected PasswordAuthentication getPasswordAuthentication() {
+//				return new PasswordAuthentication(from, password);
+//			}
+//		});
 		
-		session.setDebug(true);
+	//	session.setDebug(true);
 
 //		SimpleMailMessage msg = new SimpleMailMessage();
 
@@ -52,15 +52,20 @@ public class EmailService {
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
         try
         {
+        	String email=invitemember.getEmail();
+        	String []emails=email.split(",");
+        	for(int i=0;i<emails.length;i++)
+        	{
         	 String content = "Dear Friend,<br>Please click the link below to join my workspace:<br><h3><a href=\"[[URL]]\" target=\"_self\">JOIN</a></h3>Thank you,<br>";
-        	 content = content.replace("[[URL]]",URL);
-        	helper.setSubject("Dear Friend,Please Join My Workspace");
+        	 content = content.replace("[[URL]]",URL+"/"+emails[i]);
+        	helper.setSubject("Dear Friend,Please Join My "+invitemember.getUrl());
     		helper.setFrom(from,invitemember.getName());
-    		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(invitemember.getEmail()));
-    		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(invitemember.getEmail()));
+    		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emails[i]));
+    		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(emails[i]));
             
     		helper.setText(content, true);
     		mailSender.send(message);
+        	}
     		f=true;
         }
         catch(Exception e)

@@ -60,8 +60,6 @@ public class AuthenticationController {
 	@PostMapping("/reset_psw")
 	public boolean pswVerify(@RequestBody UserDto bean, HttpServletRequest req){
 		try {			
-			System.out.println(bean.getPassword());
-			System.out.println(req.getServletContext().getAttribute("tempId"));
 			service.changePassword(bean.getPassword(),(long) req.getServletContext().getAttribute("tempId"));
 			req.getServletContext().removeAttribute("tempId");
 			return true;
@@ -80,7 +78,6 @@ public class AuthenticationController {
 	
 	@PostMapping("/forgot_psw")
 	public boolean forgotPassword(@RequestBody UserDto bean){
-		System.out.println(bean.getEmail()+"is here");
 			return service.generateTokenForResetPsw(bean.getEmail());
 	}
 	

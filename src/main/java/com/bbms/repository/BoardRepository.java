@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.bbms.dto.BoardDto;
+import com.bbms.dto.WorkspaceDto;
 
 @Transactional
 @Repository
@@ -29,4 +30,6 @@ public interface BoardRepository extends JpaRepository<BoardDto, Long>{
 	@Query(value="UPDATE board SET delete_status=1 WHERE id=? ",nativeQuery=true)
 	public void deleteBoardById(Long boardId);
 	
+	@Query (value = "SELECT board.*,user_has_board.user_id FROM board INNER JOIN user_has_board ON  board.id=user_has_board.board_id AND id = ?1 AND delete_status = 0 ", nativeQuery = true)
+	public BoardDto selectBoardIdByBoard(Long boardId);
 }

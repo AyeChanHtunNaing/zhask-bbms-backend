@@ -1,5 +1,7 @@
 package com.bbms.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -22,4 +24,5 @@ public interface UserRepository extends CrudRepository<UserDto,String>{
 	
 	@Query (value = "SELECT * FROM user WHERE email = ?1 AND delete_status = 0 ", nativeQuery = true)
 	public UserDto getByEmail(String email);
+	
 }

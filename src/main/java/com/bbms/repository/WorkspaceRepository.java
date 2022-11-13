@@ -25,5 +25,9 @@ public interface WorkspaceRepository extends JpaRepository<WorkspaceDto, Long>{
 	
 	@Query (value = "SELECT DISTINCT * FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND user_id = ?1 AND delete_status = 0 ", nativeQuery = true)
 	public List<WorkspaceDto> getWorkspaceById(Long id);
-
+    
+	@Query (value = "SELECT workspace.*,user_has_workspace.user_id FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND id = ?1 AND delete_status = 0 ", nativeQuery = true)
+	public WorkspaceDto selectWorkspaceIdByWorkspace(Long workspaceId);
+	
+	
 }
