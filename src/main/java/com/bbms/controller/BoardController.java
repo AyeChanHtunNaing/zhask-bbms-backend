@@ -84,10 +84,10 @@ public class BoardController {
 		return ResponseEntity.ok(true);
 	}
 
-	@GetMapping(value = "/board/{workspaceId}", produces = "application/json")
-	public ResponseEntity<List<BoardDto>> selectAllBoard(@PathVariable Long workspaceId) {
+	@GetMapping(value = "/board/{workspaceId}/{userId}", produces = "application/json")
+	public ResponseEntity<List<BoardDto>> selectAllBoard(@PathVariable Long workspaceId , @PathVariable Long userId) {
 
-		List<BoardDto> boardList = boardService.getBoardRelatedWorkspace(workspaceId);
+		List<BoardDto> boardList = boardService.getBoardRelatedWorkspace(workspaceId,userId);
 		return ResponseEntity.ok(boardList);
 	}
 	

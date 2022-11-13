@@ -70,8 +70,8 @@ public class BoardService {
 		boardRepository.deleteBoardById(boardId);
 	}
 
-	public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId) {
-		return boardRepository.getBoardDtoList(workspaceId);
+	public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId,Long userId) {
+		return boardRepository.getBoardDtoList(workspaceId,userId);
 	}
 	
 	 public BoardDto getBoardByBoardId(Long boardId) {
