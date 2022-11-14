@@ -58,24 +58,26 @@ public class BoardService {
 
 	}
 
-//	public List<TaskListDto> showAllTaskList(Long boardId) {
-//		return taskListRepository.findAllByIdAndDeleteStatus(boardId,false);
-//	}
-
 	public void updateBoard(BoardDto dto) {
-		boardRepository.updateBoardById(dto.getName() , dto.getId());
+		boardRepository.updateBoardById(dto.getName(), dto.getId());
 	}
 
 	public void deleteBoard(Long boardId) {
 		boardRepository.deleteBoardById(boardId);
 	}
 
-	public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId,Long userId) {
-		return boardRepository.getBoardDtoList(workspaceId,userId);
+	public List<BoardDto> getBoardRelatedWorkspace(Long workspaceId, Long userId) {
+
+		return boardRepository.getBoardDtoList(workspaceId, userId);
 	}
-	
-	 public BoardDto getBoardByBoardId(Long boardId) {
-			
-			return boardRepository.selectBoardIdByBoard(boardId);
-		}
+
+	public BoardDto getBoardByBoardId(Long boardId) {
+
+		return boardRepository.selectBoardIdByBoard(boardId);
+	}
+
+	public BoardDto isExistBoard(Long boardId, Long userId) {
+
+		return boardRepository.checkBoardByUser(boardId, userId);
+	}
 }

@@ -12,6 +12,7 @@ public class Board {
 	private Long id;
 	private String name;
 	private String description;
+	private String createdBy;
 	private Workspace workSpace;
 	private ArrayList<User> users;
 	

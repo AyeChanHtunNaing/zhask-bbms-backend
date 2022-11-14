@@ -12,6 +12,7 @@ public class Workspace {
 	private Long id;
 	private String name;
 	private String description;
+	private String createdBy;
 	private List<User> users;
 	
 }

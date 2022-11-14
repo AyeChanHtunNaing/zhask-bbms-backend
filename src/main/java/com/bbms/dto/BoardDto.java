@@ -55,7 +55,9 @@ public class BoardDto implements Serializable {
 	private LocalDate createAt;
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
-
+	@Column(name="created_by")
+	private String createdBy;
+	
 //	@ManyToOne
 //	private UserDto user;
 	

@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/")
-@Slf4j
 public class WorkspaceController {
 
 	@Autowired
@@ -33,17 +32,18 @@ public class WorkspaceController {
 	@PostMapping(value = "/workspace", produces = "application/json")
 	public ResponseEntity<?> createWorkspacec(@RequestBody Workspace workspace) {
 
-		WorkspaceDto workspacedto = new WorkspaceDto();
-		workspacedto.setName(workspace.getName());
-		workspacedto.setDescription(workspace.getDescription());
+		WorkspaceDto workspaceDto = new WorkspaceDto();
+		workspaceDto.setName(workspace.getName());
+		workspaceDto.setDescription(workspace.getDescription());
+		workspaceDto.setCreatedBy(workspace.getCreatedBy());
 		List<UserDto> dtoList = new ArrayList<UserDto>();
 		UserDto usrDto = new UserDto();
 		User user=workspace.getUsers().get(0);
 		usrDto.setId(user.getId());
 		dtoList.add(usrDto);
-		workspacedto.setUsers(dtoList);
-		workspaceService.insert(workspacedto);
-		System.out.println(workspacedto.getId());
+		workspaceDto.setUsers(dtoList);
+		workspaceService.insert(workspaceDto);
+//		System.out.println(workspaceDto.getId());
 		return ResponseEntity.ok(new MessageResponse("Insert Successfully!"));
 	}
 

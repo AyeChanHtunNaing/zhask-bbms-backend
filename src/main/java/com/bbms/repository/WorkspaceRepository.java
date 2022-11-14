@@ -23,11 +23,12 @@ public interface WorkspaceRepository extends JpaRepository<WorkspaceDto, Long>{
 	@Query(value="UPDATE workspace SET delete_status=1 WHERE id=?",nativeQuery=true)
 	public void deleteWorkspaceById(Long taskId);
 	
-	@Query (value = "SELECT DISTINCT * FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND user_id = ?1 AND delete_status = 0 ", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT * FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND user_id = ?1 AND delete_status = 0 ", nativeQuery = true)
 	public List<WorkspaceDto> getWorkspaceById(Long id);
     
-	@Query (value = "SELECT workspace.*,user_has_workspace.user_id FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND id = ?1 AND delete_status = 0 ", nativeQuery = true)
+	@Query(value = "SELECT workspace.*,user_has_workspace.user_id FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND id = ?1 AND delete_status = 0 ", nativeQuery = true)
 	public WorkspaceDto selectWorkspaceIdByWorkspace(Long workspaceId);
 	
-	
+	@Query(value="SELECT * FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND workspace_id=?1 AND user_id = ?2 ", nativeQuery = true)
+	public WorkspaceDto checkWorkspaceHasUser(Long workspaceId , Long userId);
 }

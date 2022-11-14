@@ -25,24 +25,26 @@ public class WorkspaceService {
 	}
 
 	public List<WorkspaceDto> getAllWorkspace(Long id) {
-		
+
 		return workspaceRepository.getWorkspaceById(id);
 	}
-	
+
 	public void updateWorkspace(WorkspaceDto dto) {
-		
+
 		workspaceRepository.updateWorkspace(dto.getName(), dto.getId());
 	}
-	
 
 	public void deleteWorkspace(Long workspaceId) {
-		
+
 		workspaceRepository.deleteWorkspaceById(workspaceId);
 	}
-	
-        
- public WorkspaceDto getWorkspaceIdByWorkspace(Long workspaceId) {
-		
+
+	public WorkspaceDto getWorkspaceIdByWorkspace(Long workspaceId) {
+
 		return workspaceRepository.selectWorkspaceIdByWorkspace(workspaceId);
+	}
+
+	public WorkspaceDto isExistWorkspace(Long workspaceId , Long userId) {
+		return workspaceRepository.checkWorkspaceHasUser(workspaceId, userId);
 	}
 }

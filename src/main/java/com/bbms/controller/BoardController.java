@@ -36,8 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/")
-@Controller
-@Slf4j
 public class BoardController {
 
 	@Autowired
@@ -53,6 +51,7 @@ public class BoardController {
 		boardDto.setName(board.getName());
 		boardDto.setDescription(board.getDescription());
 		boardDto.setCreateAt(LocalDate.now());
+		boardDto.setCreatedBy(board.getCreatedBy());
 		WorkspaceDto workDto = new WorkspaceDto();
 		workDto.setId(board.getWorkSpace().getId());
 		boardDto.setWorkspace(workDto);

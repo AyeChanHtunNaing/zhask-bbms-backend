@@ -29,20 +29,17 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/")
-@Controller
 public class TaskController {
 
 	@Autowired
 	private TaskService taskService;
-
-	@Autowired
-	private TaskListService taskListService;
 
 	@RequestMapping(value = "/task", produces = "application/json")
 	public ResponseEntity<TaskDto> createTask(@RequestBody Task task) {
 
 		TaskDto taskDto = new TaskDto();
 		taskDto.setDescription(task.getDescription());
+		taskDto.setCreatedBy(task.getCreatedBy());
 		taskDto.setCreateAt(LocalDate.now());
 		taskDto.setUpdateAt(LocalDate.now());
 		BoardDto boardDto = new BoardDto();

@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/")
-@Controller
 @Slf4j
 public class ActivityController {
 	

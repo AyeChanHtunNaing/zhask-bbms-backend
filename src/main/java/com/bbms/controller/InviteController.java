@@ -30,75 +30,102 @@ import com.bbms.service.WorkspaceService;
 @RestController
 @RequestMapping("/api/v1/")
 public class InviteController {
+	
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	WorkspaceService workspaceService;
-	
+
 	@Autowired
 	BoardService boardService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping(value = "/invite", produces = "application/json")
-	public ResponseEntity<?> inviteMember(@RequestBody InviteMember invite) throws MessagingException  {
-		if(invite.getEmail()!=null)
-		{ 
+	public ResponseEntity<?> inviteMember(@RequestBody InviteMember invite) throws MessagingException {
+		if (invite.getEmail() != null) {
 			String URL = null;
-			if(invite.getUrl().equals("workspace"))
-				URL="http://localhost:8080/api/v1/workspacejoin/"+invite.getWorkspaceId()+"/"+invite.getId();
-			else if(invite.getUrl().equals("board"))
-			    URL="http://localhost:8080/api/v1/boardjoin/"+invite.getWorkspaceId()+"/"+invite.getId();
-			boolean result=this.emailService.sendMail( invite,URL);
-			
-			if(result) {
+			if (invite.getUrl().equals("workspace"))
+				URL = "http://localhost:8080/api/v1/workspacejoin/" + invite.getWorkspaceId() + "/" + invite.getId();
+			else if (invite.getUrl().equals("board"))
+				URL = "http://localhost:8080/api/v1/boardjoin/" + invite.getWorkspaceId() + "/" + invite.getId();
+			boolean result = this.emailService.sendMail(invite, URL);
+
+			if (result) {
 				return ResponseEntity.ok(new MessageResponse("Email is Sent Successfully!"));
-			}
-			else {
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Email not Sent!"));
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+						.body(new MessageResponse("Email not Sent!"));
 			}
 		}
 		return ResponseEntity.ok(new MessageResponse("Insert Successfully!"));
 	}
-	
-	@GetMapping("/workspacejoin/{id}/{userId}/{email}")
-	public void joinWorkspace(@PathVariable long id,@PathVariable long userId,@PathVariable String email, HttpServletResponse res) throws IOException{
-		UserDto user=userRepository.findByEmail(email);
-		if(user==null)
-		{
+
+	@GetMapping("/workspacejoin/{workspaceId}/{userId}/{email}")
+	public void joinWorkspace(@PathVariable Long workspaceId, @PathVariable Long userId, @PathVariable String email,
+			HttpServletResponse res) throws IOException {
+		UserDto user = userRepository.findByEmail(email);
+		if (user == null) {
 			res.sendRedirect("http://localhost:4200/login");
+		} 
+		else {
+			WorkspaceDto dto = workspaceService.isExistWorkspace(workspaceId, user.getId());
+			if(dto==null) {
+				List<BoardDto> boardList=boardService.getBoardRelatedWorkspace(workspaceId , userId);
+				for(int i =0;i<boardList.size();i++) {
+					addBoard(boardList.get(i).getId(), user);
+				}
+				addWorkspace(workspaceId, user);
+				res.sendRedirect("http://localhost:4200/workspace/" + workspaceId);
+			}
+			else {
+				
+			}
+			
 		}
-		else
-		{
-			WorkspaceDto workspaceDto=workspaceService.getWorkspaceIdByWorkspace(id);
-			UserDto userDto=new UserDto();
-			userDto.setId(user.getId());
-			workspaceDto.getUsers().add(userDto);
-			workspaceService.insert(workspaceDto);
-			res.sendRedirect("http://localhost:4200/workspace/"+id);
-		}	
 	}
-	
-	@GetMapping("/boardjoin/{id}/{userId}/{email}")
-	public void joinBoard(@PathVariable long id,@PathVariable long userId,@PathVariable String email, HttpServletResponse res) throws IOException{
-		UserDto user=userRepository.findByEmail(email);
-		if(user==null)
-		{
+
+	private void addWorkspace(Long id, UserDto user) {
+		WorkspaceDto workspaceDto = workspaceService.getWorkspaceIdByWorkspace(id);
+		UserDto userDto = new UserDto();
+		userDto.setId(user.getId());
+		workspaceDto.getUsers().add(userDto);
+		workspaceService.insert(workspaceDto);
+	}
+
+	@GetMapping("/boardjoin/{boardId}/{userId}/{email}")
+	public void joinBoard(@PathVariable Long boardId, @PathVariable Long userId, @PathVariable String email,
+			HttpServletResponse res) throws IOException {
+		UserDto user = userRepository.findByEmail(email);
+		if (user == null) {
 			res.sendRedirect("http://localhost:4200/login");
+		} else {
+			BoardDto dto = boardService.isExistBoard(boardId, user.getId());
+			if(dto==null) {
+				addBoard(boardId, user);
+				BoardDto board=boardService.getBoardByBoardId(boardId);
+				addWorkspace(board.getWorkspace().getId(), user);
+				res.sendRedirect("http://localhost:4200/board/" + boardId);
+			}
+			else {
+				
+			}
+			
 		}
-		else
-		{
-			BoardDto boardDto=boardService.getBoardByBoardId(id);
-			UserDto userDto=new UserDto();
-			userDto.setId(user.getId());
-			boardDto.getUsers().add(userDto);
-			boardService.insert(boardDto);
-			res.sendRedirect("http://localhost:4200/board/"+id);
-		}	
 	}
+
+	private void addBoard(long id, UserDto user) {
+
+		BoardDto boardDto = boardService.getBoardByBoardId(id);
+		UserDto userDto = new UserDto();
+		userDto.setId(user.getId());
+		boardDto.getUsers().add(userDto);
+		boardService.insert(boardDto);
+	}
+
 }

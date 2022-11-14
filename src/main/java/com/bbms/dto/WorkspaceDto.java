@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,11 +49,14 @@ public class WorkspaceDto implements Serializable {
 	private boolean deleteStatus;
 	@Column(name="is_checked", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean isChecked;
+	@Column(name="created_by")
+	private String createdBy;
 	@ManyToMany
 	@JoinTable(
 			name="user_has_workspace",
 			joinColumns = @JoinColumn(name="workspace_id"),
-			inverseJoinColumns = @JoinColumn(name="user_id")
+			inverseJoinColumns = @JoinColumn(name="user_id"),
+			uniqueConstraints = { @UniqueConstraint(columnNames = { "workspace_id", "user_id" }) }
 			)
 	private List <UserDto> users;
 	//@JsonManagedReference

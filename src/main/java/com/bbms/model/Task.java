@@ -16,6 +16,7 @@ public class Task {
 	private Long id;
 	private String description;
 	private TaskList taskList;
+	private String createdBy;
 	private Board board;
 	private List <User> users;
 	

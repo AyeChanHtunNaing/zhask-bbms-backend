@@ -52,6 +52,8 @@ public class TaskDto implements Serializable{
 	private LocalDate updateAt;
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
+	@Column(name="created_by")
+	private String createdBy;
 	
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
 	private List <CommentDto> comments;

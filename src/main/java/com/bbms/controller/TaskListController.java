@@ -1,11 +1,8 @@
 package com.bbms.controller;
 
-import java.time.LocalDate;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,22 +12,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskListDto;
-import com.bbms.dto.WorkspaceDto;
-import com.bbms.model.Board;
 import com.bbms.model.TaskList;
-import com.bbms.service.BoardService;
 import com.bbms.service.TaskListService;
-
-import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/")
-@Controller
-@Slf4j
 public class TaskListController {
 
 	@Autowired

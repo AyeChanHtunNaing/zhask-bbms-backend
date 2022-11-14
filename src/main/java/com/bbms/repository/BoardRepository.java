@@ -19,7 +19,7 @@ public interface BoardRepository extends JpaRepository<BoardDto, Long>{
 	@Query(value="SELECT `id` FROM `board` WHERE delete_status=0 ORDER BY `id`  DESC limit 1 ",nativeQuery=true)
 	public Long takeLastId();
 	
-	@Query(value="SELECT DISTINCT * FROM board INNER JOIN user_has_board ON workspace_id=?1 and board.id=user_has_board.board_id and delete_status=0 and user_id=?2 ",nativeQuery = true)
+	@Query(value="SELECT DISTINCT * FROM board INNER JOIN user_has_board ON workspace_id=?1 AND board.id=user_has_board.board_id AND delete_status=0 AND user_id=?2 ",nativeQuery = true)
 	public List<BoardDto> getBoardDtoList(Long workspaceId,Long userId);
 	
 	@Modifying
@@ -30,6 +30,9 @@ public interface BoardRepository extends JpaRepository<BoardDto, Long>{
 	@Query(value="UPDATE board SET delete_status=1 WHERE id=? ",nativeQuery=true)
 	public void deleteBoardById(Long boardId);
 	
-	@Query (value = "SELECT board.*,user_has_board.user_id FROM board INNER JOIN user_has_board ON  board.id=user_has_board.board_id AND id = ?1 AND delete_status = 0 ", nativeQuery = true)
+	@Query(value = "SELECT board.*,user_has_board.user_id FROM board INNER JOIN user_has_board ON  board.id=user_has_board.board_id AND id = ?1 AND delete_status = 0 ", nativeQuery = true)
 	public BoardDto selectBoardIdByBoard(Long boardId);
+	
+	@Query(value="SELECT * FROM board INNER JOIN user_has_board ON board.id=user_has_board.board_id AND board_id=?1 AND user_id=?2 ",nativeQuery = true)
+	public BoardDto checkBoardByUser(Long boardId , Long userId);
 }
