@@ -33,6 +33,7 @@ public class WorkspaceService {
 		
 		workspaceRepository.updateWorkspace(dto.getName(), dto.getId());
 	}
+	
 
 	public void deleteWorkspace(Long workspaceId) {
 		

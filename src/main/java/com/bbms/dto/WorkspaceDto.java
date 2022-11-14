@@ -46,7 +46,8 @@ public class WorkspaceDto implements Serializable {
 	private String description;
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
-	
+	@Column(name="is_checked", columnDefinition = "TINYINT  default 0", length = 1)
+	private boolean isChecked;
 	@ManyToMany
 	@JoinTable(
 			name="user_has_workspace",
