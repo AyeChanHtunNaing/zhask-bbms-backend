@@ -47,9 +47,9 @@ public class WorkspaceController {
 		return ResponseEntity.ok(new MessageResponse("Insert Successfully!"));
 	}
 
-	@GetMapping(value = "/workspace/{workspaceId}", produces = "application/json")
-	public ResponseEntity<List<WorkspaceDto>> selectAllWorkspacec(@PathVariable Long workspaceId ) {
-		List<WorkspaceDto> workspaces = workspaceService.getAllWorkspace(workspaceId);
+	@GetMapping(value = "/workspace/{userId}", produces = "application/json")
+	public ResponseEntity<List<WorkspaceDto>> selectAllWorkspacec(@PathVariable Long userId ) {
+		List<WorkspaceDto> workspaces = workspaceService.getAllWorkspace(userId);
 		return ResponseEntity.ok(workspaces);
 	}
 	

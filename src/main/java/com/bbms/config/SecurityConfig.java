@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/reset_psw/**").permitAll()
 		.antMatchers("/api/v1/workspacejoin/**").permitAll()
 		.antMatchers("/api/v1/boardjoin/**").permitAll()
+		.antMatchers("/api/v1/favorite/**").permitAll()
 	//	.anyRequest().permitAll()
     	.anyRequest().authenticated()
 		.and().httpBasic();

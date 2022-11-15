@@ -24,11 +24,16 @@ public class WorkspaceService {
 
 	}
 
-	public List<WorkspaceDto> getAllWorkspace(Long id) {
+	public List<WorkspaceDto> getAllWorkspace(Long userId) {
 
-		return workspaceRepository.getWorkspaceById(id);
+		return workspaceRepository.getWorkspaceById(userId);
 	}
 
+	public List<WorkspaceDto> getFavWorkspace(Long userId) {
+		System.out.println("youk p");
+
+		return workspaceRepository.getFavWorkspaceById(userId);
+	}
 	public void updateWorkspace(WorkspaceDto dto) {
 
 		workspaceRepository.updateWorkspace(dto.getName(), dto.getId());
@@ -46,5 +51,10 @@ public class WorkspaceService {
 
 	public WorkspaceDto isExistWorkspace(Long workspaceId , Long userId) {
 		return workspaceRepository.checkWorkspaceHasUser(workspaceId, userId);
+	}
+	
+	public void setFavWorkspace(WorkspaceDto dto) {
+		workspaceRepository.setFavWorkspace(dto.isMarked(), dto.getId());
+	
 	}
 }

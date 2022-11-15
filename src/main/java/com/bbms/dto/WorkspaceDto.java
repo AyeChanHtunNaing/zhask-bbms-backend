@@ -47,8 +47,8 @@ public class WorkspaceDto implements Serializable {
 	private String description;
 	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
-	@Column(name="is_checked", columnDefinition = "TINYINT  default 0", length = 1)
-	private boolean isChecked;
+	@Column(name="is_marked", columnDefinition = "TINYINT  default 0", length = 1)
+	private boolean isMarked;
 	@Column(name="created_by")
 	private String createdBy;
 	@ManyToMany

@@ -13,6 +13,7 @@ public class Workspace {
 	private String name;
 	private String description;
 	private String createdBy;
+	private boolean isMarked;
 	private List<User> users;
 	
 }
