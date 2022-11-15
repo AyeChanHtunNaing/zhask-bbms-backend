@@ -14,8 +14,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.bbms.model.InviteMember;
-
+import com.bbms.model.InviteMember; 
 @Service
 public class EmailService {
 
@@ -45,7 +44,7 @@ public class EmailService {
         	String []emails=email.split(",");
         	for(int i=0;i<emails.length;i++)
         	{
-        	 String content = "Dear Friend,<br>Please click the link below to join my "+invitemember.getUrl()+":<br><h3><a href=\"[[URL]]\" target=\"_self\">JOIN</a></h3>Thank you,<br>";
+        	 String content = "Dear Friend,<br>Please click the link below to join my "+invitemember.getUrl()+":<br><h3><a href=\"[[URL]]\" target=\"_self\">JOIN   "+ invitemember.getUrl().substring(0, 1).toUpperCase() +invitemember.getUrl() .substring(1)+"</a></h3>Thank you,<br>";
         	 content = content.replace("[[URL]]",URL+"/"+emails[i]);
         	helper.setSubject("Dear Friend,Please Join My "+invitemember.getUrl());
     		helper.setFrom(from,invitemember.getName());

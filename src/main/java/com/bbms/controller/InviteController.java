@@ -81,10 +81,10 @@ public class InviteController {
 					addBoard(boardList.get(i).getId(), user);
 				}
 				addWorkspace(workspaceId, user);
-				res.sendRedirect("http://localhost:4200/workspace/" + workspaceId);
+				res.sendRedirect("http://localhost:4200/home");
 			}
 			else {
-				
+				res.sendRedirect("http://localhost:4200/home");
 			}
 			
 		}
@@ -110,10 +110,11 @@ public class InviteController {
 				addBoard(boardId, user);
 				BoardDto board=boardService.getBoardByBoardId(boardId);
 				addWorkspace(board.getWorkspace().getId(), user);
-				res.sendRedirect("http://localhost:4200/board/" + boardId);
+				res.sendRedirect("http://localhost:4200/workspace/" + board.getWorkspace().getId());
 			}
 			else {
-				
+				BoardDto board=boardService.getBoardByBoardId(boardId);
+				res.sendRedirect("http://localhost:4200/workspace/" + board.getWorkspace().getId());
 			}
 			
 		}
