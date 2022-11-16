@@ -1,6 +1,8 @@
 package com.bbms.service;
 
+import java.time.LocalDate;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,8 +31,9 @@ public class UserService {
 		String name = user.getName();
 		String uname = user.getName();
 		String pass = encdr.encode(user.getPassword());
+		LocalDate createAt = user.getCreateAt();
 		String token = RandomString.make(64);
-		UserDto usr = UserDto.builder().email(email).name(name).userName(uname).password(pass).token(token).status(false).build();
+		UserDto usr = UserDto.builder().email(email).name(name).userName(uname).password(pass).token(token).status(false).createAt(createAt).build();
 		try {
 			usr = repo.save(usr);	
 		}catch(DataIntegrityViolationException e){
@@ -116,4 +119,13 @@ public class UserService {
 		}
 	}
 	//methods to send mail.
+	
+	public UserDto showUserNameByUserId(Long userId) {
+		return repo.getById(userId);
+	}
+	
+	public void updateProfile(UserDto user)
+	{
+		repo.updateUser(user.getName(), user.getUserName(), user.getEmail() , user.getCreateAt(), user.getProfile(), user.getPictureName(), user.getId());
+	}
 }

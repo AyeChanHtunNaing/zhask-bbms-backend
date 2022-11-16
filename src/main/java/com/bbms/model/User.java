@@ -1,6 +1,7 @@
 package com.bbms.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,11 @@ public class User {
 	private String email;
 	private String password;
 	private String token;
-	private Date createAt;
-	private Date updateAt;
+	private LocalDate createAt;
+	private LocalDate updateAt;
 	private boolean status;
 	private boolean deleteStatus;
+	private String profile;
+	private String pictureName;
 	
 }
