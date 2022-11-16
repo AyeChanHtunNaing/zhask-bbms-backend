@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bbms.dto.UserDto;
+import com.bbms.model.MessageResponse;
 import com.bbms.model.User;
 import com.bbms.service.UserService;
 
@@ -103,6 +105,22 @@ public class AuthenticationController {
 	@GetMapping(value="/showUserNameByUserId/{userId}",produces="application/json")
 	public UserDto generateUserNameByUserId(@PathVariable Long userId) {
 		return service.showUserNameByUserId(userId);
+	}
+	
+//	@GetMapping("/logout")
+//	public void logout(){
+////		response.reset();
+//		SecurityContextHolder.clearContext();
+//		System.out.println("++true++");
+////		return ResponseEntity.ok(new MessageResponse("Successfully Logout!"));	
+//	}
+	
+	@GetMapping("/temp_logout")
+	public ResponseEntity<?> clear(HttpServletResponse response) {
+		response.reset();
+		SecurityContextHolder.clearContext();
+		System.out.println("++true++");
+		return ResponseEntity.ok(new MessageResponse("Successfully Logout!"));	
 	}
 	
 }
