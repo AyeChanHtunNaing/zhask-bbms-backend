@@ -94,4 +94,8 @@ public class BoardService {
 		
 		return boardRepository.showBoardListByUserId(userId);
 	}
+	
+	public BoardDto generateBoardMemberByBoardId(Long boardId) {
+		return boardRepository.generateBoardMemberByBoardId(boardId);
+	}
 }

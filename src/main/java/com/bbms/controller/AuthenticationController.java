@@ -2,7 +2,6 @@ package com.bbms.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bbms.dto.UserDto;
+import com.bbms.model.User;
 import com.bbms.service.UserService;
 
 
@@ -68,17 +69,40 @@ public class AuthenticationController {
 		}
 	}
 	
-	@PostMapping("/signup")
-	public UserDto signup(@RequestBody UserDto bean){
-		bean.setCreateAt(Date.valueOf(LocalDate.now()));
-		bean.setUpdateAt(Date.valueOf(LocalDate.now()));
-		UserDto usr = service.register(bean);
+	@PostMapping(value="/signup",produces="application/json")
+	public UserDto signup(@RequestBody User bean){
+		UserDto userDto=new UserDto();
+		userDto.setName(bean.getName());
+		userDto.setUserName(bean.getUserName());
+		userDto.setEmail(bean.getEmail());
+		userDto.setCreateAt(LocalDate.now());
+		userDto.setUpdateAt(LocalDate.now());
+		userDto.setPassword(bean.getPassword());
+		UserDto usr = service.register(userDto);
 		return usr;
+	}
+	
+	@PutMapping("/updateprofile")
+	public ResponseEntity<Boolean> updateProfile(@RequestBody User bean){
+		UserDto userDto=new UserDto();
+		userDto.setId(bean.getId());
+		userDto.setName(bean.getName());
+		userDto.setUserName(bean.getUserName());
+		userDto.setEmail(bean.getEmail());
+		userDto.setCreateAt(bean.getCreateAt());
+		userDto.setProfile(bean.getProfile().getBytes());
+		service.updateProfile(userDto);
+		 return ResponseEntity.ok(true);
 	}
 	
 	@PostMapping("/forgot_psw")
 	public boolean forgotPassword(@RequestBody UserDto bean){
 			return service.generateTokenForResetPsw(bean.getEmail());
+	}
+	
+	@GetMapping(value="/showUserNameByUserId/{userId}",produces="application/json")
+	public UserDto generateUserNameByUserId(@PathVariable Long userId) {
+		return service.showUserNameByUserId(userId);
 	}
 	
 }

@@ -40,7 +40,7 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
-	
+
 	@Autowired
 	private TaskService taskService;
 
@@ -55,9 +55,9 @@ public class BoardController {
 		WorkspaceDto workDto = new WorkspaceDto();
 		workDto.setId(board.getWorkSpace().getId());
 		boardDto.setWorkspace(workDto);
-		List<UserDto> userList=new ArrayList<>();
-		UserDto userDto=new UserDto();
-		User user=board.getUsers().get(0);
+		List<UserDto> userList = new ArrayList<>();
+		UserDto userDto = new UserDto();
+		User user = board.getUsers().get(0);
 		userDto.setId(user.getId());
 		userList.add(userDto);
 		boardDto.setUsers(userList);
@@ -68,7 +68,7 @@ public class BoardController {
 	}
 
 	@PutMapping(value = "/board/{boardId}", produces = "application/json")
-	public ResponseEntity<Boolean> updateBoard(@PathVariable Long boardId ,@RequestBody Board board) {
+	public ResponseEntity<Boolean> updateBoard(@PathVariable Long boardId, @RequestBody Board board) {
 
 		BoardDto boardDto = new BoardDto();
 		boardDto.setId(boardId);
@@ -84,24 +84,31 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/board/{workspaceId}/{userId}", produces = "application/json")
-	public ResponseEntity<List<BoardDto>> selectAllBoard(@PathVariable Long workspaceId , @PathVariable Long userId) {
+	public ResponseEntity<List<BoardDto>> selectAllBoard(@PathVariable Long workspaceId, @PathVariable Long userId) {
 
-		List<BoardDto> boardList = boardService.getBoardRelatedWorkspace(workspaceId,userId);
+		List<BoardDto> boardList = boardService.getBoardRelatedWorkspace(workspaceId, userId);
 		return ResponseEntity.ok(boardList);
 	}
-	
-	@GetMapping(value="/board/showalltaskbyboard/{boardId}",produces="application/json")
-	public ResponseEntity<List<TaskDto>> showAllTaskByBoardId(@PathVariable Long boardId){
-		
+
+	@GetMapping(value = "/board/showalltaskbyboard/{boardId}", produces = "application/json")
+	public ResponseEntity<List<TaskDto>> showAllTaskByBoardId(@PathVariable Long boardId) {
+
 		List<TaskDto> taskDto = taskService.showAllTaskByBoardId(boardId);
 		return ResponseEntity.ok(taskDto);
 	}
-	
-	@GetMapping(value="/board/showAllBoardByUserId/{userId}",produces="application/json")
-	public ResponseEntity<List<BoardDto>> generateReportBoardByUserId(@PathVariable Long userId){
-		
+
+	@GetMapping(value = "/board/showAllBoardByUserId/{userId}", produces = "application/json")
+	public ResponseEntity<List<BoardDto>> generateReportBoardByUserId(@PathVariable Long userId) {
+
 		List<BoardDto> boardDto = boardService.generateBoardListByUserId(userId);
 		return ResponseEntity.ok(boardDto);
 	}
-	
+
+	@GetMapping(value = "/board/generateBoardMemberByBoardId/{boardId}", produces = "application/json")
+	public ResponseEntity<BoardDto> showBoardMemberByBoardId(@PathVariable Long boardId) {
+
+		BoardDto dto = boardService.generateBoardMemberByBoardId(boardId);
+		return ResponseEntity.ok(dto);
+	}
+
 }

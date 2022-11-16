@@ -1,10 +1,6 @@
 package com.bbms.dto;
 
 import java.io.Serializable;
-
-
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,14 +45,19 @@ public class UserDto implements Serializable{
 	private String password;
 	@Column(name="token")
 	private String token;
-	@Column(name="create_at")
-	private Date createAt;
-	@Column(name="update_at")
-	private Date updateAt;
+	@Column(name="createAt")
+	private LocalDate createAt;
+	@Column(name="updateAt")
+	private LocalDate updateAt;
 	@Column(name="status")
 	private boolean status;
 	@Column(name="delete_status" , columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean deleteStatus;
+	@Column(name="profile")
+	@Lob
+	private byte[] profile;
+	@Column(name="pictureName")
+	private String pictureName;
 	
 //	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    private List<BoardDto> boards = new ArrayList<>();
