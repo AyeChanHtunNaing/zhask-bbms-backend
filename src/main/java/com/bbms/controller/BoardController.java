@@ -97,4 +97,11 @@ public class BoardController {
 		return ResponseEntity.ok(taskDto);
 	}
 	
+	@GetMapping(value="/board/showAllBoardByUserId/{userId}",produces="application/json")
+	public ResponseEntity<List<BoardDto>> generateReportBoardByUserId(@PathVariable Long userId){
+		
+		List<BoardDto> boardDto = boardService.generateBoardListByUserId(userId);
+		return ResponseEntity.ok(boardDto);
+	}
+	
 }

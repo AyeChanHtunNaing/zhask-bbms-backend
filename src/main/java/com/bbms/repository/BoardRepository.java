@@ -35,4 +35,8 @@ public interface BoardRepository extends JpaRepository<BoardDto, Long>{
 	
 	@Query(value="SELECT * FROM board INNER JOIN user_has_board ON board.id=user_has_board.board_id AND board_id=?1 AND user_id=?2 ",nativeQuery = true)
 	public BoardDto checkBoardByUser(Long boardId , Long userId);
+	
+	@Query(value="SELECT DISTINCT * FROM board INNER JOIN user_has_board ON  board.id=user_has_board.board_id  AND user_id=?1  AND delete_status=0 ",nativeQuery = true)
+	public List<BoardDto>showBoardListByUserId(Long userId);
+	
 }

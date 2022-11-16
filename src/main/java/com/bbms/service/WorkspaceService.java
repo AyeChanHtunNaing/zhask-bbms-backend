@@ -26,7 +26,7 @@ public class WorkspaceService {
 
 	public List<WorkspaceDto> getAllWorkspace(Long userId) {
 
-		return workspaceRepository.getWorkspaceById(userId);
+		return workspaceRepository.getWorkspaceByUserId(userId);
 	}
 
 	public List<WorkspaceDto> getFavWorkspace(Long userId) {
@@ -34,6 +34,7 @@ public class WorkspaceService {
 
 		return workspaceRepository.getFavWorkspaceById(userId);
 	}
+	
 	public void updateWorkspace(WorkspaceDto dto) {
 
 		workspaceRepository.updateWorkspace(dto.getName(), dto.getId());

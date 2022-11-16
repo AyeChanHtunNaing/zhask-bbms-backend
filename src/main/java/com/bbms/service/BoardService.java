@@ -80,4 +80,9 @@ public class BoardService {
 
 		return boardRepository.checkBoardByUser(boardId, userId);
 	}
+	
+	public List<BoardDto> generateBoardListByUserId(Long userId){
+		
+		return boardRepository.showBoardListByUserId(userId);
+	}
 }

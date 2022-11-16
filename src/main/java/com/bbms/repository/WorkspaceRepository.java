@@ -24,7 +24,7 @@ public interface WorkspaceRepository extends JpaRepository<WorkspaceDto, Long>{
 	public void deleteWorkspaceById(Long taskId);
 	
 	@Query(value = "SELECT DISTINCT * FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND user_id = ?1 AND delete_status = 0 ", nativeQuery = true)
-	public List<WorkspaceDto> getWorkspaceById(Long userId);
+	public List<WorkspaceDto> getWorkspaceByUserId(Long userId);
     
 	@Query(value = "SELECT workspace.*,user_has_workspace.user_id FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND id = ?1 AND delete_status = 0 ", nativeQuery = true)
 	public WorkspaceDto selectWorkspaceIdByWorkspace(Long workspaceId);
@@ -38,5 +38,6 @@ public interface WorkspaceRepository extends JpaRepository<WorkspaceDto, Long>{
 	@Modifying
 	@Query(value="UPDATE workspace SET is_marked= ?1 WHERE id= ?2 ",nativeQuery=true)	
 	public void setFavWorkspace(Boolean checked, Long workspaceId);
+	
 	
 }
