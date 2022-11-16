@@ -30,7 +30,7 @@ public class TokenGenerator extends OncePerRequestFilter{
 			String jwt = Jwts.builder().setIssuer("ZHASK").setSubject("jwt")
 						.claim("user",auth.getName())
 						.setIssuedAt(new Date())
-						.setExpiration(new Date((new Date()).getTime()+3000000))
+						.setExpiration(new Date((new Date()).getTime()+(48*3600000)))
 						.signWith(key).compact();
 			System.out.println("toekn generated.");
 					response.setHeader(SecurityContants.JWT_HEADER,jwt);
