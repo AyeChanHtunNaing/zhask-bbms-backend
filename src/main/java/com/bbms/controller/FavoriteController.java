@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bbms.dto.BoardDto;
 import com.bbms.dto.WorkspaceDto;
+import com.bbms.model.Board;
 import com.bbms.model.Workspace;
+import com.bbms.service.BoardService;
 import com.bbms.service.WorkspaceService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,13 +26,16 @@ public class FavoriteController {
 	@Autowired
 	private WorkspaceService workspaceService;
 
+	@Autowired
+	private BoardService boardService;
+	
 	@GetMapping(value = "/favorite/workspace/{userId}", produces = "application/json")
 	public ResponseEntity<List<WorkspaceDto>> selectFavoriteWorkspacec(@PathVariable Long userId) {
 		List<WorkspaceDto> workspaces = workspaceService.getFavWorkspace(userId);
 		return ResponseEntity.ok(workspaces);
 	}
 	@PutMapping(value = "/favorite/workspace/{workspaceId}", produces = "application/json")
-	public ResponseEntity<Boolean> updateWorkspacec(@PathVariable Long workspaceId , @RequestBody Workspace workspace) {
+	public ResponseEntity<Boolean> setFavWorkspacec(@PathVariable Long workspaceId , @RequestBody Workspace workspace) {
 
 		WorkspaceDto workspaceDto = new WorkspaceDto();
 		workspaceDto.setId(workspaceId);
@@ -39,4 +45,23 @@ public class FavoriteController {
 	    workspaceService.setFavWorkspace(workspaceDto);
 		return ResponseEntity.ok(true);
 	}
+	@GetMapping(value = "/favorite/board/{userId}", produces = "application/json")
+	public ResponseEntity<List<BoardDto>> selectFavoriteBoard(@PathVariable Long userId) {
+
+		List<BoardDto> boardList = boardService.getFavBoardRelatedWorkspace(userId);
+		return ResponseEntity.ok(boardList);
+	}
+
+
+	@PutMapping(value = "/favorite/board/{boardId}", produces = "application/json")
+	public ResponseEntity<Boolean> setFavBoard(@PathVariable Long boardId ,@RequestBody Board board) {
+
+		BoardDto boardDto = new BoardDto();
+		boardDto.setId(boardId);
+		boardDto.setName(board.getName());
+		boardDto.setMarked(true);
+		boardService.setFavBoard(boardDto);
+		return ResponseEntity.ok(true);
+	}
+
 }

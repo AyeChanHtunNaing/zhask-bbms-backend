@@ -22,9 +22,17 @@ public interface BoardRepository extends JpaRepository<BoardDto, Long>{
 	@Query(value="SELECT DISTINCT * FROM board INNER JOIN user_has_board ON workspace_id=?1 AND board.id=user_has_board.board_id AND delete_status=0 AND user_id=?2 ",nativeQuery = true)
 	public List<BoardDto> getBoardDtoList(Long workspaceId,Long userId);
 	
+	@Query(value="SELECT DISTINCT * FROM board INNER JOIN user_has_board ON  board.id=user_has_board.board_id AND delete_status=0 AND user_id=?1 AND is_marked=1",nativeQuery = true)
+	public List<BoardDto> getFavBoard(Long userId);
+	
 	@Modifying
 	@Query(value="UPDATE board SET name=? WHERE id=? ",nativeQuery=true)
 	public void updateBoardById(String name, Long boardId);
+	
+	@Modifying
+	@Query(value="UPDATE board SET is_marked= ?1 WHERE id= ?2 ",nativeQuery=true)
+	public void setFavBoard(Boolean checked, Long boardId);
+	
 	
 	@Modifying
 	@Query(value="UPDATE board SET delete_status=1 WHERE id=? ",nativeQuery=true)

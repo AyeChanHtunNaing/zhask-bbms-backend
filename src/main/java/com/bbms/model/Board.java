@@ -14,6 +14,7 @@ public class Board {
 	private String description;
 	private String createdBy;
 	private Workspace workSpace;
+	private boolean isMarked;
 	private ArrayList<User> users;
 	
 }

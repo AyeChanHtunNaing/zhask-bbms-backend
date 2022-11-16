@@ -70,7 +70,16 @@ public class BoardService {
 
 		return boardRepository.getBoardDtoList(workspaceId, userId);
 	}
+/* fav start*/
+	public List<BoardDto> getFavBoardRelatedWorkspace(Long userId) {
 
+		return boardRepository.getFavBoard(userId);
+	}
+	public void setFavBoard(BoardDto dto) {
+		boardRepository.setFavBoard(dto.isMarked(), dto.getId());
+	
+	}
+	/* fav end */
 	public BoardDto getBoardByBoardId(Long boardId) {
 
 		return boardRepository.selectBoardIdByBoard(boardId);
