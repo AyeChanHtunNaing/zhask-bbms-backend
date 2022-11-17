@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bbms.config.SecurityContants;
 import com.bbms.dto.UserDto;
 import com.bbms.model.MessageResponse;
 import com.bbms.model.User;
@@ -49,10 +50,10 @@ public class AuthenticationController {
 		System.out.print("Id "+id+" token "+token);
 		
 		if(service.isTokenAvailable(id, token)) {
-			res.sendRedirect("http://localhost:4200/activated-account"); 
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/activated-account"); 
 		}
 		else {
-			res.sendRedirect("http://localhost:4200/token-expired");
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/token-expired");
 		}
 	}
 	
@@ -61,7 +62,7 @@ public class AuthenticationController {
 		UserDto usr = service.isResetTokenAvailable(id, token);
 		if(usr!=null) {
 			req.getServletContext().setAttribute("tempId", usr.getId());
-			res.sendRedirect("http://localhost:4200/reset-password");
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/reset-password");
 		}else {
 			res.getWriter().write("Invalid-Token");
 //			res.sendRedirect("http://localhost:4200/token-expired");

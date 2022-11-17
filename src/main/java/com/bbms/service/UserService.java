@@ -3,12 +3,12 @@ package com.bbms.service;
 import java.time.LocalDate;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bbms.config.SecurityContants;
 import com.bbms.dto.UserDto;
 import com.bbms.repository.UserRepository;
 
@@ -111,7 +111,7 @@ public class UserService {
 	}
 	
 	private void sendMail(String recieverEmail, String route, long id, String token, String subject) {
-		String mailBody = "<a href=\"http://localhost:8080/"+route+"/"+id+"/"+token+"/\"><button style=\"text-decoration:none;background-color:#406595;color:white;\">VERIFY</button></a>";
+		String mailBody = "<a href=\""+SecurityContants.BACKEND_BASE_URL+"/"+route+"/"+id+"/"+token+"/\"><button style=\"text-decoration:none;background-color:#406595;color:white;\">VERIFY</button></a>";
 		try {			
 			mailservice.sendEmailWithMimeMessage(recieverEmail, mailBody, subject);
 		}catch (Exception e) {
