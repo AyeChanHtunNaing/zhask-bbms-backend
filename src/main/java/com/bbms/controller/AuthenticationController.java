@@ -8,25 +8,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bbms.dto.UserDto;
 import com.bbms.model.User;
 import com.bbms.service.UserService;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
+@EnableAutoConfiguration
 public class AuthenticationController {
 	
 	@Autowired
 	UserService service;
-	
+	private MultipartFile file;
 	@GetMapping("/")
 	public ResponseEntity<UserDto> login(Principal user){
 		//System.out.println("Name:"+user.getName());
@@ -82,15 +89,33 @@ public class AuthenticationController {
 		return usr;
 	}
 	
+	@PutMapping(value="/uploadProfile",produces="application/json")
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void uploadProfile(@RequestParam("file")  MultipartFile file)
+	{
+		this.file=file;
+		System.out.println(file.getContentType());
+		//return ResponseEntity.ok(true);
+	}
+	
 	@PutMapping("/updateprofile")
-	public ResponseEntity<Boolean> updateProfile(@RequestBody User bean){
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public ResponseEntity<Boolean> updateProfile(@RequestBody User bean) throws JsonMappingException, JsonProcessingException{
+		// User bean = new ObjectMapper().readValue(use, User.class);
 		UserDto userDto=new UserDto();
 		userDto.setId(bean.getId());
 		userDto.setName(bean.getName());
 		userDto.setUserName(bean.getUserName());
 		userDto.setEmail(bean.getEmail());
-		userDto.setCreateAt(bean.getCreateAt());
-		userDto.setProfile(bean.getProfile().getBytes());
+	//	userDto.setCreateAt(bean.getCreateAt());
+	    try {
+			userDto.setProfile(file.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("third"+e);
+			e.printStackTrace();
+		}
+		userDto.setPictureName(file.getOriginalFilename());
 		service.updateProfile(userDto);
 		 return ResponseEntity.ok(true);
 	}

@@ -27,6 +27,6 @@ public interface UserRepository extends CrudRepository<UserDto,String>{
 	public UserDto getByEmail(String email);
 	
 	@Modifying
-	@Query(value="UPDATE user SET name=?1,user_name=?2,email=?3,create_at=?4,profile=?5,picture_name=?6 WHERE id=?7 ",nativeQuery=true)
-	public void updateUser(String name,String userName,String email,LocalDate createAt,byte[] proflie,String pictureName,Long userId);
+	@Query(value="UPDATE user SET name=?1,user_name=?2,profile=?3,picture_name=?4 WHERE id=?5 ",nativeQuery=true)
+	public void updateUser(String name,String userName,byte[] proflie,String pictureName,Long userId);
 }

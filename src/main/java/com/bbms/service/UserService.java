@@ -126,6 +126,6 @@ public class UserService {
 	
 	public void updateProfile(UserDto user)
 	{
-		repo.updateUser(user.getName(), user.getUserName(), user.getEmail() , user.getCreateAt(), user.getProfile(), user.getPictureName(), user.getId());
+		repo.updateUser(user.getName(), user.getUserName(), user.getProfile(), user.getPictureName(), user.getId());
 	}
 }
