@@ -39,7 +39,7 @@ public class AuthenticationController {
 		System.out.print("Id "+id+" token "+token);
 		
 		if(service.isTokenAvailable(id, token)) {
-			res.sendRedirect("http://localhost:4200/activated-account");
+			res.sendRedirect("http://localhost:4200/activated-account"); 
 		}
 		else {
 			res.sendRedirect("http://localhost:4200/token-expired");
