@@ -28,6 +28,7 @@ import com.bbms.model.User;
 import com.bbms.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @EnableAutoConfiguration
@@ -35,7 +36,7 @@ public class AuthenticationController {
 	
 	@Autowired
 	UserService service;
-	private MultipartFile file;
+	//private MultipartFile file;
 	@GetMapping("/")
 	public ResponseEntity<UserDto> login(Principal user){
 		//System.out.println("Name:"+user.getName());
@@ -91,24 +92,24 @@ public class AuthenticationController {
 		return usr;
 	}
 	
-	@PutMapping(value="/uploadProfile",produces="application/json")
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public void uploadProfile(@RequestParam("file")  MultipartFile file)
-	{
-		this.file=file;
-		System.out.println(file.getContentType());
-		//return ResponseEntity.ok(true);
-	}
+//	@PostMapping(value="/uploadProfile", consumes = {"multipart/form-data"})
+//	@ResponseStatus(value = HttpStatus.CREATED)
+//	public void uploadProfile(@RequestParam(value = "file", required = false)  MultipartFile file)
+//	{
+//		this.file=file;
+//		System.out.println("File  "+file);
+//		//return ResponseEntity.ok(true);
+//	}
 	
 	@PutMapping("/updateprofile")
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public ResponseEntity<Boolean> updateProfile(@RequestBody User bean) throws JsonMappingException, JsonProcessingException{
+	//@ResponseStatus(value = HttpStatus.CREATED)
+	public ResponseEntity<Boolean> updateProfile(@RequestParam("userid") String userid,@RequestParam("username") String username,@RequestParam("name") String name,@RequestParam(value = "file", required = false)  MultipartFile file) throws JsonMappingException, JsonProcessingException{
 		// User bean = new ObjectMapper().readValue(use, User.class);
 		UserDto userDto=new UserDto();
-		userDto.setId(bean.getId());
-		userDto.setName(bean.getName());
-		userDto.setUserName(bean.getUserName());
-		userDto.setEmail(bean.getEmail());
+		userDto.setId(Long.parseLong(userid));
+		userDto.setName(name);
+		userDto.setUserName(username);
+		//userDto.setEmail(bean.getEmail());
 	//	userDto.setCreateAt(bean.getCreateAt());
 	    try {
 			userDto.setProfile(file.getBytes());

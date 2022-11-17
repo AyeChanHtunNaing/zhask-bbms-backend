@@ -17,7 +17,7 @@ public class User {
 	private String email;
 	private String password;
 	private String token;
-	private LocalDate createdAt;
+	//private LocalDate createdAt;
 //	private LocalDate updateAt;
 	private boolean status;
 	private boolean deleteStatus;
