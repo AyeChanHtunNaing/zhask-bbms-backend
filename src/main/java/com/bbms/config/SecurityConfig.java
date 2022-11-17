@@ -54,14 +54,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/v1/workspacejoin/**").permitAll()
 		.antMatchers("/api/v1/boardjoin/**").permitAll()
 		.antMatchers("/api/v1/favorite/**").permitAll()
-	//	.anyRequest().permitAll()
     	.anyRequest().authenticated()
-		.and().httpBasic();
+		.and().httpBasic()
+//		.and()  
+//        .logout()  
+//        .logoutUrl("/j_spring_security_logout")  
+//        .logoutSuccessUrl("/")  
+		;
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-//		return NoOpPasswordEncoder.getInstance();
 		return new BCryptPasswordEncoder();
 	}
 }
