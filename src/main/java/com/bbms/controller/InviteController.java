@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bbms.config.SecurityContants;
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
@@ -51,9 +52,9 @@ public class InviteController {
 		if (invite.getEmail() != null) {
 			String URL = null;
 			if (invite.getUrl().equals("workspace"))
-				URL = "http://localhost:8080/api/v1/workspacejoin/" + invite.getWorkspaceId() + "/" + invite.getId();
+				URL = SecurityContants.BACKEND_BASE_URL+"/api/v1/workspacejoin/" + invite.getWorkspaceId() + "/" + invite.getId();
 			else if (invite.getUrl().equals("board"))
-				URL = "http://localhost:8080/api/v1/boardjoin/" + invite.getWorkspaceId() + "/" + invite.getId();
+				URL = SecurityContants.BACKEND_BASE_URL+"/api/v1/boardjoin/" + invite.getWorkspaceId() + "/" + invite.getId();
 			boolean result = this.emailService.sendMail(invite, URL);
 
 			if (result) {
@@ -71,7 +72,7 @@ public class InviteController {
 			HttpServletResponse res) throws IOException {
 		UserDto user = userRepository.findByEmail(email);
 		if (user == null) {
-			res.sendRedirect("http://localhost:4200/login");
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/login");
 		} 
 		else {
 			WorkspaceDto dto = workspaceService.isExistWorkspace(workspaceId, user.getId());
@@ -81,11 +82,11 @@ public class InviteController {
 					addBoard(boardList.get(i).getId(), user);
 				}
 				addWorkspace(workspaceId, user);
-				res.sendRedirect("http://localhost:4200/home");
 			}
-			else {
-				res.sendRedirect("http://localhost:4200/home");
-			}
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/home");
+//			else {
+//				res.sendRedirect("http://localhost:4200/home");
+//			}
 			
 		}
 	}
@@ -110,11 +111,11 @@ public class InviteController {
 				addBoard(boardId, user);
 				BoardDto board=boardService.getBoardByBoardId(boardId);
 				addWorkspace(board.getWorkspace().getId(), user);
-				res.sendRedirect("http://localhost:4200/workspace/" + board.getWorkspace().getId());
+				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/workspace/" + board.getWorkspace().getId());
 			}
 			else {
 				BoardDto board=boardService.getBoardByBoardId(boardId);
-				res.sendRedirect("http://localhost:4200/workspace/" + board.getWorkspace().getId());
+				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/workspace/" + board.getWorkspace().getId());
 			}
 			
 		}
