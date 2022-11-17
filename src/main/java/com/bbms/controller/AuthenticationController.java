@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bbms.dto.UserDto;
+import com.bbms.model.MessageResponse;
 import com.bbms.model.User;
 import com.bbms.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,7 +48,7 @@ public class AuthenticationController {
 		System.out.print("Id "+id+" token "+token);
 		
 		if(service.isTokenAvailable(id, token)) {
-			res.sendRedirect("http://localhost:4200/activated-account");
+			res.sendRedirect("http://localhost:4200/activated-account"); 
 		}
 		else {
 			res.sendRedirect("http://localhost:4200/token-expired");
@@ -128,6 +130,22 @@ public class AuthenticationController {
 	@GetMapping(value="/showUserNameByUserId/{userId}",produces="application/json")
 	public UserDto generateUserNameByUserId(@PathVariable Long userId) {
 		return service.showUserNameByUserId(userId);
+	}
+	
+//	@GetMapping("/logout")
+//	public void logout(){
+////		response.reset();
+//		SecurityContextHolder.clearContext();
+//		System.out.println("++true++");
+////		return ResponseEntity.ok(new MessageResponse("Successfully Logout!"));	
+//	}
+	
+	@GetMapping("/temp_logout")
+	public ResponseEntity<?> clear(HttpServletResponse response) {
+		response.reset();
+		SecurityContextHolder.clearContext();
+		System.out.println("++true++");
+		return ResponseEntity.ok(new MessageResponse("Successfully Logout!"));	
 	}
 	
 }

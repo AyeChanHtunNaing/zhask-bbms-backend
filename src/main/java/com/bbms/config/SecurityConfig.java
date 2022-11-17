@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 				// TODO Auto-generated method stub
 				CorsConfiguration config = new CorsConfiguration();
-				config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+				config.setAllowedOriginPatterns(Collections.singletonList("*"));
 				config.setAllowedMethods(Collections.singletonList("*"));
 				config.setAllowCredentials(true);
 				config.setAllowedHeaders(Collections.singletonList("*"));
@@ -54,14 +54,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/v1/workspacejoin/**").permitAll()
 		.antMatchers("/api/v1/boardjoin/**").permitAll()
 		.antMatchers("/api/v1/favorite/**").permitAll()
-	//	.anyRequest().permitAll()
     	.anyRequest().authenticated()
-		.and().httpBasic();
+		.and().httpBasic()
+//		.and()  
+//        .logout()  
+//        .logoutUrl("/j_spring_security_logout")  
+//        .logoutSuccessUrl("/")  
+		;
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-//		return NoOpPasswordEncoder.getInstance();
 		return new BCryptPasswordEncoder();
 	}
 }

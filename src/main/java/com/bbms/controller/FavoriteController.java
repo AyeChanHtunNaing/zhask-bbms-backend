@@ -19,7 +19,7 @@ import com.bbms.model.Workspace;
 import com.bbms.service.BoardService;
 import com.bbms.service.WorkspaceService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/")
 public class FavoriteController {

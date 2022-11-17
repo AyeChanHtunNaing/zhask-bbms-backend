@@ -17,7 +17,7 @@ import com.bbms.dto.TaskListDto;
 import com.bbms.model.TaskList;
 import com.bbms.service.TaskListService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/")
 public class TaskListController {
