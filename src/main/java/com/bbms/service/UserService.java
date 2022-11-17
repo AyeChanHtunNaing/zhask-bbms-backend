@@ -18,7 +18,7 @@ import net.bytebuddy.utility.RandomString;
 public class UserService {
 	
 	@Autowired
-	UserRepository repo;
+	UserRepository userRepository;
 	
 	@Autowired
 	private EmailService mailservice;
@@ -26,16 +26,16 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder encdr;
 	
-	public UserDto register(UserDto user){ 
-		String email = user.getEmail();
-		String name = user.getName();
-		String uname = user.getName();
-		String pass = encdr.encode(user.getPassword());
-		LocalDate createAt = user.getCreateAt();
+	public UserDto register(UserDto dto){ 
+		String email = dto.getEmail();
+		String name = dto.getName();
+		String uname = dto.getName();
+		String pass = encdr.encode(dto.getPassword());
+		LocalDate createAt = dto.getCreateAt();
 		String token = RandomString.make(64);
 		UserDto usr = UserDto.builder().email(email).name(name).userName(uname).password(pass).token(token).status(false).createAt(createAt).build();
 		try {
-			usr = repo.save(usr);	
+			usr = userRepository.save(usr);	
 		}catch(DataIntegrityViolationException e){
 			return UserDto.builder().email("false").build();
 		}
@@ -43,28 +43,28 @@ public class UserService {
 		return usr;
 	}
 	
-	public UserDto getById(long id) {
-		return repo.getById(id);
+	public UserDto getById(Long userId) {
+		return userRepository.getById(userId);
 	}
 	
 	public UserDto getByEmail(String mail) {
-		return repo.getByEmail(mail);
+		return userRepository.getByEmail(mail);
 	}
 	
-	public UserDto changePassword(String psw, long id){
-		UserDto usr = repo.getById(id);
+	public UserDto changePassword(String psw,Long userId){
+		UserDto usr = userRepository.getById(userId);
 		usr.setPassword(encdr.encode(psw));
 		usr.setToken(usr.getName());
-		return repo.save(usr);
+		return userRepository.save(usr);
 	}
 	
 	public boolean generateTokenForResetPsw(String email){
-		UserDto usr = repo.findByEmail(email);
+		UserDto usr = userRepository.findByEmail(email);
 		if(usr!=null) {
 			String token = RandomString.make(64);
 			usr.setToken(token);
 			sendResetPasswordToken(email, usr.getId(), usr.getToken());
-			repo.save(usr);
+			userRepository.save(usr);
 			return true; 
 		}else {
 			return false;
@@ -72,13 +72,13 @@ public class UserService {
 	}
 	
 	//methods to validate token.
-	public boolean isTokenAvailable(long id,String token){
+	public boolean isTokenAvailable(Long userId,String token){
 		try {
-			if(token.equals(repo.getTokenById(id))) {
-				UserDto usr = (UserDto) repo.getById(id);
+			if(token.equals(userRepository.getTokenById(userId))) {
+				UserDto usr = (UserDto) userRepository.getById(userId);
 				 usr.setToken(usr.getName());
 				 usr.setStatus(true);
-				 repo.save(usr);
+				 userRepository.save(usr);
 				return true;
 			}	
 		}catch(Exception e) {
@@ -87,10 +87,10 @@ public class UserService {
 		return false;			
 	}
 	
-	public UserDto isResetTokenAvailable(long id,String token){
+	public UserDto isResetTokenAvailable(Long userId,String token){
 		try {
-			if(token.equals(repo.getTokenById(id))) {
-				return repo.getById(id);
+			if(token.equals(userRepository.getTokenById(userId))) {
+				return userRepository.getById(userId);
 			}	
 		}catch(Exception e) {
 			System.out.println(e);
@@ -100,18 +100,18 @@ public class UserService {
 	//methods to validate token.
 	
 	//methods to send mail.
-	private void verifyRegistration(String recieverEmail, long id, String token){
+	private void verifyRegistration(String recieverEmail, Long userId , String token){
 		String subject = "Verify Your Account.";
-		sendMail(recieverEmail, "verify", id, token, subject);
+		sendMail(recieverEmail, "verify", userId , token, subject);
 	}
 	
-	private void sendResetPasswordToken(String recieverEmail, long id, String token){
+	private void sendResetPasswordToken(String recieverEmail, Long userId , String token){
 		String subject = "Reset Password Confirmation.";
-		sendMail(recieverEmail, "reset_psw", id, token, subject);
+		sendMail(recieverEmail, "reset_psw", userId, token, subject);
 	}
 	
-	private void sendMail(String recieverEmail, String route, long id, String token, String subject) {
-		String mailBody = "<a href=\""+SecurityContants.BACKEND_BASE_URL+"/"+route+"/"+id+"/"+token+"/\"><button style=\"text-decoration:none;background-color:#406595;color:white;\">VERIFY</button></a>";
+	private void sendMail(String recieverEmail, String route, Long userId , String token, String subject) {
+		String mailBody = "<a href=\""+SecurityContants.BACKEND_BASE_URL+"/"+route+"/"+userId+"/"+token+"/\"><button style=\"text-decoration:none;background-color:#406595;color:white;\">VERIFY</button></a>";
 		try {			
 			mailservice.sendEmailWithMimeMessage(recieverEmail, mailBody, subject);
 		}catch (Exception e) {
@@ -121,11 +121,11 @@ public class UserService {
 	//methods to send mail.
 	
 	public UserDto showUserNameByUserId(Long userId) {
-		return repo.getById(userId);
+		return userRepository.getById(userId);
 	}
 	
-	public void updateProfile(UserDto user)
+	public void updateProfile(UserDto dto)
 	{
-		repo.updateUser(user.getName(), user.getUserName(), user.getProfile(), user.getPictureName(), user.getId());
+		userRepository.updateUser(dto.getName(), dto.getUserName(), dto.getProfile(), dto.getPictureName(), dto.getId());
 	}
 }

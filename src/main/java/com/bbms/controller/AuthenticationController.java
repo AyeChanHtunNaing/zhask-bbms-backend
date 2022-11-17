@@ -36,20 +36,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AuthenticationController {
 	
 	@Autowired
-	UserService service;
-	//private MultipartFile file;
+	UserService userService;
+
 	@GetMapping("/")
 	public ResponseEntity<UserDto> login(Principal user){
 		//System.out.println("Name:"+user.getName());
-		UserDto usr = service.getByEmail(user.getName());
+		UserDto usr = userService.getByEmail(user.getName());
 		return ResponseEntity.ok(UserDto.builder().id(usr.getId()).name(usr.getName()).userName(usr.getUserName()).email(usr.getEmail()).createAt(usr.getCreateAt()).build());
 	}
 	
 	@GetMapping("/verify/{id}/{token}")
-	public void verifyEmail(@PathVariable long id,@PathVariable String token, HttpServletResponse res) throws IOException{
-		System.out.print("Id "+id+" token "+token);
+	public void verifyEmail(@PathVariable Long userId,@PathVariable String token, HttpServletResponse res) throws IOException{
+		System.out.print("Id "+userId+" token "+token);
 		
-		if(service.isTokenAvailable(id, token)) {
+		if(userService.isTokenAvailable(userId, token)) {
 			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/activated-account"); 
 		}
 		else {
@@ -58,21 +58,20 @@ public class AuthenticationController {
 	}
 	
 	@GetMapping("/reset_psw/{id}/{token}")
-	public void pswVerify(@PathVariable long id,@PathVariable String token, HttpServletRequest req, HttpServletResponse res) throws IOException{
-		UserDto usr = service.isResetTokenAvailable(id, token);
+	public void pswVerify(@PathVariable Long userId,@PathVariable String token, HttpServletRequest req, HttpServletResponse res) throws IOException{
+		UserDto usr = userService.isResetTokenAvailable(userId, token);
 		if(usr!=null) {
 			req.getServletContext().setAttribute("tempId", usr.getId());
 			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/reset-password");
 		}else {
 			res.getWriter().write("Invalid-Token");
-//			res.sendRedirect("http://localhost:4200/token-expired");
 		}
 	}
 	
 	@PostMapping("/reset_psw")
-	public boolean pswVerify(@RequestBody UserDto bean, HttpServletRequest req){
+	public boolean pswVerify(@RequestBody UserDto dto, HttpServletRequest req){
 		try {			
-			service.changePassword(bean.getPassword(),(long) req.getServletContext().getAttribute("tempId"));
+			userService.changePassword(dto.getPassword(),(Long) req.getServletContext().getAttribute("tempId"));
 			req.getServletContext().removeAttribute("tempId");
 			return true;
 		}catch (Exception e) {
@@ -81,37 +80,24 @@ public class AuthenticationController {
 	}
 	
 	@PostMapping(value="/signup",produces="application/json")
-	public UserDto signup(@RequestBody User bean){
+	public UserDto signup(@RequestBody User user){
 		UserDto userDto=new UserDto();
-		userDto.setName(bean.getName());
-		userDto.setUserName(bean.getUserName());
-		userDto.setEmail(bean.getEmail());
+		userDto.setName(user.getName());
+		userDto.setUserName(user.getUserName());
+		userDto.setEmail(user.getEmail());
 		userDto.setCreateAt(LocalDate.now());
 		userDto.setUpdateAt(LocalDate.now());
-		userDto.setPassword(bean.getPassword());
-		UserDto usr = service.register(userDto);
+		userDto.setPassword(user.getPassword());
+		UserDto usr = userService.register(userDto);
 		return usr;
 	}
 	
-//	@PostMapping(value="/uploadProfile", consumes = {"multipart/form-data"})
-//	@ResponseStatus(value = HttpStatus.CREATED)
-//	public void uploadProfile(@RequestParam(value = "file", required = false)  MultipartFile file)
-//	{
-//		this.file=file;
-//		System.out.println("File  "+file);
-//		//return ResponseEntity.ok(true);
-//	}
-	
 	@PutMapping("/updateprofile")
-	//@ResponseStatus(value = HttpStatus.CREATED)
-	public ResponseEntity<Boolean> updateProfile(@RequestParam("userid") String userid,@RequestParam("username") String username,@RequestParam("name") String name,@RequestParam(value = "file", required = false)  MultipartFile file) throws JsonMappingException, JsonProcessingException{
-		// User bean = new ObjectMapper().readValue(use, User.class);
+	public ResponseEntity<Boolean> updateProfile(@RequestParam("userid") String userId,@RequestParam("username") String username,@RequestParam("name") String name,@RequestParam(value = "file", required = false)  MultipartFile file) throws JsonMappingException, JsonProcessingException{
 		UserDto userDto=new UserDto();
-		userDto.setId(Long.parseLong(userid));
+		userDto.setId(Long.parseLong(userId));
 		userDto.setName(name);
 		userDto.setUserName(username);
-		//userDto.setEmail(bean.getEmail());
-	//	userDto.setCreateAt(bean.getCreateAt());
 	    try {
 			userDto.setProfile(file.getBytes());
 		} catch (IOException e) {
@@ -120,18 +106,18 @@ public class AuthenticationController {
 			e.printStackTrace();
 		}
 		userDto.setPictureName(file.getOriginalFilename());
-		service.updateProfile(userDto);
+		userService.updateProfile(userDto);
 		 return ResponseEntity.ok(true);
 	}
 	
 	@PostMapping("/forgot_psw")
-	public boolean forgotPassword(@RequestBody UserDto bean){
-			return service.generateTokenForResetPsw(bean.getEmail());
+	public boolean forgotPassword(@RequestBody UserDto dto){
+			return userService.generateTokenForResetPsw(dto.getEmail());
 	}
 	
 	@GetMapping(value="/showUserNameByUserId/{userId}",produces="application/json")
 	public UserDto generateUserNameByUserId(@PathVariable Long userId) {
-		return service.showUserNameByUserId(userId);
+		return userService.showUserNameByUserId(userId);
 	}
 	
 //	@GetMapping("/logout")
