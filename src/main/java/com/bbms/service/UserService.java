@@ -111,7 +111,12 @@ public class UserService {
 	}
 	
 	private void sendMail(String recieverEmail, String route, Long userId , String token, String subject) {
-		String mailBody = "<a href=\""+SecurityContants.BACKEND_BASE_URL+"/"+route+"/"+userId+"/"+token+"/\"><button style=\"text-decoration:none;background-color:#406595;color:white;\">VERIFY</button></a>";
+		String mailBody="Dear User,\n"
+				+ "\n"
+				+ "Please Verify to use Bulletin Board System \n";
+		 mailBody += "<button style=\\\"text-decoration:none;background-color:#406595;color:white;\\\"><a href=\""+SecurityContants.BACKEND_BASE_URL+"/"+route+"/"+userId+"/"+token+"/\">VERIFY</a></button>";
+		 mailBody += "\n With Best Regards,\n"
+		 		+ "Zhask";
 		try {			
 			mailservice.sendEmailWithMimeMessage(recieverEmail, mailBody, subject);
 		}catch (Exception e) {

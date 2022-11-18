@@ -45,7 +45,7 @@ public class AuthenticationController {
 		return ResponseEntity.ok(UserDto.builder().id(usr.getId()).name(usr.getName()).userName(usr.getUserName()).email(usr.getEmail()).createAt(usr.getCreateAt()).build());
 	}
 	
-	@GetMapping("/verify/{id}/{token}")
+	@GetMapping("/verify/{userId}/{token}")
 	public void verifyEmail(@PathVariable Long userId,@PathVariable String token, HttpServletResponse res) throws IOException{
 		System.out.print("Id "+userId+" token "+token);
 		
@@ -57,7 +57,7 @@ public class AuthenticationController {
 		}
 	}
 	
-	@GetMapping("/reset_psw/{id}/{token}")
+	@GetMapping("/reset_psw/{userId}/{token}")
 	public void pswVerify(@PathVariable Long userId,@PathVariable String token, HttpServletRequest req, HttpServletResponse res) throws IOException{
 		UserDto usr = userService.isResetTokenAvailable(userId, token);
 		if(usr!=null) {
