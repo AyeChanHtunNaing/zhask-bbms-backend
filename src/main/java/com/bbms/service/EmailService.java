@@ -1,5 +1,6 @@
 package com.bbms.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -10,6 +11,9 @@ import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,9 @@ import org.springframework.stereotype.Service;
 import com.bbms.model.InviteMember; 
 @Service
 public class EmailService {
+	
+	@Autowired
+	private JavaMailSender mailSender;
 
 	public boolean sendMail(InviteMember invitemember,String URL) throws MessagingException{
 		boolean f=false;
@@ -87,13 +94,29 @@ public class EmailService {
 
 		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
-		mimeMessageHelper.setFrom("ZHASK");
+		try {
+			mimeMessageHelper.setFrom(from,"Bulletin Board System");
+		
 		mimeMessageHelper.setTo(toEmail);
 		mimeMessageHelper.setText(body,true);
 		mimeMessageHelper.setSubject(subject);
 
 		mailSender.send(mimeMessage);
 		System.out.println("Mail Send...");
-
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void mailWithSimpleMailMessage(String toEmail,String body,String subject) {
+		SimpleMailMessage message=new SimpleMailMessage();
+		message.setFrom("team.zhask.dev@gmail.com");
+		message.setTo(toEmail);
+		String mailSubject=subject;
+		String mailContent=body;
+		message.setSubject(mailSubject);
+		message.setText(mailContent);
+        mailSender.send(message);		
+		
+		
 	}
 }

@@ -39,7 +39,7 @@ public class UserService {
 		}catch(DataIntegrityViolationException e){
 			return UserDto.builder().email("false").build();
 		}
-		verifyRegistration(email, usr.getId(), token);
+		verifyRegistration(email, usr.getId(), token,usr.getName());
 		return usr;
 	}
 	
@@ -63,7 +63,7 @@ public class UserService {
 		if(usr!=null) {
 			String token = RandomString.make(64);
 			usr.setToken(token);
-			sendResetPasswordToken(email, usr.getId(), usr.getToken());
+			sendResetPasswordToken(email, usr.getId(), usr.getToken(),usr.getName());
 			userRepository.save(usr);
 			return true; 
 		}else {
@@ -100,24 +100,24 @@ public class UserService {
 	//methods to validate token.
 	
 	//methods to send mail.
-	private void verifyRegistration(String recieverEmail, Long userId , String token){
-		String subject = "Verify Your Account.";
-		sendMail(recieverEmail, "verify", userId , token, subject);
+	private void verifyRegistration(String recieverEmail, Long userId , String token,String userName){
+		String subject = "Action Required: Please Confirm Your Email Address";
+		String methodContent="Please Verify your email to use Bulletin Board System";
+		sendMail(recieverEmail, "verify", userId , token, subject,userName,methodContent);
 	}
 	
-	private void sendResetPasswordToken(String recieverEmail, Long userId , String token){
+	private void sendResetPasswordToken(String recieverEmail, Long userId , String token,String userName){
 		String subject = "Reset Password Confirmation.";
-		sendMail(recieverEmail, "reset_psw", userId, token, subject);
+		String methodContent="Press the button to reset password";
+		sendMail(recieverEmail, "reset_psw", userId, token, subject,userName,methodContent);
 	}
 	
-	private void sendMail(String recieverEmail, String route, Long userId , String token, String subject) {
-		String mailBody="Dear User,\n"
-				+ "\n"
-				+ "Please Verify to use Bulletin Board System \n";
-		 mailBody += "<button style=\\\"text-decoration:none;background-color:#406595;color:white;\\\"><a href=\""+SecurityContants.BACKEND_BASE_URL+"/"+route+"/"+userId+"/"+token+"/\">VERIFY</a></button>";
-		 mailBody += "\n With Best Regards,\n"
-		 		+ "Zhask";
-		try {			
+	private void sendMail(String recieverEmail, String route, Long userId , String token, String subject,String userName,String methodContent) {
+		String mailBody="Dear "+userName+", <br>";
+		mailBody+= methodContent+"<br>";
+		mailBody += "<button style=\"text-decoration:none;background-color:#406595;color:white;width:300px;height:50px\"><a style=\"text-decoration:none;color:#fff;\"href=\""+SecurityContants.BACKEND_BASE_URL+"/"+route+"/"+userId+"/"+token+"/\">VERIFY</a></button>";	
+		mailBody+="<br> With Best Regards, <br> Zhask";
+		try {		
 			mailservice.sendEmailWithMimeMessage(recieverEmail, mailBody, subject);
 		}catch (Exception e) {
 			System.out.println("Failed");
