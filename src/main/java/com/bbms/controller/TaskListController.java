@@ -41,7 +41,6 @@ public class TaskListController {
 
 	@PutMapping(value = "/tasklist/{tasklistId}", produces = "application/json")
 	public ResponseEntity<TaskListDto> updateTaskListTitle(@PathVariable Long tasklistId,@RequestBody TaskList taskList) {
-
 		TaskListDto taskListDto = new TaskListDto();
 		taskListDto.setId(tasklistId);
 		taskListDto.setTitle(taskList.getTitle());
@@ -55,10 +54,10 @@ public class TaskListController {
 		return ResponseEntity.ok(true);
 	}
 	
-	@GetMapping(value = "/tasklist/{boardId}", produces = "application/json")
-	public ResponseEntity<List<TaskListDto>> selectById(@PathVariable Long boardId) {
-
-		List<TaskListDto> tasklistmodel = taskListService.getTaskListRelatedBoardId(boardId);
+	@GetMapping(value = "/tasklist/{userId}/{boardId}", produces = "application/json")
+	public ResponseEntity<List<TaskListDto>> selectById(@PathVariable Long boardId, @PathVariable Long userId) {		
+		List<TaskListDto> tasklistmodel = taskListService.getTaskListRelatedBoardId(boardId, userId);
 		return ResponseEntity.ok(tasklistmodel);
 	}
+
 }
