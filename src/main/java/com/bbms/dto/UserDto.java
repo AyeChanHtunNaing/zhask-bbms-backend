@@ -68,7 +68,7 @@ public class UserDto implements Serializable{
 //	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    private List<TaskDto> task = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<CommentDto> comment = new ArrayList<>();
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<CommentDto> comment = new ArrayList<>();
 	
 }

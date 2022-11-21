@@ -78,6 +78,7 @@ public class ActivityController {
 	@PutMapping(value = "/activity/taskList/{taskId}", produces = "application/json")
 	public ResponseEntity<Boolean> setTaskList(@PathVariable Long taskId , @RequestBody Activity activity) {
 	    List<String> check=new ArrayList<String>();
+	    System.out.println("Hi"+taskId);
 		List<ActivityDto> activityDto = activityService.selectActivityByTaskId(taskId);
 		Long doing=activityService.getDoingId(taskId);
 		Long done=activityService.getDoneId(taskId);
@@ -87,11 +88,12 @@ public class ActivityController {
 		System.out.println(doing);
 		System.out.println(done);
 		for(ActivityDto activities:activityDto) {
-			System.out.println("reach there");
+			
 			if(activities.isChecked()==true) {
+				System.out.println("reach there");
 				check.add("check");
 			}  
-			    if(activities.isChecked()==true) {
+			    if( check.size()!=activityDto.size() && activity.isChecked() ) {
 				System.out.println("reach there chan....");
 				ActivityDto act=new ActivityDto();
 				act.setId(activity.getId());

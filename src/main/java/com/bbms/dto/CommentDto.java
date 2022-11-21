@@ -9,8 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,7 +45,13 @@ public class CommentDto implements Serializable{
 	@ManyToOne
 	private TaskDto task;
 
-	@ManyToOne
-	private UserDto user;
+	@ManyToMany
+	@JoinTable(
+			name="user_has_comment",
+			joinColumns = @JoinColumn(name="comment_id"),
+			inverseJoinColumns = @JoinColumn(name="user_id"),
+			uniqueConstraints = { @UniqueConstraint(columnNames = { "comment_id", "user_id" }) }
+			)
+	private List <UserDto> users;
 
 }
