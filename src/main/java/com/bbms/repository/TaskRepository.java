@@ -19,6 +19,9 @@ public interface TaskRepository extends JpaRepository<TaskDto, Long> {
 	@Query(value="SELECT task_list_id FROM task WHERE id=? and delete_status=0 ",nativeQuery=true)
 	public Long selectTaskListId(Long taskId);
 	
+	@Query(value="SELECT * FROM task WHERE id=? and delete_status=0 ",nativeQuery=true)
+	public TaskDto selectTaskbyId(Long taskId);
+	
 	@Modifying
 	@Query(value="UPDATE task SET description= ?1 WHERE id= ?2 ",nativeQuery=true)	
 	public void updateTask(String description , Long id);

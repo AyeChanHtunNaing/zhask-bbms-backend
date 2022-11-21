@@ -42,6 +42,8 @@ public class TaskController {
 		taskDto.setCreatedBy(task.getCreatedBy());
 		taskDto.setCreateAt(LocalDate.now());
 		taskDto.setUpdateAt(LocalDate.now());
+		taskDto.setStartDate(LocalDate.now());
+		taskDto.setEndDate(LocalDate.now());
 		BoardDto boardDto = new BoardDto();
 		boardDto.setId(task.getBoard().getId());
 		TaskListDto tasklistDto = new TaskListDto();
@@ -78,13 +80,17 @@ public class TaskController {
 	}
 	
 	@PutMapping(value="/task/{taskId}",produces="application/json")
-	public ResponseEntity<TaskDto> updateTaskDescription(@PathVariable Long taskId,@RequestBody Task task){
+	public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId,@RequestBody Task task){
 		
 		TaskDto taskDto = new TaskDto();
 		taskDto.setId(taskId);
+		taskDto.setContent(task.getContent());
 		taskDto.setDescription(task.getDescription());
 		taskDto.setCreateAt(LocalDate.now());
 		taskDto.setUpdateAt(LocalDate.now());
+		taskDto.setStartDate(task.getStartDate());
+		taskDto.setEndDate(task.getEndDate());
+		taskDto.setCreatedBy(task.getCreatedBy());
 		BoardDto boardDto = new BoardDto();
 		boardDto.setId(task.getBoard().getId());
 		TaskListDto tasklistDto = new TaskListDto();
@@ -94,7 +100,7 @@ public class TaskController {
 		taskService.updateTask(taskDto);
 		return ResponseEntity.ok(taskDto);
 	}
-	
+
 	
 	@DeleteMapping(value = "/task/{taskId}", produces = "application/json")
 	public ResponseEntity<Boolean> deleteTaskList(@PathVariable Long taskId) {

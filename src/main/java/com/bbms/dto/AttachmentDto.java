@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -25,13 +26,27 @@ public class AttachmentDto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name="file_url")
-	private String fileUrl;
+	@Column(name="name")
+	private String name;
+	
+	@Column(name="type")
+	 private String type;
+
+	  @Lob
+	  @Column(name="data")
+	  private byte[] data;
 	
 //	connect when we need
 //	@ManyToOne
 //	private TaskDto tasks;
 	
 	@ManyToOne
-	private ActivityDto activity;
+	private TaskDto task;
+	
+	public AttachmentDto(String name, String type, byte[] data) {
+	    this.name = name;
+	    this.type = type;
+	    this.data = data;
+	  }
+
 }

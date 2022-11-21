@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,21 +39,12 @@ public class ActivityDto implements Serializable{
 	private String name;
 	@Column(name="is_checked", columnDefinition = "TINYINT  default 0", length = 1)
 	private boolean isChecked;
-	@Column(name="due_date")
-	private Date dueDate;
-	@Column(name="start_date")
-	private Date startDate;
-	@Column(name="end_date")
-	private Date endDate;
-	
+
 	@ManyToOne
 	private TaskDto tasks;
 	
-	@ManyToOne
-	private UserDto user;
+//	@ManyToOne
+//	private UserDto user;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
-	private List<AttachmentDto> attachement;
 	
 }

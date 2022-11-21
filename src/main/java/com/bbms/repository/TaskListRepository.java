@@ -25,4 +25,6 @@ public interface TaskListRepository extends JpaRepository<TaskListDto, Long> {
 	@Query(value="UPDATE tasklist SET delete_status=1 WHERE id=? ",nativeQuery=true)
 	public void deleteTaskListById(@Param("id") Long taskListId);
 	
+	@Query(value="SELECT * FROM tasklist WHERE id=? and delete_status=0 ",nativeQuery = true)
+	public TaskListDto getTaskListById(Long taskListId);
 }

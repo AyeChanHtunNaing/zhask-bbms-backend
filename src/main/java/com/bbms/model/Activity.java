@@ -20,9 +20,6 @@ public class Activity {
 	private Long id;
 	private String name;
 	private boolean isChecked;
-	private Date dueDate;
-	private Date startDate;
-	private Date endDate;
 	private TaskDto task;
 	
 }

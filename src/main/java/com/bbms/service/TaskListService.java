@@ -36,5 +36,7 @@ public class TaskListService {
 	public void updateTaskListTitle(TaskListDto dto){
 		taskListRepository.updateTaskListTitle(dto.getTitle(),dto.getId());
 	}
-
+   public TaskListDto getTaskListById(Long taskListId) {
+	   return taskListRepository.getTaskListById(taskListId);
+   }
 }

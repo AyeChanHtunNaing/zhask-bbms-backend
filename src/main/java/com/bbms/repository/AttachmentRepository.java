@@ -9,6 +9,6 @@ import com.bbms.dto.AttachmentDto;
 
 public interface AttachmentRepository extends JpaRepository<AttachmentDto, Long> {
 	
-	@Query(value="SELECT * FROM attachment WHERE task_Id=? ",nativeQuery = true)
+	@Query(value="SELECT * FROM attachment WHERE task_id=? ",nativeQuery = true)
 	public List<AttachmentDto> getAttachmentByTask(Long taskId);
 }

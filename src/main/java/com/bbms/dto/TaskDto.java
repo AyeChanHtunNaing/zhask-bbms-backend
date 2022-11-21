@@ -1,7 +1,7 @@
 package com.bbms.dto;
 
 import java.io.Serializable;
-
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -39,6 +39,8 @@ public class TaskDto implements Serializable{
 	private Long id;
 	@Column(name="description")
 	private String description;
+	@Column(name="content")
+	private String content;
 	@Column(name="create_at")
 	private LocalDate createAt;
 	@Column(name="update_at")
@@ -47,12 +49,18 @@ public class TaskDto implements Serializable{
 	private boolean deleteStatus;
 	@Column(name="created_by")
 	private String createdBy;
+	@Column(name="start_date")
+	private LocalDate startDate;
+	@Column(name="end_date")
+	private LocalDate endDate;
 	
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
 	private List <CommentDto> comments;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
+	@OneToMany(
+		    mappedBy = "tasks", 
+		    cascade = CascadeType.ALL)
 	private List <ActivityDto> activities;
 		
 	@ManyToOne
@@ -71,5 +79,9 @@ public class TaskDto implements Serializable{
 			inverseJoinColumns = @JoinColumn(name="user_id")
 			)
 	private List <UserDto> users;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+	private List<AttachmentDto> attachement;
 	
 }
