@@ -29,7 +29,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.http.HttpHeaders;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/")
@@ -55,10 +55,6 @@ public class AttachmentController {
 		
 		
 		TaskDto taskDto = new TaskDto();
-//		//taskDto.setCreateAt();
-//		//taskDto.setUpdateAt(LocalDate.now());
-//		taskDto.setStartDate(attachment.getTask().getStartDate());
-//		taskDto.setEndDate(attachment.getTask().getEndDate());
 		taskDto.setId(attachment.getTask().getId());
 		attachmentDto.setTask(taskDto);
 		attachmentService.insert(attachmentDto);
@@ -67,12 +63,20 @@ public class AttachmentController {
 
 	
 	
-	@PostMapping
-	@GetMapping(value="/attachment/{activityId}",produces="application/json")
-	public ResponseEntity<List<AttachmentDto>> showAttachmentByTaskId(@PathVariable Long activityId){
+	
+	@GetMapping(value="/attachment/{taskId}",produces="application/json")
+	public ResponseEntity<List<AttachmentDto>> showAttachmentByTaskId(@PathVariable Long taskId){
 		
-		List<AttachmentDto> attachmentDto = attachmentService.selectAttachmentByActivityId(activityId);
+		List<AttachmentDto> attachmentDto = attachmentService.selectAttachmentByTaskId(taskId);
 		return ResponseEntity.ok(attachmentDto);
 	}
+	 @GetMapping("/attachment/files/{id}")
+	  public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
+	   AttachmentDto attachment = attachmentService.getFile(id);
+
+	    return ResponseEntity.ok()
+	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + attachment.getName() + "\"")
+	        .body(attachment.getData());
+	  }
 	
 }

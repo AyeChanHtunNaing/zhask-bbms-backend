@@ -16,20 +16,17 @@ public class AttachmentService {
 	@Autowired
 	private AttachmentRepository attachmentRepository;
 	
-	 public void store(MultipartFile file,AttachmentDto attachmentDto) throws IOException {
-		    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		    AttachmentDto attachment=new AttachmentDto(fileName,file.getContentType(),file.getBytes());
-            attachment.setId(attachmentDto.getId());
-            attachment.setTask(attachmentDto.getTask());
-		    attachmentRepository.save(attachment);
-		  }
-	public List<AttachmentDto> selectAttachmentByActivityId(Long taskId) {
-		
+
+	public List<AttachmentDto> selectAttachmentByTaskId(Long taskId) {
+	
 		return attachmentRepository.getAttachmentByTask(taskId);
 	}
 	public void insert(AttachmentDto attachmentDto) {
 	    attachmentRepository.save(attachmentDto);
 		
+	}
+	public AttachmentDto getFile(Long id) {
+		return attachmentRepository.getAttachmentById(id);
 	}
 
 }

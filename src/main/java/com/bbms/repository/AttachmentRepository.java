@@ -11,4 +11,7 @@ public interface AttachmentRepository extends JpaRepository<AttachmentDto, Long>
 	
 	@Query(value="SELECT * FROM attachment WHERE task_id=? ",nativeQuery = true)
 	public List<AttachmentDto> getAttachmentByTask(Long taskId);
+	
+	@Query(value="SELECT * FROM attachment WHERE id=? ",nativeQuery = true)
+	public AttachmentDto getAttachmentById(Long id);
 }
