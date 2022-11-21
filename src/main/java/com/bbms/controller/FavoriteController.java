@@ -41,7 +41,7 @@ public class FavoriteController {
 		workspaceDto.setId(workspaceId);
 		workspaceDto.setDescription(workspace.getDescription());
 		workspaceDto.setName(workspace.getName());
-		workspaceDto.setMarked(true);
+		workspaceDto.setMarked(workspace.isMarked());
 	    workspaceService.setFavWorkspace(workspaceDto);
 		return ResponseEntity.ok(true);
 	}
@@ -55,11 +55,11 @@ public class FavoriteController {
 
 	@PutMapping(value = "/favorite/board/{boardId}", produces = "application/json")
 	public ResponseEntity<Boolean> setFavBoard(@PathVariable Long boardId ,@RequestBody Board board) {
-
+        System.out.println(board.isMarked());
 		BoardDto boardDto = new BoardDto();
 		boardDto.setId(boardId);
 		boardDto.setName(board.getName());
-		boardDto.setMarked(true);
+		boardDto.setMarked(board.isMarked());
 		boardService.setFavBoard(boardDto);
 		return ResponseEntity.ok(true);
 	}
