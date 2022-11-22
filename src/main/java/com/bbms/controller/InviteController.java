@@ -18,20 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bbms.config.SecurityContants;
 import com.bbms.dto.BoardDto;
+import com.bbms.dto.TaskDto;
 import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
 import com.bbms.model.InviteMember;
 import com.bbms.model.MessageResponse;
+import com.bbms.repository.BoardRepository;
 import com.bbms.repository.UserRepository;
 import com.bbms.service.BoardService;
 import com.bbms.service.EmailService;
+import com.bbms.service.TaskService;
 import com.bbms.service.UserService;
 import com.bbms.service.WorkspaceService;
 
 @RestController
 @RequestMapping("/api/v1/")
 public class InviteController {
-	
+
 	@Autowired
 	private EmailService emailService;
 
@@ -40,6 +43,9 @@ public class InviteController {
 
 	@Autowired
 	WorkspaceService workspaceService;
+
+	@Autowired
+	TaskService taskService;
 
 	@Autowired
 	BoardService boardService;
@@ -52,9 +58,22 @@ public class InviteController {
 		if (invite.getEmail() != null) {
 			String URL = null;
 			if (invite.getUrl().equals("workspace"))
-				URL = SecurityContants.BACKEND_BASE_URL+"/api/v1/workspacejoin/" + invite.getWorkspaceId() + "/" + invite.getId();
+				URL = SecurityContants.BACKEND_BASE_URL + "/api/v1/workspacejoin/" + invite.getWorkspaceId() + "/"
+						+ invite.getId();
 			else if (invite.getUrl().equals("board"))
-				URL = SecurityContants.BACKEND_BASE_URL+"/api/v1/boardjoin/" + invite.getWorkspaceId() + "/" + invite.getId();
+				URL = SecurityContants.BACKEND_BASE_URL + "/api/v1/boardjoin/" + invite.getWorkspaceId() + "/"
+						+ invite.getId();
+			else if (invite.getUrl().equals("task")) {
+				UserDto user=userRepository.findByEmail(invite.getEmail());
+				if ( user== null || boardService.isExitUserIdInBoard(user.getId())==null) {
+					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+							.body(new MessageResponse("Email not sent!"));
+				} else {
+					URL = SecurityContants.BACKEND_BASE_URL + "/api/v1/taskjoin/" + invite.getWorkspaceId() + "/"
+							+ invite.getId();
+				}
+
+			}
 			boolean result = this.emailService.sendMail(invite, URL);
 
 			if (result) {
@@ -72,22 +91,21 @@ public class InviteController {
 			HttpServletResponse res) throws IOException {
 		UserDto user = userRepository.findByEmail(email);
 		if (user == null) {
-			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/login");
-		} 
-		else {
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/login");
+		} else {
 			WorkspaceDto dto = workspaceService.isExistWorkspace(workspaceId, user.getId());
-			if(dto==null) {
-				List<BoardDto> boardList=boardService.getBoardRelatedWorkspace(workspaceId , userId);
-				for(int i =0;i<boardList.size();i++) {
+			if (dto == null) {
+				List<BoardDto> boardList = boardService.getBoardRelatedWorkspace(workspaceId, userId);
+				for (int i = 0; i < boardList.size(); i++) {
 					addBoard(boardList.get(i).getId(), user);
 				}
 				addWorkspace(workspaceId, user);
 			}
-			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/home");
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/home");
 //			else {
 //				res.sendRedirect("http://localhost:4200/home");
 //			}
-			
+
 		}
 	}
 
@@ -107,17 +125,16 @@ public class InviteController {
 			res.sendRedirect("http://localhost:4200/login");
 		} else {
 			BoardDto dto = boardService.isExistBoard(boardId, user.getId());
-			if(dto==null) {
+			if (dto == null) {
 				addBoard(boardId, user);
-				BoardDto board=boardService.getBoardByBoardId(boardId);
+				BoardDto board = boardService.getBoardByBoardId(boardId);
 				addWorkspace(board.getWorkspace().getId(), user);
-				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/workspace/" + board.getWorkspace().getId());
+				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/workspace/" + board.getWorkspace().getId());
+			} else {
+				BoardDto board = boardService.getBoardByBoardId(boardId);
+				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/workspace/" + board.getWorkspace().getId());
 			}
-			else {
-				BoardDto board=boardService.getBoardByBoardId(boardId);
-				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/workspace/" + board.getWorkspace().getId());
-			}
-			
+
 		}
 	}
 
@@ -128,6 +145,19 @@ public class InviteController {
 		userDto.setId(user.getId());
 		boardDto.getUsers().add(userDto);
 		boardService.insert(boardDto);
+	}
+
+	@GetMapping("/taskjoin/{taskId}/{userId}/{email}")
+	public void joinTask(@PathVariable Long taskId, @PathVariable Long userId, @PathVariable String email,
+		HttpServletResponse res) throws IOException {
+		UserDto user = userRepository.findByEmail(email);
+		TaskDto taskDto = taskService.getTaskbyId(taskId);
+		UserDto userDto = new UserDto();
+		userDto.setId(user.getId());
+		taskDto.getUsers().add(userDto);
+		taskService.insert(taskDto);
+		res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/"+taskDto.getTaskList().getId());
+		
 	}
 
 }

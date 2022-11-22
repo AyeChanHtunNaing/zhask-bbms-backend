@@ -47,4 +47,5 @@ public class TaskService {
 	public List<TaskDto> showAllTaskByBoardId(Long taskId){
 		return taskRepository.getAllTaskByBoardId(taskId);
 	}
+	
 }

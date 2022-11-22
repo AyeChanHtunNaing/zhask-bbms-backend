@@ -58,6 +58,11 @@ public class BoardService {
 
 	}
 
+	public BoardDto isExitUserIdInBoard(Long userId) {
+
+		return boardRepository.isExistUserIdInBoardId(userId);
+	}
+
 	public void updateBoard(BoardDto dto) {
 		boardRepository.updateBoardById(dto.getName(), dto.getId());
 	}
@@ -70,15 +75,18 @@ public class BoardService {
 
 		return boardRepository.getBoardDtoList(workspaceId, userId);
 	}
-/* fav start*/
+
+	/* fav start */
 	public List<BoardDto> getFavBoardRelatedWorkspace(Long userId) {
 
 		return boardRepository.getFavBoard(userId);
 	}
+
 	public void setFavBoard(BoardDto dto) {
 		boardRepository.setFavBoard(dto.isMarked(), dto.getId());
-	
+
 	}
+
 	/* fav end */
 	public BoardDto getBoardByBoardId(Long boardId) {
 
@@ -89,12 +97,12 @@ public class BoardService {
 
 		return boardRepository.checkBoardByUser(boardId, userId);
 	}
-	
-	public List<BoardDto> generateBoardListByUserId(Long userId){
-		
+
+	public List<BoardDto> generateBoardListByUserId(Long userId) {
+
 		return boardRepository.showBoardListByUserId(userId);
 	}
-	
+
 	public BoardDto generateBoardMemberByBoardId(Long boardId) {
 		return boardRepository.generateBoardMemberByBoardId(boardId);
 	}
