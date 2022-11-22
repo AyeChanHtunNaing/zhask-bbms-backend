@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -67,8 +70,8 @@ public class UserDto implements Serializable{
 	
 //	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    private List<TaskDto> task = new ArrayList<>();
-	
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<CommentDto> comment = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CommentDto> comment = new ArrayList<>();
 	
 }

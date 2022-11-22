@@ -2,6 +2,7 @@ package com.bbms.dto;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import com.bbms.model.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,21 +40,17 @@ public class CommentDto implements Serializable{
 	private Long id;
 	@Column(name="content")
 	private String content;
+	@Column(name="parent_id")
+	private String parentId;
 	@Column(name="create_at")
-	private Date createAt;
-	@Column(name="update_at")
-	private Date updateAt;
+	private LocalDate createAt;
+	@Column(name="delete_status", columnDefinition = "TINYINT  default 0", length = 1)
+	private boolean deleteStatus;
 	
 	@ManyToOne
 	private TaskDto task;
 
-	@ManyToMany
-	@JoinTable(
-			name="user_has_comment",
-			joinColumns = @JoinColumn(name="comment_id"),
-			inverseJoinColumns = @JoinColumn(name="user_id"),
-			uniqueConstraints = { @UniqueConstraint(columnNames = { "comment_id", "user_id" }) }
-			)
-	private List <UserDto> users;
+    @ManyToOne
+    private UserDto user;
 
 }

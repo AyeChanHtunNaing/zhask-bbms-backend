@@ -54,6 +54,7 @@ public class TaskDto implements Serializable{
 	@Column(name="end_date")
 	private LocalDate endDate;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
 	private List <CommentDto> comments;
 	

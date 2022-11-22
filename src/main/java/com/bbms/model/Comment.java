@@ -1,6 +1,8 @@
 package com.bbms.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
+
 import com.bbms.dto.TaskDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,8 +15,9 @@ public class Comment {
 
 	private Long id;
 	private String content;
-	private Date createAt;
-	private Date updateAt;
-	private TaskDto task;
-	
+	private LocalDate createAt;
+	//private Date updateAt;
+	private String parentId;
+	private Task task;
+	private User user;
 }
