@@ -18,6 +18,7 @@ import com.bbms.dto.WorkspaceDto;
 import com.bbms.model.MessageResponse;
 import com.bbms.model.User;
 import com.bbms.model.Workspace;
+import com.bbms.service.UserService;
 import com.bbms.service.WorkspaceService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,8 @@ public class WorkspaceController {
 
 	@Autowired
 	private WorkspaceService workspaceService;
-
+	@Autowired
+	private UserService userService;
 	@PostMapping(value = "/workspace", produces = "application/json")
 	public ResponseEntity<?> createWorkspacec(@RequestBody Workspace workspace) {
 

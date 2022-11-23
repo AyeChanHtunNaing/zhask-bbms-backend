@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bbms.dto.WorkspaceDto;
-import com.bbms.model.Workspace;
+
 import com.bbms.repository.WorkspaceRepository;
 
-import lombok.extern.slf4j.Slf4j;
+
 
 @Service
-@Slf4j
 public class WorkspaceService {
 	@Autowired
 	private WorkspaceRepository workspaceRepository;
@@ -28,7 +27,10 @@ public class WorkspaceService {
 
 		return workspaceRepository.getWorkspaceByUserId(userId);
 	}
+	public List<WorkspaceDto> getReportWorkspace(String email) {
 
+		return workspaceRepository.getWorkspacesByuserEmail(email);
+	}
 	public List<WorkspaceDto> getFavWorkspace(Long userId) {
 		System.out.println("youk p");
 
