@@ -55,7 +55,7 @@ public class InviteController {
 
 	@PostMapping(value = "/invite", produces = "application/json")
 	public ResponseEntity<?> inviteMember(@RequestBody InviteMember invite) throws MessagingException {
-		if (invite.getEmail() != null) {
+		
 			String URL = null;
 			if (invite.getUrl().equals("workspace"))
 				URL = SecurityContants.BACKEND_BASE_URL + "/api/v1/workspacejoin/" + invite.getWorkspaceId() + "/"
@@ -82,8 +82,7 @@ public class InviteController {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 						.body(new MessageResponse("Email not Sent!"));
 			}
-		}
-		return ResponseEntity.ok(new MessageResponse("Insert Successfully!"));
+		
 	}
 
 	@GetMapping("/workspacejoin/{workspaceId}/{userId}/{email}")

@@ -62,7 +62,6 @@ public class ReportService {
 	String name=user.getName();
 	String email=user.getEmail();
 	List<BoardDto> boards=boardService.generateBoardListByUserId(id);
-	
 	File file=ResourceUtils.getFile("classpath:board.jrxml");
     JasperReport jasperReport=JasperCompileManager.compileReport(file.getAbsolutePath());
     JRBeanCollectionDataSource dataSource=new JRBeanCollectionDataSource(boards);
