@@ -9,10 +9,9 @@ import com.bbms.dto.WorkspaceDto;
 
 import com.bbms.repository.WorkspaceRepository;
 
-
-
 @Service
 public class WorkspaceService {
+	
 	@Autowired
 	private WorkspaceRepository workspaceRepository;
 
@@ -27,16 +26,18 @@ public class WorkspaceService {
 
 		return workspaceRepository.getWorkspaceByUserId(userId);
 	}
+
 	public List<WorkspaceDto> getReportWorkspace(String email) {
 
 		return workspaceRepository.getWorkspacesByuserEmail(email);
 	}
+
 	public List<WorkspaceDto> getFavWorkspace(Long userId) {
 		System.out.println("youk p");
 
 		return workspaceRepository.getFavWorkspaceById(userId);
 	}
-	
+
 	public void updateWorkspace(WorkspaceDto dto) {
 
 		workspaceRepository.updateWorkspace(dto.getName(), dto.getId());
@@ -52,12 +53,12 @@ public class WorkspaceService {
 		return workspaceRepository.selectWorkspaceIdByWorkspace(workspaceId);
 	}
 
-	public WorkspaceDto isExistWorkspace(Long workspaceId , Long userId) {
+	public WorkspaceDto isExistWorkspace(Long workspaceId, Long userId) {
 		return workspaceRepository.checkWorkspaceHasUser(workspaceId, userId);
 	}
-	
+
 	public void setFavWorkspace(WorkspaceDto dto) {
 		workspaceRepository.setFavWorkspace(dto.isMarked(), dto.getId());
-	
+
 	}
 }
