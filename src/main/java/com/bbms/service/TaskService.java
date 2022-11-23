@@ -48,4 +48,8 @@ public class TaskService {
 		return taskRepository.getAllTaskByBoardId(taskId);
 	}
 	
+	public List<TaskDto> getAllTasks(){
+		return taskRepository.getAllTasks();
+	}
+	
 }
