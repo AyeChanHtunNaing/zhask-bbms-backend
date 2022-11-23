@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,16 +35,17 @@ public class TaskController {
 	@Autowired
 	private TaskService taskService;
 
-	@RequestMapping(value = "/task", produces = "application/json")
+	@PostMapping(value = "/task", produces = "application/json")
 	public ResponseEntity<TaskDto> createTask(@RequestBody Task task) {
 
 		TaskDto taskDto = new TaskDto();
+//		taskDto.setId(task.getId());
 		taskDto.setDescription(task.getDescription());
 		taskDto.setCreatedBy(task.getCreatedBy());
 		taskDto.setCreateAt(LocalDate.now());
 		taskDto.setUpdateAt(LocalDate.now());
-		taskDto.setStartDate(LocalDate.now());
-		taskDto.setEndDate(LocalDate.now());
+		taskDto.setStartDate(task.getStartDate());
+		taskDto.setEndDate(task.getEndDate());
 		BoardDto boardDto = new BoardDto();
 		boardDto.setId(task.getBoard().getId());
 		TaskListDto tasklistDto = new TaskListDto();
@@ -105,6 +107,7 @@ public class TaskController {
 		taskDto.setBoard(boardDto);
 		List<UserDto> dtoList = new ArrayList<UserDto>();
 		UserDto usrDto = new UserDto();
+		System.out.println(task.getUsers().get(0));
 		User user = task.getUsers().get(0);
 		usrDto.setId(user.getId());
 		dtoList.add(usrDto);
