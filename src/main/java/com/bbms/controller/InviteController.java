@@ -64,8 +64,8 @@ public class InviteController {
 				URL = SecurityContants.BACKEND_BASE_URL + "/api/v1/boardjoin/" + invite.getWorkspaceId() + "/"
 						+ invite.getId();
 			else if (invite.getUrl().equals("task")) {
-				UserDto user=userRepository.findByEmail(invite.getEmail());
-				if ( user== null || boardService.isExitUserIdInBoard(user.getId())==null) {
+				UserDto user = userRepository.findByEmail(invite.getEmail());
+				if (user == null || boardService.isExitUserIdInBoard(user.getId()) == null) {
 					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 							.body(new MessageResponse("Email not sent!"));
 				} else {
@@ -149,15 +149,20 @@ public class InviteController {
 
 	@GetMapping("/taskjoin/{taskId}/{userId}/{email}")
 	public void joinTask(@PathVariable Long taskId, @PathVariable Long userId, @PathVariable String email,
-		HttpServletResponse res) throws IOException {
+			HttpServletResponse res) throws IOException {
 		UserDto user = userRepository.findByEmail(email);
 		TaskDto taskDto = taskService.getTaskbyId(taskId);
-		UserDto userDto = new UserDto();
-		userDto.setId(user.getId());
-		taskDto.getUsers().add(userDto);
-		taskService.insert(taskDto);
-		res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/"+taskDto.getTaskList().getId());
-		
-	}
+		TaskDto dto = taskService.checkTaskHasUser(taskId, userId);
+		if (dto == null) {
+			UserDto userDto = new UserDto();
+			userDto.setId(user.getId());
+			taskDto.getUsers().add(userDto);
+			taskService.insert(taskDto);
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getTaskList().getId());
+		} else {
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getTaskList().getId());
+		}
 
+	}
+	
 }

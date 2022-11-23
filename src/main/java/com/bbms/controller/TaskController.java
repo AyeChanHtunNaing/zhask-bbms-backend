@@ -52,7 +52,7 @@ public class TaskController {
 		taskDto.setTaskList(tasklistDto);
 		List<UserDto> dtoList = new ArrayList<UserDto>();
 		UserDto usrDto = new UserDto();
-		User user=task.getUsers().get(0);
+		User user = task.getUsers().get(0);
 		usrDto.setId(user.getId());
 		dtoList.add(usrDto);
 		taskDto.setUsers(dtoList);
@@ -67,7 +67,13 @@ public class TaskController {
 		List<TaskDto> taskmodel = taskService.getAllTaskId(tasklistId);
 		return ResponseEntity.ok(taskmodel);
 	}
-	
+
+	@GetMapping(value = "/task/generateTaskByUserId/{userId}", produces = "application/json")
+	public ResponseEntity<List<TaskDto>> generateTaskByUserId(@PathVariable Long userId) {
+		List<TaskDto> dtoList = taskService.generateTaskByUserId(userId);
+		return ResponseEntity.ok(dtoList);
+	}
+
 	@PutMapping(value = "/taskDescription/{taskId}", produces = "application/json")
 	public ResponseEntity<TaskDto> update(@PathVariable Long taskId, @RequestBody Task task) {
 
@@ -78,10 +84,10 @@ public class TaskController {
 		return ResponseEntity.ok(taskDto);
 
 	}
-	
-	@PutMapping(value="/task/{taskId}",produces="application/json")
-	public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId,@RequestBody Task task){
-		
+
+	@PutMapping(value = "/task/{taskId}", produces = "application/json")
+	public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
+
 		TaskDto taskDto = new TaskDto();
 		taskDto.setId(taskId);
 		taskDto.setContent(task.getContent());
@@ -97,17 +103,22 @@ public class TaskController {
 		tasklistDto.setId(task.getTaskList().getId());
 		taskDto.setTaskList(tasklistDto);
 		taskDto.setBoard(boardDto);
+		List<UserDto> dtoList = new ArrayList<UserDto>();
+		UserDto usrDto = new UserDto();
+		User user = task.getUsers().get(0);
+		usrDto.setId(user.getId());
+		dtoList.add(usrDto);
+		taskDto.setUsers(dtoList);
 		taskService.updateTask(taskDto);
 		return ResponseEntity.ok(taskDto);
 	}
 
-	
 	@DeleteMapping(value = "/task/{taskId}", produces = "application/json")
 	public ResponseEntity<Boolean> deleteTaskList(@PathVariable Long taskId) {
 		taskService.deleteTask(taskId);
 		return ResponseEntity.ok(true);
 	}
-	
+
 //	Just for testing before we get UI please don't delete 
 //	@GetMapping(value = "/gettasklist/{taskId}", produces = "application/json")
 //	public Optional<TaskListDto> selectByTaskId(@PathVariable Long taskId) {

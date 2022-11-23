@@ -1,6 +1,9 @@
 package com.bbms.service;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,15 +21,19 @@ public class ReminderService {
 	@Autowired
 	private TaskService service;
 	
-	@Scheduled(cron = "0 30 11 * * *")
-	public void checkTaskDate() {
-		System.out.println("++++checkTaskDate++++");
-		List<TaskDto> dto = service.getAllTasks();
-		System.out.println("here");
-		System.out.println(dto);
-		System.out.println("++++checkTaskDate++++");
-		for(TaskDto temp : dto ) {
-			System.out.println(temp.toString());
+	@Autowired
+	private EmailService mailservice;
+	
+	@Scheduled(cron = "0 0 0 * * *")
+	public void checkTaskDate() throws MessagingException {
+		List<TaskDto> taskmodel = service.getAllTasks();
+		for(TaskDto temp : taskmodel) {
+			LocalDate dateToRemind = temp.getStartDate().minusDays(1);
+			if(LocalDate.now().isEqual(dateToRemind)) { 
+				String mailBody = "Task:"+temp.getDescription()+" sa to ml blh lbh.";
+				String subject = "Reminder";
+				mailservice.sendEmailWithMimeMessage(temp.getCreatedBy(), mailBody, subject);
+			}
 		}
 	}
 }

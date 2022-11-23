@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.bbms.dto.TaskDto;
+import com.bbms.dto.WorkspaceDto;
 
 @Transactional
 public interface TaskRepository extends JpaRepository<TaskDto, Long> {
@@ -35,4 +36,11 @@ public interface TaskRepository extends JpaRepository<TaskDto, Long> {
 	@Modifying
 	@Query(value="UPDATE task SET delete_status=1 WHERE id=?",nativeQuery=true)
 	public void deleteTaskById(Long taskId);
+	
+	@Query(value="SELECT * FROM task INNER JOIN user_has_task ON  task.id=user_has_task.task_id AND task_id=?1 AND user_id = ?2 ", nativeQuery = true)
+	public TaskDto checkTaskHasUser(Long taskId , Long userId);
+	
+	@Query(value="SELECT  * FROM task INNER JOIN user_has_task ON  task.id=user_has_task.task_id AND user_id = ?1 ",nativeQuery=true)
+	public List<TaskDto> selectTaskByUserId(Long userId);
+	
 }
