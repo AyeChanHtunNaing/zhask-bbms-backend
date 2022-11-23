@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import com.bbms.dto.BoardDto;
 import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
 
@@ -31,6 +32,9 @@ public class ReportService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private BoardService boardService;
+	
 	public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/";
 	
     public void generateWorkspace(Long id) throws JRException, IOException{
@@ -50,7 +54,22 @@ public class ReportService {
         JasperPrint jasperPrint=JasperFillManager.fillReport(jasperReport,parameters, dataSource);
         String filename=name+"-workspace-"+LocalDate.now();
         JasperExportManager.exportReportToPdfFile(jasperPrint, path+"/"+filename+".pdf");
-  
     	
+    }
+    public void generateBoard(Long id) throws JRException, IOException{
+    String path=DIRECTORY;
+    UserDto user=userService.getById(id);
+	String name=user.getName();
+	String email=user.getEmail();
+	List<BoardDto> boards=boardService.generateBoardListByUserId(id);
+	
+	File file=ResourceUtils.getFile("classpath:board.jrxml");
+    JasperReport jasperReport=JasperCompileManager.compileReport(file.getAbsolutePath());
+    JRBeanCollectionDataSource dataSource=new JRBeanCollectionDataSource(boards);
+    Map<String,Object>  parameters=new HashMap<>();
+    parameters.put("Email", email);
+    JasperPrint jasperPrint=JasperFillManager.fillReport(jasperReport,parameters, dataSource);
+    String filename=name+"-workspace-"+LocalDate.now();
+    JasperExportManager.exportReportToPdfFile(jasperPrint, path+"/"+filename+".pdf");
     }
 }

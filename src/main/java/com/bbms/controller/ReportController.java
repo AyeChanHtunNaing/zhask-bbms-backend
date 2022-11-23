@@ -22,7 +22,11 @@ public class ReportController {
 	private ReportService reportService;
 	
 	@GetMapping("report/workspace/{id}")
-	public  void generatePDFReport(@PathVariable Long id) throws JRException, IOException{    
+	public  void exportWorkspace(@PathVariable Long id) throws JRException, IOException{    
 		reportService.generateWorkspace(id);
+	}
+	@GetMapping("report/board/{id}")
+	public  void exportBoard(@PathVariable Long id) throws JRException, IOException{    
+		reportService.generateBoard(id);
 	}
 }
