@@ -51,4 +51,7 @@ public class TaskService {
 		return dtoList;
 	}
 
+	public List<TaskDto> getAllTasks(){
+		return taskRepository.getAllTasks();
+	}
 }
