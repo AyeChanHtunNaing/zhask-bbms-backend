@@ -37,4 +37,8 @@ public class ReportController {
 	public  void exportEndTasks(@PathVariable Long id) throws JRException, IOException{    
 		reportService.generateEndTasks(id);
 	}
+	@GetMapping("report/closedTask/{id}")
+	public  void exportClosedTasks(@PathVariable Long id) throws JRException, IOException{    
+		reportService.generateClosedTasks(id);
+	}
 }

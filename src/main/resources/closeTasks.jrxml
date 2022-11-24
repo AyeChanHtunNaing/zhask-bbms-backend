@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="endTasks" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a409c03a-f8d5-4699-ba3d-44af643bbb6b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MYSQL"/>
+	<parameter name="userName" class="java.lang.String"/>
+	<parameter name="userId" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM bbms.task
+INNER JOIN bbms.tasklist ON task.task_list_id=tasklist.id
+INNER JOIN bbms.user_has_task ON task.id=user_has_task.task_id
+AND task.delete_status=1 
+AND user_has_task.user_id=$P{userId}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task"/>
+	</field>
+	<field name="createAt" class="java.time.LocalDate">
+		<property name="com.jaspersoft.studio.field.name" value="create_at"/>
+		<property name="com.jaspersoft.studio.field.label" value="create_at"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task"/>
+	</field>
+	<field name="createdBy" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="created_by"/>
+		<property name="com.jaspersoft.studio.field.label" value="created_by"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task"/>
+	</field>
+	<field name="endDate" class="java.time.LocalDate">
+		<property name="com.jaspersoft.studio.field.name" value="end_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="end_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task"/>
+	</field>
+	<field name="startDate" class="java.time.LocalDate">
+		<property name="com.jaspersoft.studio.field.name" value="start_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="start_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task"/>
+	</field>
+	<field name="board" class="com.bbms.dto.BoardDto">
+		<property name="com.jaspersoft.studio.field.name" value="board_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="board_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="task"/>
+	</field>
+	<field name="taskList" class="com.bbms.dto.TaskListDto">
+		<property name="com.jaspersoft.studio.field.name" value="title"/>
+		<property name="com.jaspersoft.studio.field.label" value="title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tasklist"/>
+	</field>
+	<group name="id">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+	</group>
+	<group name="create_at">
+		<groupExpression><![CDATA[$F{createAt}]]></groupExpression>
+	</group>
+	<group name="created_by">
+		<groupExpression><![CDATA[$F{createdBy}]]></groupExpression>
+	</group>
+	<group name="description">
+		<groupExpression><![CDATA[$F{description}]]></groupExpression>
+	</group>
+	<group name="end_date">
+		<groupExpression><![CDATA[$F{endDate}]]></groupExpression>
+	</group>
+	<group name="start_date">
+		<groupExpression><![CDATA[$F{startDate}]]></groupExpression>
+	</group>
+	<group name="board_id">
+		<groupExpression><![CDATA[$F{board}.getId()]]></groupExpression>
+	</group>
+	<group name="title">
+		<groupExpression><![CDATA[$F{taskList}.getTitle()]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<image>
+				<reportElement x="130" y="-5" width="90" height="90" uuid="ccc4c093-c4be-4f0e-b7da-194a5e8c5459"/>
+				<imageExpression><![CDATA["https://www.peacechan.dev/dat.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="280" y="50" width="190" height="30" forecolor="#F7CE55" uuid="dec6a3d8-b5fb-4021-9fed-f54839a19d69"/>
+				<textElement textAlignment="Center">
+					<font fontName="Monospaced" size="15"/>
+				</textElement>
+				<text><![CDATA[Bulletin Board System]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="20" width="295" height="30" forecolor="#406595" uuid="9a98263e-143e-421b-bc81-2432c505542e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="25"/>
+				</textElement>
+				<text><![CDATA[DIR ACE Technology]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="70" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="550" y="0" width="100" height="30" uuid="1cbcc0c9-ca1f-4b01-911a-47312c66232e"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="30" width="200" height="30" forecolor="#406595" uuid="14f47a2e-4446-4b7f-aa43-8d0ce6bd2258"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Report on Closed Tasks of]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="220" y="30" width="100" height="30" forecolor="#F7CE55" uuid="9dc3a63f-da0e-4537-a83e-247ab896ef42"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="40" width="50" height="30" uuid="f40a4661-deda-4c99-baf8-0cb0766c5159">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e17f05a8-a25c-4b99-ac06-8f960900d1ee"/>
+				</reportElement>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="40" width="100" height="30" uuid="6f5f24af-abe2-46f7-901e-4a5dac85d9b5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="49bda1e1-6a5d-43a0-bc8a-7558d201eacd"/>
+				</reportElement>
+				<text><![CDATA[description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="40" width="74" height="30" uuid="86e29035-84d9-4dc6-b363-f82c2f98467c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d8d84b3-492b-4f41-a57a-3d3790c294f2"/>
+				</reportElement>
+				<text><![CDATA[start_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="40" width="74" height="30" uuid="e5cde864-f8ef-4708-8747-ef2cb5e3d943">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f3164077-1966-4c40-ac9d-98bfbc66adbc"/>
+				</reportElement>
+				<text><![CDATA[end_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="40" width="74" height="30" uuid="bc4fdfa4-9238-4fc2-9330-41d9e24581a7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f2546189-bd51-4d99-ace6-d51ed1fadab7"/>
+				</reportElement>
+				<text><![CDATA[create_at]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="40" width="150" height="30" uuid="c2f438d7-1789-47e1-b57c-227332d0a790">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2af1872a-dd8b-4828-bd17-d801dbf7c113"/>
+				</reportElement>
+				<text><![CDATA[CREATED BY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="40" width="70" height="30" uuid="9edd2eb2-06ce-4474-b902-0e91f08b8c34">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8a7a166f-05e7-485c-be85-34aba8c93afe"/>
+				</reportElement>
+				<text><![CDATA[BOARD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="40" width="100" height="30" uuid="cf0e41c4-7761-465c-8a94-d16dba96b157">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="65ffca76-5c05-43df-a8fe-c35cc5e5b587"/>
+				</reportElement>
+				<text><![CDATA[STATUS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="10" width="50" height="30" uuid="160eed15-682b-4383-b8dd-a518c0075d16">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e17f05a8-a25c-4b99-ac06-8f960900d1ee"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="10" width="100" height="30" uuid="022476f5-6537-4a0c-838c-4f89bdbed6af">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="49bda1e1-6a5d-43a0-bc8a-7558d201eacd"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="10" width="74" height="30" uuid="905a0b33-0a80-4e26-94bd-f70492ebf8a6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d8d84b3-492b-4f41-a57a-3d3790c294f2"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="10" width="74" height="30" uuid="4f1ff1c4-7e47-4913-85c3-53cfcb735f39">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f3164077-1966-4c40-ac9d-98bfbc66adbc"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{endDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="10" width="74" height="30" uuid="8c78f422-b58d-42c6-ad2e-c7624495b8b5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f2546189-bd51-4d99-ace6-d51ed1fadab7"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{createAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="10" width="150" height="30" uuid="5a958e61-97ab-4ee2-800e-71b8b859f394">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2af1872a-dd8b-4828-bd17-d801dbf7c113"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{createdBy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="610" y="10" width="70" height="30" uuid="9918da55-5ec8-4cc8-8a31-09cb5605222c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8a7a166f-05e7-485c-be85-34aba8c93afe"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{board}.getId()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="690" y="10" width="100" height="30" uuid="c4b76f13-bdf9-4c22-955b-0db98076add0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="65ffca76-5c05-43df-a8fe-c35cc5e5b587"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{taskList}.getTitle()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

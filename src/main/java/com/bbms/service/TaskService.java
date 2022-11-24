@@ -67,4 +67,7 @@ public class TaskService {
 	public List<TaskDto> getEndTasksbyId(Long id ){
 		return taskRepository.getEndTasksByid(id);
 	}
+	public List<TaskDto> getClosedTasksbyId(Long id ){
+		return taskRepository.getCloseTasksByid(id);
+	}
 }

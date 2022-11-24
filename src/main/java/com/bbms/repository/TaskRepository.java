@@ -50,6 +50,9 @@ public interface TaskRepository extends JpaRepository<TaskDto, Long> {
 	@Query(value="SELECT * FROM task INNER JOIN tasklist ON task.task_list_id=tasklist.id INNER JOIN user_has_task ON task.id=user_has_task.task_id AND tasklist.title='DONE' AND user_has_task.user_id=?1 AND task.delete_status=0 ",nativeQuery=true)
 	public List<TaskDto> getEndTasksByid(Long userId);
 	
+	@Query(value="SELECT * FROM task INNER JOIN tasklist ON task.task_list_id=tasklist.id INNER JOIN user_has_task ON task.id=user_has_task.task_id  AND user_has_task.user_id=?1 AND task.delete_status=1",nativeQuery=true)
+	public List<TaskDto> getCloseTasksByid(Long userId);
+	
 	@Modifying
 	@Query(value="UPDATE task SET task_list_id=?1 where id=?2",nativeQuery=true)
 	public void updateTaskListbyTaskId(Long taskListId,Long taskId);
