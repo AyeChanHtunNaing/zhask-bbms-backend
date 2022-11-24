@@ -40,7 +40,7 @@ public class TaskService {
 	public void deleteTask(Long taskId) {
 		taskRepository.deleteTaskById(taskId);
 	}
-	public void deleteByBoard(Long boardId) {
+	public void deleteTaskByBoardId(Long boardId) {
 		taskRepository.deleteTaskByBoardId(boardId);
 	}
 

@@ -20,7 +20,7 @@ public interface WorkspaceRepository extends JpaRepository<WorkspaceDto, Long>{
 	public void updateWorkspace(String name , Long workspaceId);
 	
 	@Modifying
-	@Query(value="UPDATE workspace SET delete_status=1 WHERE id=?",nativeQuery=true)
+	@Query(value="UPDATE workspace SET delete_status=1 WHERE id=? ",nativeQuery=true)
 	public void deleteWorkspaceById(Long taskId);
 	
 	@Query(value = "SELECT DISTINCT * FROM workspace INNER JOIN user_has_workspace ON  workspace.id=user_has_workspace.workspace_id AND user_id = ?1 AND delete_status = 0 ", nativeQuery = true)

@@ -1,20 +1,16 @@
 package com.bbms.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskListDto;
-import com.bbms.dto.WorkspaceDto;
-import com.bbms.model.Board;
-import com.bbms.model.TaskList;
 import com.bbms.repository.BoardRepository;
 import com.bbms.repository.TaskListRepository;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class BoardService {
 
 	@Autowired
@@ -64,6 +60,7 @@ public class BoardService {
 	}
 
 	public void updateBoard(BoardDto dto) {
+		
 		boardRepository.updateBoardById(dto.getName(), dto.getId());
 	}
 
@@ -83,6 +80,7 @@ public class BoardService {
 	}
 
 	public void setFavBoard(BoardDto dto) {
+		
 		boardRepository.setFavBoard(dto.isMarked(), dto.getId());
 
 	}
@@ -102,10 +100,22 @@ public class BoardService {
 
 		return boardRepository.showBoardListByUserId(userId);
 	}
+	
     public List<BoardDto> getBoardsByemail(String email){
     	return boardRepository.showBoardsbyUserEmail(email);
     }
+    
 	public BoardDto generateBoardMemberByBoardId(Long boardId) {
 		return boardRepository.generateBoardMemberByBoardId(boardId);
+	}
+	
+	public void deleteBoardByWorkspaceId(Long workspaceId) {
+
+		boardRepository.deleteBoardByWorkspaceId(workspaceId);
+	}
+	
+	public List<BoardDto> genereateBoardByWorkspaceId(Long workspaceId){
+		
+		return boardRepository.showBoardsbyWorkspaceId(workspaceId);
 	}
 }

@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bbms.dto.BoardDto;
 import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
 import com.bbms.model.MessageResponse;
 import com.bbms.model.User;
 import com.bbms.model.Workspace;
-import com.bbms.service.UserService;
+import com.bbms.service.BoardService;
+import com.bbms.service.TaskService;
 import com.bbms.service.WorkspaceService;
-
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -30,7 +30,10 @@ public class WorkspaceController {
 	@Autowired
 	private WorkspaceService workspaceService;
 	@Autowired
-	private UserService userService;
+	private TaskService taskService;
+	@Autowired
+	private BoardService boardService;
+
 	@PostMapping(value = "/workspace", produces = "application/json")
 	public ResponseEntity<?> createWorkspacec(@RequestBody Workspace workspace) {
 
@@ -40,7 +43,7 @@ public class WorkspaceController {
 		workspaceDto.setCreatedBy(workspace.getCreatedBy());
 		List<UserDto> dtoList = new ArrayList<UserDto>();
 		UserDto usrDto = new UserDto();
-		User user=workspace.getUsers().get(0);
+		User user = workspace.getUsers().get(0);
 		usrDto.setId(user.getId());
 		dtoList.add(usrDto);
 		workspaceDto.setUsers(dtoList);
@@ -50,27 +53,31 @@ public class WorkspaceController {
 	}
 
 	@GetMapping(value = "/workspace/{userId}", produces = "application/json")
-	public ResponseEntity<List<WorkspaceDto>> selectAllWorkspacec(@PathVariable Long userId ) {
+	public ResponseEntity<List<WorkspaceDto>> selectAllWorkspacec(@PathVariable Long userId) {
 		List<WorkspaceDto> workspaces = workspaceService.getAllWorkspace(userId);
 		return ResponseEntity.ok(workspaces);
 	}
-	
-	
 
 	@PutMapping(value = "/workspace/{workspaceId}", produces = "application/json")
-	public ResponseEntity<Boolean> updateWorkspacec(@PathVariable Long workspaceId , @RequestBody Workspace workspace) {
+	public ResponseEntity<Boolean> updateWorkspacec(@PathVariable Long workspaceId, @RequestBody Workspace workspace) {
 
 		WorkspaceDto workspaceDto = new WorkspaceDto();
 		workspaceDto.setId(workspaceId);
 		workspaceDto.setDescription(workspace.getDescription());
 		workspaceDto.setName(workspace.getName());
-	    workspaceService.updateWorkspace(workspaceDto);
+		workspaceService.updateWorkspace(workspaceDto);
 		return ResponseEntity.ok(true);
 	}
 
 	@DeleteMapping(value = "/workspace/{workspaceId}", produces = "application/json")
 	public ResponseEntity<Boolean> deleteWorkspacec(@PathVariable Long workspaceId) {
+		
 		workspaceService.deleteWorkspace(workspaceId);
+		boardService.deleteBoardByWorkspaceId(workspaceId);
+		List<BoardDto> boardList = boardService.genereateBoardByWorkspaceId(workspaceId);
+		for (int i = 0; i < boardList.size(); i++) {
+			taskService.deleteTaskByBoardId(boardList.get(i).getId());
+		}
 		return ResponseEntity.ok(true);
 	}
 
