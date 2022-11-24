@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import com.bbms.dto.BoardDto;
+import com.bbms.dto.TaskDto;
 import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
 
@@ -35,6 +36,9 @@ public class ReportService {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private TaskService taskService;
 	
 	public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/";
 	
@@ -74,4 +78,41 @@ public class ReportService {
     String filename=name+"-board-"+LocalDate.now();
     JasperExportManager.exportReportToPdfFile(jasperPrint, path+"/"+filename+".pdf");
     }
+    
+    public void generateAssignedTasks(Long id) throws JRException, IOException{
+    String path=DIRECTORY;
+    UserDto user=userService.getById(id);
+	String name=user.getName();
+	String email=user.getEmail();
+	List<TaskDto> tasks=taskService.getTasksbyId(id);
+	System.out.println(tasks.size());
+	File file=ResourceUtils.getFile("classpath:assigned_task.jrxml");
+    JasperReport jasperReport=JasperCompileManager.compileReport(file.getAbsolutePath());
+    System.out.println("reach this");
+    JRBeanCollectionDataSource dataSource=new JRBeanCollectionDataSource(tasks);
+    Map<String,Object>  parameters=new HashMap<>();
+    parameters.put("userId", id);
+    parameters.put("userName",name);
+    JasperPrint jasperPrint=JasperFillManager.fillReport(jasperReport,parameters, dataSource);
+    String filename=name+"-assignedTasks-"+LocalDate.now();
+    JasperExportManager.exportReportToPdfFile(jasperPrint, path+"/"+filename+".pdf");
+    }
+    
+    public void generateEndTasks(Long id) throws JRException, IOException{
+        String path=DIRECTORY;
+        UserDto user=userService.getById(id);
+    	String name=user.getName();
+    	String email=user.getEmail();
+    	List<TaskDto> tasks=taskService.getEndTasksbyId(id);
+    	File file=ResourceUtils.getFile("classpath:endTasks.jrxml");
+        JasperReport jasperReport=JasperCompileManager.compileReport(file.getAbsolutePath());
+        System.out.println("reach this");
+        JRBeanCollectionDataSource dataSource=new JRBeanCollectionDataSource(tasks);
+        Map<String,Object>  parameters=new HashMap<>();
+        parameters.put("userId", id);
+        parameters.put("userName",name);
+        JasperPrint jasperPrint=JasperFillManager.fillReport(jasperReport,parameters, dataSource);
+        String filename=name+"-endTasks-"+LocalDate.now();
+        JasperExportManager.exportReportToPdfFile(jasperPrint, path+"/"+filename+".pdf");
+        }
 }

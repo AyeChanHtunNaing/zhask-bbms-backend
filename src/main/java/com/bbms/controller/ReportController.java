@@ -29,4 +29,12 @@ public class ReportController {
 	public  void exportBoard(@PathVariable Long id) throws JRException, IOException{    
 		reportService.generateBoard(id);
 	}
+	@GetMapping("report/assignedTask/{id}")
+	public  void exportAssignedTasks(@PathVariable Long id) throws JRException, IOException{    
+		reportService.generateAssignedTasks(id);
+	}
+	@GetMapping("report/endTask/{id}")
+	public  void exportEndTasks(@PathVariable Long id) throws JRException, IOException{    
+		reportService.generateEndTasks(id);
+	}
 }

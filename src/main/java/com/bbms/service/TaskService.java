@@ -33,9 +33,15 @@ public class TaskService {
 		taskRepository.updateTask(dto.getDescription(), dto.getId());
 
 	}
+	public void updateTaskList(TaskDto dto) {
+		taskRepository.updateTaskListbyTaskId(dto.getTaskList().getId(),dto.getId());
 
+	}
 	public void deleteTask(Long taskId) {
 		taskRepository.deleteTaskById(taskId);
+	}
+	public void deleteByBoard(Long boardId) {
+		taskRepository.deleteTaskByBoardId(boardId);
 	}
 
 	public List<TaskDto> showAllTaskByBoardId(Long taskId) {
@@ -53,5 +59,12 @@ public class TaskService {
 
 	public List<TaskDto> getAllTasks(){
 		return taskRepository.getAllTasks();
+	}
+	//report
+	public List<TaskDto> getTasksbyId(Long id ){
+		return taskRepository.getTasksByid(id);
+	}
+	public List<TaskDto> getEndTasksbyId(Long id ){
+		return taskRepository.getEndTasksByid(id);
 	}
 }

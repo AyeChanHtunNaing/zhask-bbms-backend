@@ -86,6 +86,18 @@ public class TaskController {
 		return ResponseEntity.ok(taskDto);
 
 	}
+	@PutMapping(value = "/task/edit/{taskId}", produces = "application/json")
+	public ResponseEntity<TaskDto> updateTaskList(@PathVariable Long taskId, @RequestBody Task task) {
+
+		TaskDto taskDto = new TaskDto();
+		taskDto.setId(taskId);
+		TaskListDto tasklistDto = new TaskListDto();
+		tasklistDto.setId(task.getTaskList().getId());
+		taskDto.setTaskList(tasklistDto);
+		taskService.updateTaskList(taskDto);
+		return ResponseEntity.ok(taskDto);
+
+	}
 
 	@PutMapping(value = "/task/{taskId}", produces = "application/json")
 	public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId, @RequestBody Task task) {

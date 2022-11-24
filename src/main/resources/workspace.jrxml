@@ -9,6 +9,7 @@
 FROM bbms.workspace
 INNER JOIN bbms.user 
 ON workspace.created_by=user.email
+AND workspace.delete_status=0 
 AND user.email=$P{Email}]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">

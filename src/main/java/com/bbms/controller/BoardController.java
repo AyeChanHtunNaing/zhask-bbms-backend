@@ -80,6 +80,7 @@ public class BoardController {
 	@DeleteMapping(value = "/board/{boardId}", produces = "application/json")
 	public ResponseEntity<Boolean> deleteBaord(@PathVariable Long boardId) {
 		boardService.deleteBoard(boardId);
+        taskService.deleteByBoard(boardId);
 		return ResponseEntity.ok(true);
 	}
 

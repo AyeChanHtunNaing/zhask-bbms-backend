@@ -100,6 +100,7 @@ public class ActivityController {
 				act.setName(activity.getName());
 				act.setChecked(activity.isChecked());	
 				/*task update */
+				System.out.println(taskId);
 				TaskDto taskDto = new TaskDto();
 				taskDto.setId(taskId);
 				taskDto.setContent(dto.getContent());
@@ -115,7 +116,7 @@ public class ActivityController {
 				tasklistDto.setId(doingDto.getId());
 				taskDto.setTaskList(tasklistDto);
 				taskDto.setBoard(boardDto);
-				taskService.updateTask(taskDto);
+				taskService.updateTaskList(taskDto);
 				/*task update */
 				TaskDto task = new TaskDto();
 				task.setId(taskDto.getId());
@@ -123,8 +124,9 @@ public class ActivityController {
 				activityService.update(act);
 			   
 			} 
-			 if(check.size()==activityDto.size() || activities.getTasks().getEndDate().isBefore(LocalDate.now())) {
+			 if(check.size()==activityDto.size()) {
 				System.out.println("reach there pika ....");
+				System.out.println(taskId);
 				ActivityDto act=new ActivityDto();
 				act.setId(activity.getId());
 				act.setName(activity.getName());
@@ -145,7 +147,7 @@ public class ActivityController {
 				tasklistDto.setId(doneDto.getId());
 				taskDto.setTaskList(tasklistDto);
 				taskDto.setBoard(boardDto);
-				taskService.updateTask(taskDto);
+				taskService.updateTaskList(taskDto);
 				/*task update */
 				TaskDto task = new TaskDto();
 				task.setId(taskDto.getId());

@@ -8,7 +8,7 @@
 		<![CDATA[SELECT *
 FROM bbms.board
 INNER JOIN bbms.user ON board.created_by=user.email
-AND user.email=$P{Email}]]>
+AND user.email=$P{Email} AND board.delete_status=0 ]]>
 	</queryString>
 	<field name="createdBy" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="created_by"/>
