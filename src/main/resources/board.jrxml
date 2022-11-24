@@ -15,7 +15,7 @@ AND user.email=$P{Email}]]>
 		<property name="com.jaspersoft.studio.field.label" value="created_by"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="board"/>
 	</field>
-	<field name="createAt" class="java.sql.Date">
+	<field name="createAt" class="java.time.LocalDate">
 		<property name="com.jaspersoft.studio.field.name" value="create_at"/>
 		<property name="com.jaspersoft.studio.field.label" value="create_at"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="board"/>
@@ -56,7 +56,7 @@ AND user.email=$P{Email}]]>
 		<groupExpression><![CDATA[$F{name}]]></groupExpression>
 	</group>
 	<group name="workspace_id">
-		<groupExpression><![CDATA[$F{workspace}]]></groupExpression>
+		<groupExpression><![CDATA[$F{workspace}.getId()]]></groupExpression>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
@@ -110,7 +110,7 @@ AND user.email=$P{Email}]]>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="68" splitType="Stretch">
+		<band height="79" splitType="Stretch">
 			<staticText>
 				<reportElement x="20" y="30" width="60" height="30" forecolor="#406595" uuid="18a18777-91eb-4d0f-a6cc-38a10c2e11ff"/>
 				<box>
@@ -164,7 +164,7 @@ AND user.email=$P{Email}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="38" splitType="Stretch">
 			<textField>
 				<reportElement x="20" y="0" width="60" height="30" uuid="04d2b588-f37f-48e7-a45c-0b2786399fd7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1346972d-181d-4603-b628-3393912081f0"/>
@@ -193,7 +193,7 @@ AND user.email=$P{Email}]]>
 				<reportElement x="470" y="0" width="80" height="30" uuid="150f02e9-e084-4636-b8e4-b0df98ae8449">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fadfc7f8-7a1f-432c-80fb-67a8964d1ae4"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{workspace}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{workspace}.getId()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

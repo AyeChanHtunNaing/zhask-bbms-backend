@@ -102,7 +102,9 @@ public class BoardService {
 
 		return boardRepository.showBoardListByUserId(userId);
 	}
-
+    public List<BoardDto> getBoardsByemail(String email){
+    	return boardRepository.showBoardsbyUserEmail(email);
+    }
 	public BoardDto generateBoardMemberByBoardId(Long boardId) {
 		return boardRepository.generateBoardMemberByBoardId(boardId);
 	}

@@ -15,6 +15,7 @@ import com.bbms.dto.BoardDto;
 import com.bbms.dto.UserDto;
 import com.bbms.dto.WorkspaceDto;
 
+import lombok.Singular;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -61,14 +62,16 @@ public class ReportService {
     UserDto user=userService.getById(id);
 	String name=user.getName();
 	String email=user.getEmail();
-	List<BoardDto> boards=boardService.generateBoardListByUserId(id);
+	List<BoardDto> boards=boardService.getBoardsByemail(email);
+	System.out.println(boards.size());
 	File file=ResourceUtils.getFile("classpath:board.jrxml");
     JasperReport jasperReport=JasperCompileManager.compileReport(file.getAbsolutePath());
+    System.out.println("reach this");
     JRBeanCollectionDataSource dataSource=new JRBeanCollectionDataSource(boards);
     Map<String,Object>  parameters=new HashMap<>();
     parameters.put("Email", email);
     JasperPrint jasperPrint=JasperFillManager.fillReport(jasperReport,parameters, dataSource);
-    String filename=name+"-workspace-"+LocalDate.now();
+    String filename=name+"-board-"+LocalDate.now();
     JasperExportManager.exportReportToPdfFile(jasperPrint, path+"/"+filename+".pdf");
     }
 }

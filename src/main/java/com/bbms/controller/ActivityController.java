@@ -123,7 +123,7 @@ public class ActivityController {
 				activityService.update(act);
 			   
 			} 
-			 if(check.size()==activityDto.size()) {
+			 if(check.size()==activityDto.size() || activities.getTasks().getEndDate().isBefore(LocalDate.now())) {
 				System.out.println("reach there pika ....");
 				ActivityDto act=new ActivityDto();
 				act.setId(activity.getId());

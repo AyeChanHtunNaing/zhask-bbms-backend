@@ -75,6 +75,7 @@ public class BoardDto implements Serializable {
 	
 	//@JsonBackReference
 	@ManyToOne
+	@JsonIgnore
 	private WorkspaceDto workspace;
 
 
