@@ -1,3 +1,4 @@
+
 package com.bbms.config;
 
 import java.util.Arrays;
@@ -26,40 +27,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		.cors().configurationSource(new CorsConfigurationSource() {
-			
-			@Override
-			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-				// TODO Auto-generated method stub
-				CorsConfiguration config = new CorsConfiguration();
-				config.setAllowedOrigins(Collections.singletonList(SecurityContants.FRONTEND_BASE_URL));
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors()
+				.configurationSource(new CorsConfigurationSource() {
+
+					@Override
+					public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+						// TODO Auto-generated method stub
+						CorsConfiguration config = new CorsConfiguration();
+						config.setAllowedOrigins(Collections.singletonList(SecurityContants.FRONTEND_BASE_URL));
 //				config.setAllowedOriginPatterns(Collections.singletonList("*"));
-				config.setAllowedMethods(Collections.singletonList("*"));
-				config.setAllowCredentials(true);
-				config.setAllowedHeaders(Collections.singletonList("*"));
-				config.setExposedHeaders(Arrays.asList("Authorization"));
-				config.setMaxAge(5L);
-				return config;
-			}
-		})
-		.and().csrf().disable()
-		.addFilterBefore(new TokenValidator(), BasicAuthenticationFilter.class)
-		.addFilterAfter(new TokenGenerator(), BasicAuthenticationFilter.class)
-		.authorizeRequests()
-		.antMatchers("/signup").permitAll()
-		.antMatchers("/chatty/**").permitAll()
-		.antMatchers("/forgot_psw").permitAll()
-		.antMatchers("/verify/**").permitAll()
-		.antMatchers("/reset_psw/**").permitAll()
-		.antMatchers("/api/v1/attachment/**").permitAll()
-		.antMatchers("/api/v1/workspacejoin/**").permitAll()
-		.antMatchers("/api/v1/boardjoin/**").permitAll()
-		.antMatchers("/api/v1/favorite/**").permitAll()
-		.antMatchers("/api/v1/taskjoin/**").permitAll()
-		.antMatchers("/api/v1/report/**").permitAll()
-    	.anyRequest().authenticated()
-		.and().httpBasic()
+						config.setAllowedMethods(Collections.singletonList("*"));
+						config.setAllowCredentials(true);
+						config.setAllowedHeaders(Collections.singletonList("*"));
+						config.setExposedHeaders(Arrays.asList("Authorization"));
+						config.setMaxAge(5L);
+						return config;
+					}
+				}).and().csrf().disable().addFilterBefore(new TokenValidator(), BasicAuthenticationFilter.class)
+				.addFilterAfter(new TokenGenerator(), BasicAuthenticationFilter.class).authorizeRequests()
+				.antMatchers("/signup").permitAll().antMatchers("/chatty/**").permitAll().antMatchers("/forgot_psw")
+				.permitAll().antMatchers("/verify/**").permitAll().antMatchers("/reset_psw/**").permitAll()
+				.antMatchers("/api/v1/attachment/**").permitAll().antMatchers("/api/v1/workspacejoin/**").permitAll()
+				.antMatchers("/api/v1/boardjoin/**").permitAll().antMatchers("/api/v1/favorite/**").permitAll()
+				.antMatchers("/api/v1/taskjoin/**").permitAll().antMatchers("/api/v1/report/**").permitAll()
+				.anyRequest().authenticated().and().httpBasic()
 //		.and()  
 //        .logout()  
 //        .logoutUrl("/j_spring_security_logout")  

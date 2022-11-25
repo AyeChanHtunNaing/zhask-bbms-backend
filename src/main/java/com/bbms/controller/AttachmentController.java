@@ -43,7 +43,7 @@ public class AttachmentController {
 		ObjectMapper mapper = new ObjectMapper()
 				   .registerModule(new ParameterNamesModule())
 				   .registerModule(new Jdk8Module())
-				   .registerModule(new JavaTimeModule());;
+				   .registerModule(new JavaTimeModule());
 		Attachment attachment=mapper.readValue(attach,Attachment.class);
 		System.out.println("attach :"+attachment);
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());

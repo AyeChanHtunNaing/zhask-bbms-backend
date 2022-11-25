@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -53,6 +54,10 @@ public class TaskDto implements Serializable{
 	private LocalDate startDate;
 	@Column(name="end_date")
 	private LocalDate endDate;
+	@Lob
+	private byte[] profile;
+	@Column(name="pictureName")
+	private String pictureName;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)

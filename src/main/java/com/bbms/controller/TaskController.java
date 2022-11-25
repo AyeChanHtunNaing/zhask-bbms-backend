@@ -1,5 +1,6 @@
 package com.bbms.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +17,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bbms.dto.BoardDto;
 import com.bbms.dto.TaskDto;
 import com.bbms.dto.TaskListDto;
 import com.bbms.dto.UserDto;
+import com.bbms.model.Attachment;
 import com.bbms.model.Task;
 import com.bbms.model.User;
 import com.bbms.service.TaskListService;
 import com.bbms.service.TaskService;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskController {
 
 	@Autowired
@@ -86,6 +100,7 @@ public class TaskController {
 		return ResponseEntity.ok(taskDto);
 
 	}
+
 	@PutMapping(value = "/task/edit/{taskId}", produces = "application/json")
 	public ResponseEntity<TaskDto> updateTaskList(@PathVariable Long taskId, @RequestBody Task task) {
 
@@ -98,12 +113,21 @@ public class TaskController {
 		return ResponseEntity.ok(taskDto);
 
 	}
+	
+	@PutMapping(value = "/task" ,produces="application/json")
+	public ResponseEntity<TaskDto> updateTask(@RequestParam("tasks") String tasks,
+			@RequestParam(value = "file", required = false) MultipartFile file)
+			throws JsonMappingException, JsonProcessingException {
 
-	@PutMapping(value = "/task/{taskId}", produces = "application/json")
-	public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId, @RequestBody Task task) {
-
+		ObjectMapper mapper = new ObjectMapper()
+				   .registerModule(new ParameterNamesModule())
+				   .registerModule(new Jdk8Module())
+				   .registerModule(new JavaTimeModule());
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	
+		Task task = mapper.readValue(tasks, Task.class);
 		TaskDto taskDto = new TaskDto();
-		taskDto.setId(taskId);
+		taskDto.setId(task.getId());
 		taskDto.setContent(task.getContent());
 		taskDto.setDescription(task.getDescription());
 		taskDto.setCreateAt(LocalDate.now());
@@ -117,6 +141,14 @@ public class TaskController {
 		tasklistDto.setId(task.getTaskList().getId());
 		taskDto.setTaskList(tasklistDto);
 		taskDto.setBoard(boardDto);
+		try {
+			taskDto.setProfile(file.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("third" + e);
+			e.printStackTrace();
+		}
+		taskDto.setPictureName(file.getOriginalFilename());
 		List<UserDto> dtoList = new ArrayList<UserDto>();
 		UserDto usrDto = new UserDto();
 		System.out.println(task.getUsers().get(0));
