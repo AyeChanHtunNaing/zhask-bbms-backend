@@ -159,7 +159,6 @@ public class ActivityController {
 		
 		return ResponseEntity.ok(true);
 	}
-	
-	
+
 
 }
