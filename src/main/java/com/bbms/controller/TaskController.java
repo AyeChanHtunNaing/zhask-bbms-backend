@@ -72,8 +72,8 @@ public class TaskController {
 		usrDto.setId(user.getId());
 		dtoList.add(usrDto);
 		taskDto.setUsers(dtoList);
-		taskService.insert(taskDto);
-		return ResponseEntity.ok(taskDto);
+		TaskDto returns=taskService.insert(taskDto);
+		return ResponseEntity.ok(returns);
 
 	}
 

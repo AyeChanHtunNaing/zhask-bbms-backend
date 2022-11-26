@@ -12,8 +12,8 @@ public class TaskService {
 	@Autowired
 	private TaskRepository taskRepository;
 
-	public void insert(TaskDto dto) {
-		taskRepository.save(dto);
+	public TaskDto insert(TaskDto dto) {
+		return taskRepository.save(dto);
 	}
 
 	public List<TaskDto> getAllTaskId(Long tasklistId) {

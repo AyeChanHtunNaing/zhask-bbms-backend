@@ -78,6 +78,7 @@ public class TaskDto implements Serializable{
 //	@ManyToOne
 //	private UserDto user;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 			name="user_has_task",
@@ -90,4 +91,7 @@ public class TaskDto implements Serializable{
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
 	private List<AttachmentDto> attachement;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "task",cascade = CascadeType.ALL)
+	private List <LogsDto> logs;
 }
