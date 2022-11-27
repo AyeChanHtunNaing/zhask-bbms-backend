@@ -76,7 +76,7 @@ public class AuthenticationController {
 			req.getServletContext().setAttribute("tempId", usr.getId());
 			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/reset-password");
 		}else {
-			res.getWriter().write("Invalid-Token");
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL+"/token-expired");
 		}
 	}
 	
