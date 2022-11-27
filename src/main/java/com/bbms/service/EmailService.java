@@ -1,6 +1,7 @@
 package com.bbms.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -18,7 +19,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.bbms.model.InviteMember; 
+import com.bbms.model.InviteMember;
+import com.bbms.model.Noti; 
 @Service
 public class EmailService {
 	
@@ -117,6 +119,51 @@ public class EmailService {
 		message.setText(mailContent);
         mailSender.send(message);		
 		
+		
+	}
+	
+	public void notiEmail(String sender,List<Noti> list) throws MessagingException
+	{
+		String from="team.zhask.dev@gmail.com";
+		String password="jwsspbhphfmybuhd";
+	
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost("smtp.gmail.com");
+	    mailSender.setPort(587);
+	    mailSender.setUsername(from);
+	    mailSender.setPassword(password);
+	   
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.debug", "true");
+		
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        try
+        {
+        
+        	for(int i=0;i<list.size();i++)
+        	{
+        	 String content = "Dear [[name]],<br> [[create]] [[cardname]] <br>Thank you";
+        	 content = content.replace("[[name]]",list.get(i).getName());
+        	 content = content.replace("[[create]]",sender);
+        	 content = content.replace("[[cardname]]",list.get(i).getContent());
+        	helper.setSubject("Notification ");
+    		helper.setFrom(from,"Zhask");
+    		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(list.get(i).getEmail()));
+    		message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(list.get(i).getEmail()));
+            
+    		helper.setText(content, true);
+    		mailSender.send(message);
+        	}
+    		
+        }
+        catch(Exception e)
+        {
+        	
+        }
 		
 	}
 }
