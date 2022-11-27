@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,8 +26,13 @@ import com.bbms.dto.TaskDto;
 import com.bbms.dto.TaskListDto;
 import com.bbms.dto.UserDto;
 import com.bbms.model.Attachment;
+import com.bbms.model.Noti;
 import com.bbms.model.Task;
 import com.bbms.model.User;
+import com.bbms.repository.UserRepository;
+import com.bbms.service.ActivityService;
+import com.bbms.service.BoardService;
+import com.bbms.service.EmailService;
 import com.bbms.service.TaskListService;
 import com.bbms.service.TaskService;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -48,12 +55,16 @@ public class TaskController {
 
 	@Autowired
 	private TaskService taskService;
-
+	
+	@Autowired
+	private ActivityService activityService;
+	
+	@Autowired
+	private TaskListService taskListService;
 	@PostMapping(value = "/task", produces = "application/json")
-	public ResponseEntity<TaskDto> createTask(@RequestBody Task task) {
-
+	public ResponseEntity<TaskDto> createTask(@RequestBody Task task) throws MessagingException {
+      
 		TaskDto taskDto = new TaskDto();
-//		taskDto.setId(task.getId());
 		taskDto.setDescription(task.getDescription());
 		taskDto.setCreatedBy(task.getCreatedBy());
 		taskDto.setCreateAt(LocalDate.now());
@@ -73,6 +84,7 @@ public class TaskController {
 		dtoList.add(usrDto);
 		taskDto.setUsers(dtoList);
 		TaskDto returns=taskService.insert(taskDto);
+		
 		return ResponseEntity.ok(returns);
 
 	}
@@ -115,7 +127,7 @@ public class TaskController {
 	}
 	
 	@PutMapping(value = "/task" ,produces="application/json")
-	public ResponseEntity<TaskDto> updateTask(@RequestParam("tasks") String tasks,
+	public ResponseEntity<TaskDto> updateTask(@RequestParam(value = "tasks",required = false) String tasks,
 			@RequestParam(value = "file", required = false) MultipartFile file)
 			throws JsonMappingException, JsonProcessingException {
 
@@ -124,7 +136,7 @@ public class TaskController {
 				   .registerModule(new Jdk8Module())
 				   .registerModule(new JavaTimeModule());
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	
+	 
 		Task task = mapper.readValue(tasks, Task.class);
 		TaskDto taskDto = new TaskDto();
 		taskDto.setId(task.getId());
@@ -156,6 +168,7 @@ public class TaskController {
 		usrDto.setId(user.getId());
 		dtoList.add(usrDto);
 		taskDto.setUsers(dtoList);
+		 System.out.println("File..........................................................."+file);
 		taskService.updateTask(taskDto);
 		return ResponseEntity.ok(taskDto);
 	}
@@ -174,5 +187,18 @@ public class TaskController {
 //
 //		return taskListService.getTaskList(tasklistId);
 //	}
+	@PutMapping(value = "/task/editTaskList/{taskId}", produces = "application/json")
+	public ResponseEntity<TaskDto> updateTaskListtoDone(@PathVariable Long taskId, @RequestBody Task task) {
+		Long done=activityService.getDoneId(taskId);
+		TaskListDto doneDto=taskListService.getTaskListById(done);
+		TaskDto taskDto = new TaskDto();
+		taskDto.setId(taskId);
+		TaskListDto tasklistDto = new TaskListDto();
+		tasklistDto.setId(doneDto.getId());
+		taskDto.setTaskList(tasklistDto);
+		taskService.updateTaskList(taskDto);
+		return ResponseEntity.ok(taskDto);
+
+	}
 
 }
