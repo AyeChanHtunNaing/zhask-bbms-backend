@@ -33,12 +33,12 @@ public class NotificationService {
 		return notiRepo.getNotificationByUserId(userId);
 	}
 	
+	public List<NotificationDto> getAllNotificationByUserId(Long userId){
+		return notiRepo.getAllNotificationByUserId(userId);
+	} 
+	
 	public int changeStatus(Long userId) {
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		int temp = notiRepo.trueNotiStatus(userId);
-		System.out.println(temp);
-		return temp;
-//		notiRepo.save(NotificationDto.builder().status(true).build());
+		return notiRepo.trueNotiStatus(userId);
 	}
 
 }

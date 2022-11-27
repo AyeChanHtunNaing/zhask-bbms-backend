@@ -28,6 +28,11 @@ public class NotificationController {
 	@GetMapping(value = "/noti/chg/{userId}", produces = "application/json")
 	public ResponseEntity<Integer> changeNotiStatus(@PathVariable Long userId) {
 		return ResponseEntity.ok(notiService.changeStatus(userId));
-	}	
+	}
+	
+	@GetMapping(value = "/allnoti/{userId}", produces = "application/json")
+	public ResponseEntity<List<NotificationDto>> getAllNotiById(@PathVariable Long userId) {
+		return ResponseEntity.ok(notiService.getAllNotificationByUserId(userId));
+	}
 	
 }

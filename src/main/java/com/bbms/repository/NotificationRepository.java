@@ -17,7 +17,7 @@ public interface NotificationRepository extends JpaRepository<NotificationDto, L
 	
 	@Query(value="SELECT * FROM notification WHERE user_id=? ",nativeQuery = true)
 	public List<NotificationDto> getAllNotificationByUserId(Long userId);
-	
+
 	@Modifying
 	@Query(value="UPDATE notification SET status = 1 WHERE user_id = ? ",nativeQuery=true)
 	public int trueNotiStatus(Long userId);
