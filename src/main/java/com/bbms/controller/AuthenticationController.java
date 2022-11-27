@@ -23,13 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bbms.config.SecurityContants;
+import com.bbms.dto.NotificationDto;
 import com.bbms.dto.UserDto;
 import com.bbms.model.MessageResponse;
 import com.bbms.model.User;
+import com.bbms.service.NotificationService;
 import com.bbms.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @EnableAutoConfiguration
@@ -38,11 +39,22 @@ public class AuthenticationController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	NotificationService notiService;
+	
 	@GetMapping("/")
 	public ResponseEntity<UserDto> login(Principal user){
-		//System.out.println("Name:"+user.getName());
+//		UserDto usr = userService.getByEmail(user.getName());
+//		UserDto loginUsr = UserDto.builder().id(usr.getId()).name(usr.getName()).userName(usr.getUserName()).email(usr.getEmail()).createAt(usr.getCreateAt()).build();
+////		loginUsr.setNotification(notiService.getNotificationByUserId(usr.getId()));
+//		for(NotificationDto tempdto : usr.getNotification()) {
+//			System.out.println(tempdto.getId()+":"+tempdto.getContent());
+//		}
+//		return ResponseEntity.ok(loginUsr);
+		
 		UserDto usr = userService.getByEmail(user.getName());
 		return ResponseEntity.ok(UserDto.builder().id(usr.getId()).name(usr.getName()).userName(usr.getUserName()).email(usr.getEmail()).createAt(usr.getCreateAt()).build());
+	
 	}
 	
 	@GetMapping("/verify/{userId}/{token}")

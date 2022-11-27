@@ -27,6 +27,7 @@ import com.bbms.repository.BoardRepository;
 import com.bbms.repository.UserRepository;
 import com.bbms.service.BoardService;
 import com.bbms.service.EmailService;
+import com.bbms.service.NotificationService;
 import com.bbms.service.TaskService;
 import com.bbms.service.UserService;
 import com.bbms.service.WorkspaceService;
@@ -52,6 +53,9 @@ public class InviteController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	NotificationService notiService;
 
 	@PostMapping(value = "/invite", produces = "application/json")
 	public ResponseEntity<?> inviteMember(@RequestBody InviteMember invite) throws MessagingException {
@@ -98,22 +102,19 @@ public class InviteController {
 				for (int i = 0; i < boardList.size(); i++) {
 					addBoard(boardList.get(i).getId(), user);
 				}
-				addWorkspace(workspaceId, user);
+				WorkspaceDto tempWorkspace = addWorkspace(workspaceId, user);
+				notiService.createNoti(tempWorkspace.getCreatedBy(), userService.getById(userId).getName(), userService.getByEmail(email).getName(), "Workspace:"+tempWorkspace.getName());
 			}
 			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/home");
-//			else {
-//				res.sendRedirect("http://localhost:4200/home");
-//			}
-
 		}
 	}
 
-	private void addWorkspace(Long id, UserDto user) {
+	private WorkspaceDto addWorkspace(Long id, UserDto user) {
 		WorkspaceDto workspaceDto = workspaceService.getWorkspaceIdByWorkspace(id);
 		UserDto userDto = new UserDto();
 		userDto.setId(user.getId());
 		workspaceDto.getUsers().add(userDto);
-		workspaceService.insert(workspaceDto);
+		return workspaceService.insert(workspaceDto);
 	}
 
 	@GetMapping("/boardjoin/{boardId}/{userId}/{email}")
@@ -128,9 +129,11 @@ public class InviteController {
 				addBoard(boardId, user);
 				BoardDto board = boardService.getBoardByBoardId(boardId);
 				addWorkspace(board.getWorkspace().getId(), user);
+				notiService.createNoti(board.getCreatedBy(), userService.getById(userId).getName(), userService.getByEmail(email).getName(), "Board:"+board.getName());
 				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/workspace/" + board.getWorkspace().getId());
 			} else {
 				BoardDto board = boardService.getBoardByBoardId(boardId);
+				notiService.createNoti(board.getCreatedBy(), userService.getById(userId).getName(), userService.getByEmail(email).getName(), "Board:"+board.getName());
 				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/workspace/" + board.getWorkspace().getId());
 			}
 
@@ -156,7 +159,8 @@ public class InviteController {
 			UserDto userDto = new UserDto();
 			userDto.setId(user.getId());
 			taskDto.getUsers().add(userDto);
-			taskService.insert(taskDto);
+			TaskDto tempTask = taskService.insert(taskDto);
+			notiService.createNoti(tempTask.getCreatedBy(), userService.getById(userId).getName(), userService.getByEmail(email).getName(), "Task:"+tempTask.getDescription());
 			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getTaskList().getId());
 		} else {
 			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getTaskList().getId());

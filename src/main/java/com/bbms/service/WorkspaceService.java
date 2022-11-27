@@ -16,9 +16,9 @@ public class WorkspaceService {
 	private WorkspaceRepository workspaceRepository;
 
 	// create workspace
-	public void insert(WorkspaceDto dto) {
+	public WorkspaceDto insert(WorkspaceDto dto) {
 
-		workspaceRepository.save(dto);
+		return workspaceRepository.save(dto);
 
 	}
 
