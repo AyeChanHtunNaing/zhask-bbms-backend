@@ -154,13 +154,18 @@ public class TaskController {
 		taskDto.setTaskList(tasklistDto);
 		taskDto.setBoard(boardDto);
 		try {
+			if(file!=null)
+			{
 			taskDto.setProfile(file.getBytes());
+			taskDto.setPictureName(file.getOriginalFilename());
+			}
+			 System.out.println("File..........................................................."+file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("third" + e);
 			e.printStackTrace();
 		}
-		taskDto.setPictureName(file.getOriginalFilename());
+		
 		List<UserDto> dtoList = new ArrayList<UserDto>();
 		UserDto usrDto = new UserDto();
 		System.out.println(task.getUsers().get(0));
