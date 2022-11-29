@@ -128,7 +128,11 @@ public class InviteController {
 			if (dto == null) {
 				addBoard(boardId, user);
 				BoardDto board = boardService.getBoardByBoardId(boardId);
-				addWorkspace(board.getWorkspace().getId(), user);
+				try {
+					addWorkspace(board.getWorkspace().getId(), user);
+				}catch(Exception sqlException ) {
+					
+				}
 				notiService.createNoti(board.getCreatedBy(), userService.getById(userId).getName(), userService.getByEmail(email).getName(), "Board:"+board.getName());
 				res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/workspace/" + board.getWorkspace().getId());
 			} else {

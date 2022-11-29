@@ -14,11 +14,11 @@ import com.bbms.dto.TaskListDto;
 @Transactional
 public interface TaskListRepository extends JpaRepository<TaskListDto, Long> {
 
-	@Query(value = "SELECT tasklist.* , user_has_board.user_id FROM tasklist INNER JOIN user_has_board ON tasklist.board_id=user_has_board.board_id WHERE tasklist.board_id=?1 and user_has_board.user_id=?2 and delete_status=0", nativeQuery = true)
+	@Query(value = "SELECT * FROM tasklist  WHERE board_id=?1 and delete_status=0 ", nativeQuery = true)
 	public List<TaskListDto> getTaskListDtoList(Long boardId, Long userId);
 
 	@Modifying
-	@Query(value = "UPDATE tasklist SET title=? WHERE id=?", nativeQuery = true)
+	@Query(value = "UPDATE tasklist SET title=? WHERE id=? ", nativeQuery = true)
 	public void updateTaskListTitle(String title, Long tasklistId);
 
 	@Modifying
