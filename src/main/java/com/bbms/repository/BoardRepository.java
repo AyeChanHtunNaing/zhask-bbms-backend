@@ -61,4 +61,7 @@ public interface BoardRepository extends JpaRepository<BoardDto, Long> {
 	
 	@Query(value = "SELECT * FROM board WHERE workspace_id=? ", nativeQuery = true)
 	public List<BoardDto> showBoardsbyWorkspaceId(Long workspaceId);
+	
+	@Query(value = "SELECT * FROM board WHERE id=?1 AND delete_status=0 ", nativeQuery = true)
+	public BoardDto selectBoardByBoardId(Long id);
 }

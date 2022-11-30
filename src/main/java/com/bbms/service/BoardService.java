@@ -118,4 +118,8 @@ public class BoardService {
 		
 		return boardRepository.showBoardsbyWorkspaceId(workspaceId);
 	}
+	
+	public BoardDto selectBoardById(Long boardId) {
+		return boardRepository.selectBoardByBoardId(boardId);
+	}
 }

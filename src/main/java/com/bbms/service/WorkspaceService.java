@@ -33,7 +33,6 @@ public class WorkspaceService {
 	}
 
 	public List<WorkspaceDto> getFavWorkspace(Long userId) {
-		System.out.println("youk p");
 
 		return workspaceRepository.getFavWorkspaceById(userId);
 	}
@@ -60,5 +59,10 @@ public class WorkspaceService {
 	public void setFavWorkspace(WorkspaceDto dto) {
 		workspaceRepository.setFavWorkspace(dto.isMarked(), dto.getId());
 
+	}
+	
+	public WorkspaceDto getWorkspaceByWorkspaceId(Long workspaceId) {
+
+		return workspaceRepository.selectWorkspaceById(workspaceId);
 	}
 }

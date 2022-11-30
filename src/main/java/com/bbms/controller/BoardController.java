@@ -111,6 +111,13 @@ public class BoardController {
 		BoardDto dto = boardService.generateBoardMemberByBoardId(boardId);
 		return ResponseEntity.ok(dto);
 	}
+	
+	@GetMapping(value = "/board/selectBoardByBoardId/{boardId}", produces = "application/json")
+	public ResponseEntity <BoardDto> selectBoardById(@PathVariable Long boardId) {
+
+		BoardDto dto= boardService.selectBoardById(boardId);
+		return ResponseEntity.ok(dto);
+	}
 
 
 }

@@ -43,5 +43,7 @@ public interface WorkspaceRepository extends JpaRepository<WorkspaceDto, Long>{
 	@Query(value="UPDATE workspace SET is_marked= ?1 WHERE id= ?2 ",nativeQuery=true)	
 	public void setFavWorkspace(Boolean checked, Long workspaceId);
 	
+	@Query(value = "SELECT * FROM workspace WHERE id = ?1 AND delete_status = 0 ", nativeQuery = true)
+	public WorkspaceDto selectWorkspaceById(Long workspaceId);
 	
 }
