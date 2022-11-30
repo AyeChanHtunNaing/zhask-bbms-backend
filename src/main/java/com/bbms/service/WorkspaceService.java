@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bbms.dto.BoardDto;
 import com.bbms.dto.WorkspaceDto;
 
 import com.bbms.repository.WorkspaceRepository;
 
 @Service
 public class WorkspaceService {
-	
+
 	@Autowired
 	private WorkspaceRepository workspaceRepository;
 
@@ -60,9 +61,13 @@ public class WorkspaceService {
 		workspaceRepository.setFavWorkspace(dto.isMarked(), dto.getId());
 
 	}
-	
+
 	public WorkspaceDto getWorkspaceByWorkspaceId(Long workspaceId) {
 
 		return workspaceRepository.selectWorkspaceById(workspaceId);
+	}
+
+	public WorkspaceDto generateWorkspaceMemberByWorkspaceId(Long workspaceId) {
+		return workspaceRepository.generateWorkspaceMemberByWorkspaceId(workspaceId);
 	}
 }

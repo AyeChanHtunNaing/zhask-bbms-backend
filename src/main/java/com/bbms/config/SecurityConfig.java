@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll().antMatchers("/verify/**").permitAll().antMatchers("/reset_psw/**").permitAll()
 				.antMatchers("/api/v1/attachment/**").permitAll().antMatchers("/api/v1/workspacejoin/**").permitAll()
 				.antMatchers("/api/v1/boardjoin/**").permitAll().antMatchers("/api/v1/favorite/**").permitAll()
-				.antMatchers("/api/v1/taskjoin/**").permitAll().antMatchers("/api/v1/report/**").permitAll()
+				.antMatchers("/api/v1/taskjoin/**").permitAll().antMatchers("/api/v1/report/**").permitAll().antMatchers("/api/v1/workspace/**").permitAll()
 				.anyRequest().authenticated().and().httpBasic()
 //		.and()  
 //        .logout()  
