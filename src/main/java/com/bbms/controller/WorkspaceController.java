@@ -86,7 +86,7 @@ public class WorkspaceController {
 		return ResponseEntity.ok(true);
 	}
 
-	@GetMapping(value = "/workspace/generateWorkspacedMemberById/{workspaceId}", produces = "application/json")
+	@GetMapping(value = "/workspace/generateWorkspaceMemberById/{workspaceId}", produces = "application/json")
 	public ResponseEntity<WorkspaceDto> showWorkspaceMemberById(@PathVariable Long workspaceId) {
 
 		WorkspaceDto dto = workspaceService.generateWorkspaceMemberByWorkspaceId(workspaceId);
