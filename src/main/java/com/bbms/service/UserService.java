@@ -33,6 +33,7 @@ public class UserService {
 		String pass = encdr.encode(dto.getPassword());
 		LocalDate createAt = dto.getCreateAt();
 		String token = RandomString.make(64);
+		System.out.println("Email address..........................."+email);
 		UserDto usr = UserDto.builder().email(email).name(name).userName(uname).password(pass).token(token).status(false).createAt(createAt).build();
 		try {
 			usr = userRepository.save(usr);	
