@@ -28,9 +28,15 @@ public class ReminderService {
 	public void checkTaskDate() throws MessagingException {
 		List<TaskDto> taskmodel = service.getAllTasks();
 		for(TaskDto temp : taskmodel) {
-			LocalDate dateToRemind = temp.getStartDate().minusDays(1);
-			if(LocalDate.now().isEqual(dateToRemind)) { 
-				String mailBody = "Task:"+temp.getDescription()+" sa to ml blh lbh.";
+			LocalDate startReminder = temp.getStartDate().minusDays(1);
+			LocalDate endReminder = temp.getEndDate().minusDays(1);
+			if(LocalDate.now().isEqual(startReminder)) { 
+				String mailBody = "Task:"+temp.getDescription()+" is about to start.";
+				String subject = "Reminder";
+				mailservice.sendEmailWithMimeMessage(temp.getCreatedBy(), mailBody, subject);
+			}
+			if(LocalDate.now().isEqual(endReminder)) { 
+				String mailBody = "Task:"+temp.getDescription()+" is about to end.";
 				String subject = "Reminder";
 				mailservice.sendEmailWithMimeMessage(temp.getCreatedBy(), mailBody, subject);
 			}
