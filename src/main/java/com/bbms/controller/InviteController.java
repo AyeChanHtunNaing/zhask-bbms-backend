@@ -165,9 +165,9 @@ public class InviteController {
 			taskDto.getUsers().add(userDto);
 			TaskDto tempTask = taskService.insert(taskDto);
 			notiService.createNoti(tempTask.getCreatedBy(), userService.getById(userId).getName(), userService.getByEmail(email).getName(), "Task:"+tempTask.getDescription());
-			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getTaskList().getId());
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getBoard().getId());
 		} else {
-			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getTaskList().getId());
+			res.sendRedirect(SecurityContants.FRONTEND_BASE_URL + "/board/" + taskDto.getBoard().getId());
 		}
 
 	}
