@@ -25,7 +25,7 @@ public class ReminderService {
 	private EmailService mailservice;
 	
 	//sec min hour dayOfMonth(1-31) month dayOfWeek(0-6)(Sunday=0||7)
-	@Scheduled(cron = "50 10 16 * * *")
+	@Scheduled(cron = "0 0 0 * * *")
 	public void checkTaskDate() throws MessagingException {
 		List<TaskDto> taskmodel = service.getAllTasks();
 		for(TaskDto temp : taskmodel) {
